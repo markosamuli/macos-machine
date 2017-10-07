@@ -1,0 +1,20 @@
+---
+
+- name: Tools
+  tasks:
+
+  - name: Install iTerm2
+    homebrew_cask:
+      name: iterm2
+
+  - name: Install Google Drive
+    homebrew_cask:
+      name: google-drive
+
+  - name: Install wget
+    package:
+      name: wget
+
+  - name: Install jq command-line JSON processor
+    package:
+      name: jq

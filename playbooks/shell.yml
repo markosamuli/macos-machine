@@ -1,0 +1,7 @@
+---
+
+- name: Shell
+  hosts: all
+  roles:
+
+  - role: bash

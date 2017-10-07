@@ -1,0 +1,9 @@
+---
+
+- name: Slack
+  hosts: all
+  tasks:
+
+  - name: Install Slack
+    homebrew_cask:
+      name: slack

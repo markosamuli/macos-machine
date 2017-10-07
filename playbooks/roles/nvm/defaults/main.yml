@@ -1,0 +1,13 @@
+---
+
+# We're installing stable Node.js version by default
+nvm_default_node_version: stable
+nvm_node_versions:
+  - "{{ nvm_default_node_version }}"
+
+# We're expecting user to have configured .bashrc to load from .bash_profile
+nvm_shell_profile_scripts:
+  - .bashrc
+  - .zshrc
+
+nvm_npm_global_packages: []

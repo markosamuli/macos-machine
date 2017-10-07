@@ -1,0 +1,25 @@
+---
+
+- name: Install Google Cloud SDK
+  hosts: all
+  roles:
+  - role: gloud
+
+- name: Install Hashicorp tools
+  hosts: all
+  roles:
+  - role: markosamuli.terraform
+  - role: markosamuli.packer
+
+- name: Install AWS tools
+  hosts: all
+  tasks:
+
+  - pip:
+      name: awscli
+
+  - pip:
+      name: aws-shell
+
+  - homebrew_cask:
+      name: aws-vault

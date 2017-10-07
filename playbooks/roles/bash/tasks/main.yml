@@ -1,0 +1,22 @@
+---
+
+- name: Check whether ~/.bashrc is loaded from ~/.bash_profile
+  command: grep -Fxq "source ~/.bashrc" {{ bash_home }}/.bash_profile
+  register: check_bashrc
+  check_mode: True
+  ignore_errors: True
+  changed_when: False
+
+- name: Ensure ~/.bashrc exists
+  file:
+    path: "{{ bash_home }}/.bashrc"
+    state: touch
+
+- name: Load ~/.bashrc from ~/.bash_profile
+  blockinfile:
+    dest: "{{ bash_home }}/.bash_profile"
+    block: |
+      if [ -f ~/.bashrc ]; then
+        source ~/.bashrc
+      fi
+  when: checkmyconf.rc != 0

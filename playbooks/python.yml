@@ -1,0 +1,13 @@
+---
+
+- name: Python
+  hosts: all
+  tasks:
+
+  - name: Install Python
+    package:
+      name: python
+
+  - name: Install virtualenv
+    pip:
+      name: virtualenv

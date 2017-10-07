@@ -1,0 +1,64 @@
+---
+
+- name: Does NVM already exists?
+  stat:
+    path: "{{ nvm_install_dir }}"
+  register: nvm_st
+
+- name: Download NVM installation script
+  get_url:
+    dest: "{{ nvm_home }}"
+    url: https://raw.githubusercontent.com/creationix/nvm/{{ nvm_version }}/install.sh
+  when: not nvm_st.stat.exists
+
+- name: Run NVM installation script
+  command: "{{ nvm_home }}/install.sh"
+  creates: "{{ nvm_install_dir }}"
+  when: not nvm_st.stat.exists
+
+- name: Find shell profile scripts
+  stat:
+    path: "{{ nvm_user_home }}/{{ item }}"
+  with_items: "{{ nvm_shell_profile_scripts }}"
+  register: nvm_shell_profile_st
+
+- name: Set NVM_DIR in {{ nvm_shell_profile }}
+  lineinfile:
+    dest: "{{ nvm_user_home }}/{{ item.item }}"
+    line: 'export NVM_DIR="$HOME/.nvm"'
+    regexp: '^export NVM_DIR='
+  with_items: "{{ nvm_shell_profile_st.results }}"
+  when: item.stat.exists
+
+- name: Source NVM in {{ nvm_shell_profile }}
+  lineinfile:
+    dest: "{{ nvm_user_home }}/{{ item.item }}"
+    line: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm'
+    insertafter: '^export NVM_DIR='
+    regexp: "/nvm\.sh"
+  with_items: "{{ nvm_shell_profile_st.results }}"
+  when: item.stat.exists
+
+- name: Install default Node.js versions with NVM
+  environment:
+    NVM_DIR: "{{ nvm_dir }}"
+  shell: "source {{ nvm_dest }}/nvm.sh && nvm install {{ item }}"
+  with_items: "{{ nvm_node_versions }}"
+
+- name: Set default Node.js version {{ nvm_default_node_version }} to be used in a new shell
+  environment:
+    NVM_DIR: "{{ nvm_dir }}"
+  shell: "source {{ nvm_dest }}/nvm.sh && nvm alias default {{ nvm_default_node_version }}"
+
+- name: Get installed NVM Node.js version for {{ nvm_default_node_version }}
+  environment:
+    NVM_DIR: "{{ nvm_dir }}"
+  shell: "source {{ nvm_dest }}/nvm.sh && nvm version {{ nvm_default_node_version }}"
+  register: nvm_node_version
+
+- name: Installing global NPM packages
+  npm:
+    name: "{{ item }}"
+    executable: "{{ nvm_dir }}/versions/node/{{ nvm_node_version.sdout }}/bin/npm"
+    global: yes
+  with_items: "{{ nvm_npm_global_packages }}"

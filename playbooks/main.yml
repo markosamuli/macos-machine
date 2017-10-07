@@ -1,0 +1,13 @@
+---
+
+- include: init.yml
+- include: shell.yml
+- include: tools.yml
+- include: editors.yml
+- include: git.yml
+- include: front-end-toolkit.yml
+- include: python.yml
+- include: vagrant.yml
+- include: docker.yml
+- include: slack.yml
+- include: devops.yml

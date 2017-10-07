@@ -1,0 +1,13 @@
+---
+
+- name: NVM and Node.js
+  hosts: all
+  roles:
+  - role: nvm
+
+- name: Yarn
+  hosts: all
+  tasks:
+  - name: Install Yarn
+    package:
+      name: "yarn"

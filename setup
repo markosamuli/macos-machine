@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+
+run_playbook=1
+syntax_check=0
+
+install_roles=1
+install_ansible=1
+install_homebrew=1
+
+deploy_env="local"
+
+ansible_playbook="playbooks/main.yml"
+ansible_roles="playbooks/roles"
+ansible_tags=""
+ansible_verbose=0
+ansible_become=0
+list_tags=0
+
+function show_help {
+  echo "Usage: $0"
+  echo " -h         Show this help"
+  echo " -v         Verbose mode"
+  echo " -n         Do not run Ansible playbook"
+  echo " -q         Do not install Ansible requirements"
+  echo " -l         List available Ansible tags"
+  echo " -s         Ansible playbook syntax check"
+  echo " -t TAGS    Run Ansible with the given comma separated list of tags"
+}
+
+while getopts ":hcnqlsvt:" opt; do
+  case $opt in
+    h)
+      show_help
+      exit 0
+      ;;
+    n)
+      run_playbook=0
+      ;;
+    q)
+      install_roles=0
+      install_ansible=0
+      install_homebrew=0
+      ;;
+    l)
+      list_tags=1
+      run_playbook=0
+      ;;
+    s)
+      syntax_check=1
+      run_playbook=0
+      ;;
+    v)
+      ansible_verbose=1
+      ;;
+    t)
+      ansible_tags=$OPTARG
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      show_help
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+if test "$(uname)" = "Darwin"; then
+  if [ "$install_homebrew" == "1" ]; then
+    if test ! $(which gcc); then
+      echo "*** Installing Xcode Command Line Tools..."
+      xcode-select --install \
+        || { echo "*** ERROR: Failed to install Xcode Command Line Tools"; exit 1; }
+    fi
+    if test ! "$(which brew)"; then
+      echo "*** Installing Homebrew..."
+      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" \
+        || { echo "*** ERROR: Failed to install Homebrew"; exit 1; }
+    fi
+  fi
+  if [ "$install_ansible" == "1" ]; then
+    if test ! "$(which ansible)"; then
+      echo "*** Installing Ansible with Homebrew..."
+      brew install ansible \
+        || { echo "*** ERROR: Failed to install Ansible"; exit 1; }
+    fi
+  fi
+elif test "$(uname)" = "Linux"; then
+  echo "*** ERROR: Linux is not currently supported."
+  exit 1
+fi
+
+if test ! "$(which ansible)"; then
+  echo "*** ERROR: You system is not supported yet."
+  exit 1
+fi
+
+python --version
+ansible --version
+
+if [ "$install_roles" == "1" ]; then
+  echo "*** Installing Ansible roles..."
+  ansible-galaxy install -r requirements.yml -p ${ansible_roles} || { echo "*** ERROR: Failed to install Ansible roles"; exit 1; }
+fi
+
+if [ "$list_tags" == "1" ]; then
+
+  ansible-playbook ${ansible_playbook} --list-tags
+
+elif [ "$syntax_check" == "1" ]; then
+
+  ansible-playbook ${ansible_playbook} --syntax-check
+
+elif [ "$run_playbook" == "1" ]; then
+
+  ansible_opts=""
+
+  if [ "$deploy_env" != "" ]; then
+    [ -e "inventory/${deploy_env}" ] || { echo "*** ERROR: Could not find inventory file for ${deploy_env}"; exit 1; }
+    ansible_opts="-i inventory/${deploy_env} ${ansible_opts}"
+  fi
+
+  if [ "$ansible_verbose" == "1" ]; then
+    ansible_opts="-v ${ansible_opts}"
+  fi
+
+  if [ "$ansible_tags" != "" ]; then
+    ansible_opts="--tags=${ansible_tags} ${ansible_opts}"
+  fi
+
+  ansible-playbook ${ansible_playbook} $ansible_opts
+
+fi

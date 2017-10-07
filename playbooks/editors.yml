@@ -1,0 +1,13 @@
+---
+
+- name: Editors
+  hosts: all
+  tasks:
+
+  - name: Install Atom
+    homebrew_cask:
+      name: atom
+
+  - name: Install Visual Studio Code
+    homebrew_cask:
+      name: visual-studio-code

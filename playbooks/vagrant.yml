@@ -1,0 +1,13 @@
+---
+
+- name: Vagrant
+  hosts: all
+  tasks:
+
+  - name: Install VirtualBox
+    homebrew_cask:
+      name: virtualbox
+
+  - name: Install Vagrant
+    homebrew_cask:
+      name: vagrant

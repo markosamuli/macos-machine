@@ -1,0 +1,6 @@
+---
+
+- src: https://github.com/markosamuli/ansible-terraform
+  name: markosamuli.terraform
+- src: https://github.com/markosamuli/ansible-packer
+  name: markosamuli.packer
