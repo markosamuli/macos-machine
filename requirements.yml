@@ -4,3 +4,5 @@
   name: markosamuli.terraform
 - src: https://github.com/markosamuli/ansible-packer
   name: markosamuli.packer
+- src: https://github.com/markosamuli/ansible-aws-tools
+  name: markosamuli.aws-tools
