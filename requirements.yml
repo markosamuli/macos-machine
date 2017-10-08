@@ -6,3 +6,9 @@
   name: markosamuli.packer
 - src: https://github.com/markosamuli/ansible-aws-tools
   name: markosamuli.aws-tools
+- src: https://github.com/markosamuli/ansible-nvm
+  name: markosamuli.nvm
+- src: https://github.com/markosamuli/ansible-gcloud
+  name: markosamuli.gcloud
+- src: https://github.com/markosamuli/ansible-vagrant
+  name: markosamuli.vagrant

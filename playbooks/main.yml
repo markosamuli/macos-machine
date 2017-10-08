@@ -1,7 +1,16 @@
 ---
 
-- include: init.yml
-- include: shell.yml
+- name: Setup variables and check requirements
+  hosts: all
+  tasks:
+
+    - name: Check that we're running macOS
+      assert:
+        that:
+          - "ansible_os_family == 'Darwin'"
+        msg: "This playbook only supports macOS systems"
+
+- include: macos.yml
 - include: tools.yml
 - include: editors.yml
 - include: git.yml
@@ -9,5 +18,4 @@
 - include: python.yml
 - include: vagrant.yml
 - include: docker.yml
-- include: slack.yml
 - include: devops.yml

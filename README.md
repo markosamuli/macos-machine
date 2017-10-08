@@ -29,6 +29,10 @@ The following external Ansible roles are installed and used:
 
 - [markosamuli.terraform](https://github.com/markosamuli/ansible-terraform)
 - [markosamuli.packer](https://github.com/markosamuli/ansible-packer)
+- [markosamuli.aws-tools](https://github.com/markosamuli/ansible-aws-tools)
+- [markosamuli.cloud](https://github.com/markosamuli/ansible-cloud)
+- [markosamuli.nvm](https://github.com/markosamuli/ansible-nvm)
+- [markosamuli.vagrant](https://github.com/markosamuli/ansible-vagrant)
 
 License
 -------

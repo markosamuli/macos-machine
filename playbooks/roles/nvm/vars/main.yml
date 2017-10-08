@@ -1,4 +1,0 @@
----
-
-nvm_home: "{{ lookup('env', HOME') }}"
-nvm_install_dir: "{{ nvm_home }}/.nvm"

@@ -7,3 +7,4 @@
   - name: Installing Git on macOS
     package:
       name: "git"
+    tags: git

@@ -2,12 +2,7 @@
 
 - name: Vagrant
   hosts: all
-  tasks:
+  roles:
+  - role: markosamuli.vagrant
+    tags: vagrant
 
-  - name: Install VirtualBox
-    homebrew_cask:
-      name: virtualbox
-
-  - name: Install Vagrant
-    homebrew_cask:
-      name: vagrant

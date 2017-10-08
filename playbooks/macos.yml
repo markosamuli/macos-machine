@@ -1,0 +1,22 @@
+---
+
+- name: Initialise shell on macOS
+  hosts: all
+  roles:
+  - role: bash
+
+- name: Install common macOS applications
+  hosts: all
+  tasks:
+
+  - name: Install iTerm2
+    homebrew_cask:
+      name: iterm2
+
+  - name: Install Google Drive
+    homebrew_cask:
+      name: google-drive
+
+  - name: Install Slack
+    homebrew_cask:
+      name: slack
