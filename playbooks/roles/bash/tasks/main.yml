@@ -1,16 +1,22 @@
 ---
 
+- name: Check if .bash_profile exists
+  stat:
+    path: "{{ bash_home }}/.bash_profile"
+  register: bash_profile_st
+
 - name: Check whether ~/.bashrc is loaded from ~/.bash_profile
   command: grep -Fxq "source ~/.bashrc" {{ bash_home }}/.bash_profile
   register: check_bashrc
-  check_mode: True
-  ignore_errors: True
-  changed_when: False
+  ignore_errors: yes
+  changed_when: no
+  when: bash_profile_st.stat.exists
 
 - name: Ensure ~/.bashrc exists
   file:
     path: "{{ bash_home }}/.bashrc"
     state: touch
+  when: bash_profile_st.stat.exists
 
 - name: Load ~/.bashrc from ~/.bash_profile
   blockinfile:
@@ -19,4 +25,4 @@
       if [ -f ~/.bashrc ]; then
         source ~/.bashrc
       fi
-  when: check_bashrc.rc != 0
+  when: bash_profile_st.stat.exists and check_bashrc.rc != 0
