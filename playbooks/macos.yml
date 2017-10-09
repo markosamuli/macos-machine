@@ -9,14 +9,30 @@
   hosts: all
   tasks:
 
+
+  - stat:
+      path: /Applications/iTerm.app
+    register: iterm_st
+
   - name: Install iTerm2
     homebrew_cask:
       name: iterm2
+    when: not iterm_st.stat.exists
 
-  - name: Install Google Drive
+  - stat:
+      path: /Applications/Google Drive File Stream.app
+    register: gdfs_st
+  
+  - name: Install Google Drive File Stream
     homebrew_cask:
-      name: google-drive
+      name: google-drive-file-stream
+    when: not gdfs_st.stat.exists
+ 
+  - stat:
+      path: /Applications/Slack.app
+    register: slack_st
 
   - name: Install Slack
     homebrew_cask:
       name: slack
+    when: not slack_st.stat.exists
