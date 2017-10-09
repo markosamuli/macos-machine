@@ -9,7 +9,6 @@
   hosts: all
   tasks:
 
-
   - stat:
       path: /Applications/iTerm.app
     register: iterm_st
