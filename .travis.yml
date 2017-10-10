@@ -1,0 +1,41 @@
+language: generic
+sudo: required
+python: 2.7
+os: osx
+
+notifications:
+  email: false
+
+before_install:
+  # Uninstall existing Homebrew installation
+  - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
+
+  # Cleanup existing NVM installation
+  - unset NVM_CD_FLAGS
+  - unset NVM_DIR
+  - unset NVM_BIN
+  - rm -rf /Users/travis/.nvm
+  - rm -rf /etc/profile.d/travis-nvm.sh
+
+  # Fix https://github.com/travis-ci/travis-ci/issues/6307
+  - rvm get stable
+
+script:
+  #- git config --global user.name "Test name"
+  #- git config --global user.email "test@localhost"
+
+  # Test setup script
+  - ./setup -n
+
+  # Check syntax of the Ansible playbooks
+  - ./setup -s
+
+  # Run playbooks without installing roles
+  - ./setup -q
+
+  # Idempotence test
+  - >
+    ./setup -q
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
