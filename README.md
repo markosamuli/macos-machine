@@ -1,7 +1,7 @@
 Development macOS Setup
 =======================
 
-This is a collection of Ansible roles and tasks to setup a new developer machine as described on the Beyond Development setup on macOS documentation.
+This is a collection of Ansible roles and tasks to setup a new developer machine on macOS.
 
 This setup has only been tested on the macOS Sierra and not against existing installations.
 
