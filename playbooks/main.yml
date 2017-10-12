@@ -22,4 +22,5 @@
 - include: aws.yml
 - include: hashicorp.yml
 - include: golang.yml
+- include: devops.yml
 - include: secops.yml
