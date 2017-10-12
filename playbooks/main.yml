@@ -21,3 +21,4 @@
 - include: gcloud.yml
 - include: aws.yml
 - include: hashicorp.yml
+- include: golang.yml

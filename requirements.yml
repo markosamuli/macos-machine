@@ -12,3 +12,5 @@
   name: markosamuli.gcloud
 - src: https://github.com/markosamuli/ansible-vagrant
   name: markosamuli.vagrant
+- src: https://github.com/markosamuli/ansible-golang
+  name: markosamuli.golang
