@@ -1,9 +1,26 @@
 ---
 
-- name: Ensure ~/.bash_profile exists
+- name: Check if ~/.bash_profile exists
+  stat: 
+    path: "{{ bash_home }}/.bash_profile"
+  register: bash_profile_st
+
+- name: Create empty ~/.bash_profile file
   file:
     path: "{{ bash_home }}/.bash_profile"
     state: touch
+  when: not bash_profile_st.stat.exists
+
+- name: Check if ~/.bashrc exists
+  stat: 
+    path: "{{ bash_home }}/.bashrc"
+  register: bashrc_st
+
+- name: Create empty ~/.bashrc file
+  file:
+    path: "{{ bash_home }}/.bashrc"
+    state: touch
+  when: not bashrc_st.stat.exists
 
 - name: Check whether ~/.bashrc is loaded from ~/.bash_profile
   command: grep -Fxq "source ~/.bashrc" {{ bash_home }}/.bash_profile
@@ -11,11 +28,6 @@
   ignore_errors: yes
   failed_when: no
   changed_when: no
-
-- name: Ensure ~/.bashrc exists
-  file:
-    path: "{{ bash_home }}/.bashrc"
-    state: touch
 
 - name: Load ~/.bashrc from ~/.bash_profile
   blockinfile:
