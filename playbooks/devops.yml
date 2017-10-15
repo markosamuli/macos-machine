@@ -3,7 +3,7 @@
 - name: Install Google Cloud SDK
   hosts: all
   roles:
-  - role: markosamuli.gloud
+  - role: markosamuli.gcloud
     tags: gcloud
 
 - name: Install Hashicorp tools
