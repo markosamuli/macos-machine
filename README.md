@@ -1,6 +1,8 @@
 Development macOS Setup
 =======================
 
+[![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=master)](https://travis-ci.org/markosamuli/macos-machine)
+
 This is a collection of Ansible roles and tasks to setup a new developer machine on macOS.
 
 This setup has only been tested on the macOS Sierra and not against existing installations.

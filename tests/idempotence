@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+passed=0
+failed=0
+total=0
+
+function run_playbook {
+    local playbook=$1
+    echo "*** Playbook: $playbook"
+    (( total++ ))
+    ansible-playbook -i inventory/local playbooks/$playbook | grep -q 'changed=0.*failed=0'
+    if [ "$?" == "0" ]; then
+        echo "Idempotence test: pass on playbook $playbook"
+        (( passed++ ))
+        return 0
+    else
+        echo "Idempotence test: fail on playbook $playbook"
+        (( failed++ ))
+        return 1
+    fi
+}
+
+playbooks=$(grep -e "- include: .*\.yml" playbooks/main.yml | grep -v front-end-toolkit.yml | sed 's/- include: //')
+for playbook in $playbooks; do
+    run_playbook $playbook
+done
+
+if [ "$failed" -gt "0" ]; then
+    echo "$failed / $total idempotence tests failed"
+    exit 1
+fi
+
+if [ "$passed" -lt "$total" ]; then
+    echo "$passed / $total idempotence tests passed"
+    exit 1
+fi
+
+echo "All $passed / $total idempotence tests passed"

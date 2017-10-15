@@ -11,3 +11,7 @@
   - name: Install jq command-line JSON processor
     package:
       name: jq
+  
+  - name: Install The Silver Searcher code searcing utility
+    package:
+      name: ag
