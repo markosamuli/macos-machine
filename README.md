@@ -12,6 +12,16 @@ Requirements
 
 - OS X 10.10 or higher
 - Xcode installed
+- Git installed
+
+Install
+-------
+
+You can run the installer script that will clone the code from GitHub and run the `setup` script.
+
+```
+curl -s https://raw.githubusercontent.com/markosamuli/macos-machine/master/install.sh | bash -
+```
 
 Getting Started
 ---------------
