@@ -9,6 +9,7 @@
   command: grep -Fxq "source ~/.bashrc" {{ bash_home }}/.bash_profile
   register: check_bashrc
   ignore_errors: yes
+  failed_when: no
   changed_when: no
 
 - name: Ensure ~/.bashrc exists
