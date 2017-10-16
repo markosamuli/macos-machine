@@ -1,0 +1,7 @@
+---
+
+- name: Install Google Cloud SDK
+  hosts: all
+  roles:
+  - role: markosamuli.gcloud
+    tags: gcloud

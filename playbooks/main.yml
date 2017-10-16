@@ -18,4 +18,9 @@
 - include: python.yml
 - include: vagrant.yml
 - include: docker.yml
+- include: gcloud.yml
+- include: aws.yml
+- include: hashicorp.yml
+- include: golang.yml
 - include: devops.yml
+- include: secops.yml

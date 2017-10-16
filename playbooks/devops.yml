@@ -1,21 +1,10 @@
 ---
 
-- name: Install Google Cloud SDK
+- name: Install additional tools
   hosts: all
-  roles:
-  - role: markosamuli.gcloud
-    tags: gcloud
-
-- name: Install Hashicorp tools
-  hosts: all
-  roles:
-  - role: markosamuli.terraform
-    tags: terraform
-  - role: markosamuli.packer
-    tags: packer
-
-- name: Install AWS tools
-  hosts: all
-  roles:
-  - role: markosamuli.aws-tools
-    tags: aws
+  tasks:
+    - name: Install certbot with Homebrew
+      package:
+        name: certbot
+        state: latest
+      tags: certbot
