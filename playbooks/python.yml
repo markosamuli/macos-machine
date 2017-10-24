@@ -11,3 +11,9 @@
   - name: Install virtualenv
     pip:
       name: virtualenv
+
+- name: Install pyenv
+  hosts: all
+  roles:
+
+  - role: markosamuli.pyenv
