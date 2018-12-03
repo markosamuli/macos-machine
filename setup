@@ -1,20 +1,27 @@
 #!/usr/bin/env bash
 
-run_playbook=1
-syntax_check=0
+# Commands
+run_playbook=1  # Run playbook as default command
+syntax_check=0  # Run command to check syntax
+list_tags=0     # Run command to list tags
 
+# Setup options
 install_roles=1
 install_ansible=1
 install_homebrew=1
 
+# Environment configuration
 deploy_env="local"
 
+# Force use of Ansible from Homebrew
+ansible_homebrew=1
+
+# Ansible playbook options
 ansible_playbook="playbooks/main.yml"
 ansible_roles="playbooks/roles"
 ansible_tags=""
 ansible_verbose=0
 ansible_become=0
-list_tags=0
 
 ###
 # Print error into STDERR
@@ -51,6 +58,8 @@ function install_macos_dependencies {
     fi
     if [ "$install_ansible" == "1" ]; then
         if test ! "$(which ansible)"; then
+            install_ansible_with_homebrew
+        elif [ "$(brew --prefix ansible)" == "" ]; then
             install_ansible_with_homebrew
         fi
     fi
@@ -94,8 +103,19 @@ function install_ansible_with_homebrew {
 function install_ansible_roles {
     local errmsg="Failed to install Ansible roles"
     echo "*** Installing Ansible roles..."
-    ansible-galaxy install -r requirements.yml -p ${ansible_roles} \
+    $(ansible_bin_prefix)ansible-galaxy install \
+        -r requirements.yml \
+        -p ${ansible_roles} \
         || { error "${errmsg}"; exit 1; }
+}
+
+###
+# Ansible binary prefix
+###
+function ansible_bin_prefix {
+    if [ "${ansible_homebrew}" == "1" ]; then
+        echo "$(brew --prefix ansible)/bin/"
+    fi
 }
 
 ###
@@ -105,22 +125,17 @@ function run_ansible_playbook {
 
     local ansible_opts=""
 
-    if [ "$deploy_env" != "" ]; then
-        deploy_env_err="Could not find inventory file for ${deploy_env}"
-        [ -e "inventory/${deploy_env}" ] \
-            || { error "${deploy_env_err}"; exit 1; }
-        ansible_opts="-i inventory/${deploy_env} ${ansible_opts}"
-    fi
-
-    if [ "$ansible_verbose" == "1" ]; then
+    if [ "${ansible_verbose}" == "1" ]; then
         ansible_opts="-v ${ansible_opts}"
     fi
 
-    if [ "$ansible_tags" != "" ]; then
+    if [ "${ansible_tags}" != "" ]; then
         ansible_opts="--tags=${ansible_tags} ${ansible_opts}"
     fi
 
-    ansible-playbook ${ansible_playbook} $ansible_opts
+    $(ansible_bin_prefix)ansible-playbook ${ansible_playbook} \
+        $(ansible_inventory) \
+        ${ansible_opts}
 
 }
 
@@ -128,33 +143,92 @@ function run_ansible_playbook {
 # Check Ansible playbook syntax
 ###
 function check_ansible_playbook_syntax {
-    ansible-playbook ${ansible_playbook} --syntax-check
+    $(ansible_bin_prefix)ansible-playbook ${ansible_playbook} \
+        --syntax-check
+}
+
+###
+# Ansible inventory options
+###
+function ansible_inventory {
+    local ansible_opts=""
+    if [ "${deploy_env}" != "" ]; then
+        deploy_env_err="Could not find inventory file for ${deploy_env}"
+        [ -e "inventory/${deploy_env}" ] \
+            || { error "${deploy_env_err}"; exit 1; }
+        ansible_opts="-i inventory/${deploy_env} ${ansible_opts}"
+    fi
+    echo ${ansible_opts}
 }
 
 ### 
 # List tags available in Ansible playbooks
 ###
 function ansible_playbook_list_tags {
-    ansible-playbook ${ansible_playbook} --list-tags
+    $(ansible_bin_prefix)ansible-playbook ${ansible_playbook} \
+        $(ansible_inventory) \
+        --list-tags
 }
 
 ###
 # Setup dependencies
 ###
 function setup_dependencies {
+
     if test "$(uname)" = "Darwin"; then
         install_macos_dependencies
     elif test "$(uname)" = "Linux"; then
         error "Linux is not currently supported."
         exit 1
     fi
+
     if test ! "$(which ansible)"; then
         error "You system is not supported yet."
         exit 1
     fi
-    python --version
-    ansible --version
+
+    local ansible_err="Ansible not found"
+    $(ansible_bin_prefix)ansible --version \
+        || { error "${ansible_err}"; exit 1; }
 }
+
+###
+# Parse boolean options
+###
+function parse_bool {
+    case $1 in
+        1|true|True|TRUE|yes)
+            echo "1"
+            return 0
+            ;;
+        0|false|False|FALSE|no)
+            echo "0"
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+# # Parse long command line arguments
+# POSITIONAL=()
+# while [[ $# -gt 0 ]]
+# do
+# key="$1"
+# case $key in
+#     --ansible-homebrew)
+#     ansible_homebrew="$(parse_bool $2)"
+#     shift # past argument
+#     shift # past value
+#     ;;
+#     *)    # unknown option
+#     POSITIONAL+=("$1") # save it in an array for later
+#     shift # past argument
+#     ;;
+# esac
+# done
+# set -- "${POSITIONAL[@]}" # restore positional parameters
 
 ###
 # Parse command line options
