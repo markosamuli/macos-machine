@@ -16,6 +16,16 @@ ansible_verbose=0
 ansible_become=0
 list_tags=0
 
+###
+# Print error into STDERR
+###
+function error {
+    echo "$@" 1>&2
+}
+
+###
+# Print usage help
+###
 function show_help {
   echo "Usage: $0"
   echo " -h         Show this help"
@@ -56,12 +66,12 @@ while getopts ":hcnqlsvt:" opt; do
       ansible_tags=$OPTARG
       ;;
     \?)
-      echo "Invalid option: -$OPTARG" >&2
+      error "Invalid option: -$OPTARG"
       show_help
       exit 1
       ;;
     :)
-      echo "Option -$OPTARG requires an argument." >&2
+      error "Option -$OPTARG requires an argument"
       exit 1
       ;;
   esac
@@ -72,28 +82,28 @@ if test "$(uname)" = "Darwin"; then
     if test ! $(which gcc); then
       echo "*** Installing Xcode Command Line Tools..."
       xcode-select --install \
-        || { echo "*** ERROR: Failed to install Xcode Command Line Tools"; exit 1; }
+        || { error "Failed to install Xcode Command Line Tools"; exit 1; }
     fi
     if test ! "$(which brew)"; then
       echo "*** Installing Homebrew..."
       ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" \
-        || { echo "*** ERROR: Failed to install Homebrew"; exit 1; }
+        || { error "Failed to install Homebrew"; exit 1; }
     fi
   fi
   if [ "$install_ansible" == "1" ]; then
     if test ! "$(which ansible)"; then
       echo "*** Installing Ansible with Homebrew..."
       brew install ansible \
-        || { echo "*** ERROR: Failed to install Ansible"; exit 1; }
+        || { error "Failed to install Ansible"; exit 1; }
     fi
   fi
 elif test "$(uname)" = "Linux"; then
-  echo "*** ERROR: Linux is not currently supported."
+  error "Linux is not currently supported."
   exit 1
 fi
 
 if test ! "$(which ansible)"; then
-  echo "*** ERROR: You system is not supported yet."
+  error "You system is not supported yet."
   exit 1
 fi
 
@@ -102,7 +112,7 @@ ansible --version
 
 if [ "$install_roles" == "1" ]; then
   echo "*** Installing Ansible roles..."
-  ansible-galaxy install -r requirements.yml -p ${ansible_roles} || { echo "*** ERROR: Failed to install Ansible roles"; exit 1; }
+  ansible-galaxy install -r requirements.yml -p ${ansible_roles} || { error "Failed to install Ansible roles"; exit 1; }
 fi
 
 if [ "$list_tags" == "1" ]; then
@@ -118,7 +128,7 @@ elif [ "$run_playbook" == "1" ]; then
   ansible_opts=""
 
   if [ "$deploy_env" != "" ]; then
-    [ -e "inventory/${deploy_env}" ] || { echo "*** ERROR: Could not find inventory file for ${deploy_env}"; exit 1; }
+    [ -e "inventory/${deploy_env}" ] || { error "Could not find inventory file for ${deploy_env}"; exit 1; }
     ansible_opts="-i inventory/${deploy_env} ${ansible_opts}"
   fi
 

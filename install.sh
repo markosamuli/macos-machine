@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
-MACHINE_REPO=https://github.com/markosamuli/macos-machine.git
-MACHINE=$HOME/.machine
+MACHINE_REPO=${MACHINE_REPO:-https://github.com/markosamuli/macos-machine.git}
+MACHINE=${MACHINE:-$HOME/.machine}
 
+###
+# Download repository with Git
+###
 function download_machine {
     # Do we need to download the machine repository?
     if [ ! -d "$MACHINE" ]; then
@@ -11,6 +14,9 @@ function download_machine {
     fi
 }
 
+###
+# Check that Xcode is installed
+###
 function setup_xcode {
     command -v xcode-select 1>/dev/null 2>&1 || {
         echo "Xcode is not installed."
@@ -18,16 +24,16 @@ function setup_xcode {
     }
 }
 
+###
+# Run setup script
+###
 function setup_machine {
     cd $MACHINE
     ./setup
 }
 
-# Clone repository
 download_machine
 
-# Xcode setup
 setup_xcode
 
-# Run setup
 setup_machine
