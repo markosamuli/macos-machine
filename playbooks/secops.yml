@@ -7,5 +7,4 @@
     - name: Install nmap with Homebrew
       package:
         name: nmap
-        state: latest
       tags: nmap

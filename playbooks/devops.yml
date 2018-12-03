@@ -6,5 +6,4 @@
     - name: Install certbot with Homebrew
       package:
         name: certbot
-        state: latest
       tags: certbot
