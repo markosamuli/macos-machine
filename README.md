@@ -73,18 +73,6 @@ already found on the system.
 - [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
 - [Go programming language](https://golang.org/)
 
-### Node.js packages
-
-- [gulp-cli](https://github.com/gulpjs/gulp-cli)
-
-You can configure these global packages in `inventory/group_vars/all.yml`:
-
-```yaml
-# Configure default NPM packages to install
-nvm_npm_global_packages:
- - gulp-cli
-```
-
 ### Developer tools
 
 - [Git](https://git-scm.com/)
@@ -118,7 +106,7 @@ gcloud_archive_name: google-cloud-sdk-174.0.0-darwin-x86_64.tar.gz
 The installer creates empty `~/.bash_profile` and `~/.bashrc` files and makes
 sure `~/.bashrc` is loaded from `~/.bash_profile`.
 
-The installer makes changes to your `~/..bashrc` and `~/..zshrc` files, so take
+The installer makes changes to your `~/.bashrc` and `~/.zshrc` files, so take
 backup copies of them before running the script.
 
 ## Ansible roles
