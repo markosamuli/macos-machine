@@ -144,6 +144,7 @@ function run_ansible_playbook {
 ###
 function check_ansible_playbook_syntax {
     $(ansible_bin_prefix)ansible-playbook ${ansible_playbook} \
+        $(ansible_inventory) \
         --syntax-check
 }
 
