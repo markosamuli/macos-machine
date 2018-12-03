@@ -6,13 +6,14 @@
   - python
   tasks:
 
-  - name: Install Python
+  - name: Install Python with Homebrew
     package:
       name: python
 
-  - name: Install virtualenv
+  - name: Install virtualenv in Homebrew Python
     pip:
       name: virtualenv
+      executable: /usr/local/bin/pip
 
 - name: Python version management
   hosts: all
