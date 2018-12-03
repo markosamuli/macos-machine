@@ -12,17 +12,17 @@
           - "ansible_os_family == 'Darwin'"
         msg: "This playbook only supports macOS systems"
 
-- include: macos.yml
-- include: tools.yml
-- include: editors.yml
-- include: git.yml
-- include: front-end-toolkit.yml
-- include: python.yml
-- include: vagrant.yml
-- include: docker.yml
-- include: gcloud.yml
-- include: aws.yml
-- include: hashicorp.yml
-- include: golang.yml
-- include: devops.yml
-- include: secops.yml
+- import_playbook: macos.yml
+- import_playbook: tools.yml
+- import_playbook: editors.yml
+- import_playbook: git.yml
+- import_playbook: front-end-toolkit.yml
+- import_playbook: python.yml
+- import_playbook: vagrant.yml
+- import_playbook: docker.yml
+- import_playbook: gcloud.yml
+- import_playbook: aws.yml
+- import_playbook: hashicorp.yml
+- import_playbook: golang.yml
+- import_playbook: devops.yml
+- import_playbook: secops.yml
