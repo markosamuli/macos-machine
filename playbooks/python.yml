@@ -10,10 +10,10 @@
     package:
       name: python
 
-  - name: Install virtualenv in Homebrew Python
-    pip:
-      name: virtualenv
-      executable: /usr/local/bin/pip
+  # - name: Install virtualenv in Homebrew Python
+  #   pip:
+  #     name: virtualenv
+  #     executable: /usr/local/bin/pip
 
 - name: Python version management
   hosts: all
