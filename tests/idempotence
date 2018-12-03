@@ -29,9 +29,9 @@ function run_playbook {
 # Parse included playbooks from the main.yml file
 ###
 function get_playbooks {
-    grep -e "- include: .*\.yml" playbooks/main.yml | \
+    grep -e "- import_playbook: .*\.yml" playbooks/main.yml | \
         grep -v front-end-toolkit.yml | \
-        sed 's/- include: //'
+        sed 's/- import_playbook: //'
 }
 
 playbooks=$(get_playbooks)
