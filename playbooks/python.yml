@@ -2,6 +2,8 @@
 
 - name: Python
   hosts: all
+  tags:
+  - python
   tasks:
 
   - name: Install Python
@@ -12,8 +14,10 @@
     pip:
       name: virtualenv
 
-- name: Install pyenv
+- name: Python version management
   hosts: all
+  become: False
   roles:
 
   - role: markosamuli.pyenv
+    tags: pyenv

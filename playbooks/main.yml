@@ -2,6 +2,8 @@
 
 - name: Setup variables and check requirements
   hosts: all
+  tags:
+    - always
   tasks:
 
     - name: Check that we're running macOS

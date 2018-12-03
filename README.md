@@ -1,5 +1,4 @@
-Development macOS Setup
-=======================
+# Development macOS Setup
 
 [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=master)](https://travis-ci.org/markosamuli/macos-machine)
 
@@ -7,15 +6,13 @@ This is a collection of Ansible roles and tasks to setup a new developer machine
 
 This setup has only been tested on the macOS Sierra and not against existing installations.
 
-Requirements
-------------
+## Requirements
 
 - OS X 10.10 or higher
 - Xcode installed
 - Git installed
 
-Install
--------
+## Install
 
 You can run the installer script that will clone the code from GitHub and run the `setup` script.
 
@@ -23,8 +20,7 @@ You can run the installer script that will clone the code from GitHub and run th
 curl -s https://raw.githubusercontent.com/markosamuli/macos-machine/master/install.sh | bash -
 ```
 
-Getting Started
----------------
+## Getting Started
 
 Clone this project locally and run the `./setup` script.
 
@@ -34,24 +30,88 @@ cd macos-machine
 ./setup
 ```
 
-Ansible Roles
--------------
+## Software installed by the playbooks
+
+### Installation tools
+
+The following tools are prequiresites and always installed during setup if not
+already found on the system.
+
+- Xcode Command Line Tools
+- [Homebrew](https://brew.sh/)
+- [Ansible](https://www.ansible.com/)
+
+### Desktop applications
+
+- [iTerm2](https://www.iterm2.com/)
+- [Google Drive File Stream](https://support.google.com/drive/answer/7329379?hl=en)
+- [Slack](https://slack.com/downloads/osx) desktop application
+
+### Command line tools
+
+- [GNU Wget](https://www.gnu.org/software/wget/)
+- [jq](https://stedolan.github.io/jq/) command-line JSON processor
+- [The Silver Searcher](https://github.com/ggreer/the_silver_searcher) code
+  searcing utility similar to `ack`
+
+### Editors
+
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Atom](https://atom.io/)
+
+### Programming languages and version managers
+
+- [Node Version Manager](https://github.com/creationix/nvm) (NVM)
+- [Node.js](https://nodejs.org/en/) with NMV
+- [Yarn](https://yarnpkg.com/en/)
+- [Python](https://www.python.org/)
+- [virtualenv](https://virtualenv.pypa.io/en/latest/)
+- [pyenv](https://github.com/pyenv/pyenv)
+- [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
+- [Go programming language](https://golang.org/)
+
+### Developer tools
+
+- [Git](https://git-scm.com/)
+- [Docker for Mac](https://docs.docker.com/docker-for-mac/)
+- [VirtualBox](https://www.virtualbox.org/)
+- [Vagrant](https://www.vagrantup.com/)
+
+### DevOps and Cloud tools
+
+- [Terraform](https://www.terraform.io/)
+- [Packer](https://packer.io/)
+- [Google Cloud SDK](https://cloud.google.com/sdk/)
+- [AWS CLI](https://aws.amazon.com/cli/)
+- [aws-shell](https://github.com/awslabs/aws-shell) - interactive shell for
+  AWS CLI
+- [AWS Vault](https://github.com/99designs/aws-vault) - a vault for securely
+  storing and accessing AWS credentials in development environments
+- [cli53](https://github.com/barnybug/cli53) - command line tool for Amazon
+  Route 53
+- [Certbot](https://certbot.eff.org/)
+- [Nmap](https://nmap.org/) utility for network discovery and security auditing
+
+The installer makes changes to your `.bashrc` and `.zshrc` files, so take
+backup copies of them before running the script.
+
+## Ansible roles
 
 The following external Ansible roles are installed and used:
 
-- [markosamuli.terraform](https://github.com/markosamuli/ansible-terraform)
-- [markosamuli.packer](https://github.com/markosamuli/ansible-packer)
 - [markosamuli.aws-tools](https://github.com/markosamuli/ansible-aws-tools)
-- [markosamuli.cloud](https://github.com/markosamuli/ansible-cloud)
+- [markosamuli.gcloud](https://github.com/markosamuli/ansible-gcloud)
+- [markosamuli.golang](https://github.com/markosamuli/ansible-golang)
 - [markosamuli.nvm](https://github.com/markosamuli/ansible-nvm)
+- [markosamuli.packer](https://github.com/markosamuli/ansible-packer)
+- [markosamuli.pyenv](https://github.com/markosamuli/ansible-pyenv)
+- [markosamuli.terraform](https://github.com/markosamuli/ansible-terraform)
 - [markosamuli.vagrant](https://github.com/markosamuli/ansible-vagrant)
 
-License
--------
+## License
 
-MIT
+[MIT](LICENSE)
 
-Authors
--------
+## Authors
 
 - [@markosamuli](https://github.com/markosamuli)
