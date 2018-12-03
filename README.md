@@ -64,11 +64,23 @@ already found on the system.
 - [Node Version Manager](https://github.com/creationix/nvm) (NVM)
 - [Node.js](https://nodejs.org/en/) with NMV
 - [Yarn](https://yarnpkg.com/en/)
-- [Python](https://www.python.org/)
+- [Python 3.7](https://www.python.org/) with Homebrew
 - [virtualenv](https://virtualenv.pypa.io/en/latest/)
 - [pyenv](https://github.com/pyenv/pyenv)
 - [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
 - [Go programming language](https://golang.org/)
+
+### Node.js packages
+
+- [gulp-cli](https://github.com/gulpjs/gulp-cli)
+
+You can configure these global packages in `inventory/group_vars/all.yml`:
+
+```yaml
+# Configure default NPM packages to install
+nvm_npm_global_packages:
+ - gulp-cli
+```
 
 ### Developer tools
 
@@ -91,6 +103,14 @@ already found on the system.
   Route 53
 - [Certbot](https://certbot.eff.org/)
 - [Nmap](https://nmap.org/) utility for network discovery and security auditing
+
+You can override Google Cloud SDK version in `inventory/group_vars/all.yml`:
+
+```yaml
+gcloud_archive_name: google-cloud-sdk-174.0.0-darwin-x86_64.tar.gz
+```
+
+## Changes to existing configuration
 
 The installer makes changes to your `.bashrc` and `.zshrc` files, so take
 backup copies of them before running the script.
