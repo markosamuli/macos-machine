@@ -2,9 +2,11 @@
 
 [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=master)](https://travis-ci.org/markosamuli/macos-machine)
 
-This is a collection of Ansible roles and tasks to setup a new developer machine on macOS.
+This is a collection of Ansible roles and tasks to setup a new developer machine
+on macOS.
 
-This setup has only been tested on the macOS Sierra and not against existing installations.
+This setup has only been tested on the macOS Sierra and not against existing
+installations.
 
 ## Requirements
 
@@ -14,9 +16,10 @@ This setup has only been tested on the macOS Sierra and not against existing ins
 
 ## Install
 
-You can run the installer script that will clone the code from GitHub and run the `setup` script.
+You can run the installer script that will clone the code from GitHub and run
+the `setup` script.
 
-```
+```bash
 curl -s https://raw.githubusercontent.com/markosamuli/macos-machine/master/install.sh | bash -
 ```
 
@@ -39,7 +42,7 @@ already found on the system.
 
 - Xcode Command Line Tools
 - [Homebrew](https://brew.sh/)
-- [Ansible](https://www.ansible.com/)
+- [Ansible](https://www.ansible.com/) v2.7.3 or never
 
 ### Desktop applications
 
