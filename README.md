@@ -115,7 +115,10 @@ gcloud_archive_name: google-cloud-sdk-174.0.0-darwin-x86_64.tar.gz
 
 ## Changes to existing configuration
 
-The installer makes changes to your `.bashrc` and `.zshrc` files, so take
+The installer creates empty `~/.bash_profile` and `~/.bashrc` files and makes
+sure `~/.bashrc` is loaded from `~/.bash_profile`.
+
+The installer makes changes to your `~/..bashrc` and `~/..zshrc` files, so take
 backup copies of them before running the script.
 
 ## Ansible roles
