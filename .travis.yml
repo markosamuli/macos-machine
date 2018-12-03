@@ -8,7 +8,7 @@ notifications:
 
 before_install:
   # Uninstall existing Homebrew installation
-  - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
+  - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)" -- --force
 
   # Cleanup existing NVM installation
   - unset NVM_CD_FLAGS
