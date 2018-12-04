@@ -1,14 +1,25 @@
 language: generic
 sudo: required
 python: 2.7
-os: osx
 
-notifications:
-  email: false
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode9.4
+      env: UNINSTALL_HOMEBREW=YES
+    - os: osx
+      osx_image: xcode9.4
+      env: UNINSTALL_HOMEBREW=NO
+    - os: osx
+      osx_image: xcode10.1
+      env: UNINSTALL_HOMEBREW=YES
+    - os: osx
+      osx_image: xcode10.1
+      env: UNINSTALL_HOMEBREW=NO
 
 before_install:
   # Uninstall existing Homebrew installation
-  - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
+  - if [[ "${UNINSTALL_HOMEBREW}" == "YES" ]]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)" -- --force; fi
 
   # Cleanup existing NVM installation
   - unset NVM_CD_FLAGS
@@ -21,9 +32,6 @@ before_install:
   - rvm get stable
 
 script:
-  #- git config --global user.name "Test name"
-  #- git config --global user.email "test@localhost"
-
   # Test setup script
   - ./setup -n
 
@@ -31,7 +39,7 @@ script:
   - ./setup -s
 
   # Run playbooks without installing roles
-  - ./setup -q
+  - ./setup -q -i vagrant
 
   # Run idempotence tests for each playbook
   - ./tests/idempotence

@@ -1,13 +1,9 @@
 ---
 
-- name: Python
+- name: Python version management
   hosts: all
-  tasks:
+  roles:
 
-  - name: Install Python
-    package:
-      name: python
-
-  - name: Install virtualenv
-    pip:
-      name: virtualenv
+  - role: markosamuli.pyenv
+    tags:
+    - pyenv

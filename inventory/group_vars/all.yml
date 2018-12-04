@@ -3,10 +3,9 @@
 # Default Node.js version to install (NVM aliases supported)
 nvm_default_node_version: stable
 
-# Configure default NPM packages to install
-nvm_npm_global_packages:
- - gulp-cli
+# Make Python 2.7.15 default global version in pyenv
+pyenv_global: "2.7.15"
 
 # Get the latest package name from:
 # https://cloud.google.com/sdk/docs/quickstart-mac-os-x
-gcloud_archive_name: google-cloud-sdk-174.0.0-darwin-x86_64.tar.gz
+# gcloud_archive_name: google-cloud-sdk-174.0.0-darwin-x86_64.tar.gz
