@@ -39,7 +39,7 @@ script:
   - ./setup -s
 
   # Run playbooks without installing roles
-  - ./setup -q
+  - ./setup -q -i vagrant
 
   # Run idempotence tests for each playbook
   - ./tests/idempotence

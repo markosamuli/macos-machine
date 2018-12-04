@@ -30,7 +30,7 @@ function run_playbook {
 ###
 function get_playbooks {
     grep -e "- import_playbook: .*\.yml" playbooks/main.yml | \
-        grep -v front-end-toolkit.yml | \
+        grep -v vagrant.yml | \
         sed 's/- import_playbook: //'
 }
 
