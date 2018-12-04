@@ -16,3 +16,5 @@
   name: markosamuli.golang
 - src: https://github.com/markosamuli/ansible-pyenv
   name: markosamuli.pyenv
+  version: feature/install-python-versions
+

@@ -2,23 +2,18 @@
 
 - name: Python
   hosts: all
-  tags:
-  - python
   tasks:
 
   - name: Install Python with Homebrew
     package:
       name: python
-
-  # - name: Install virtualenv in Homebrew Python
-  #   pip:
-  #     name: virtualenv
-  #     executable: /usr/local/bin/pip
+    tags:
+    - python
 
 - name: Python version management
   hosts: all
-  become: False
   roles:
 
   - role: markosamuli.pyenv
-    tags: pyenv
+    tags:
+    - pyenv
