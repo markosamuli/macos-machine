@@ -1,15 +1,5 @@
 ---
 
-- name: Python
-  hosts: all
-  tasks:
-
-  - name: Install Python with Homebrew
-    package:
-      name: python
-    tags:
-    - python
-
 - name: Python version management
   hosts: all
   roles:

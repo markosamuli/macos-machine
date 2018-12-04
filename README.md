@@ -42,7 +42,8 @@ already found on the system.
 
 - Xcode Command Line Tools
 - [Homebrew](https://brew.sh/)
-- [Ansible](https://www.ansible.com/) v2.7.3 or never
+- [Ansible](https://www.ansible.com/) v2.7 installed with Homebrew
+- [Python](https://www.python.org/) v3.7 installed with Homebrew
 
 ### Desktop applications
 
@@ -67,10 +68,10 @@ already found on the system.
 - [Node Version Manager](https://github.com/creationix/nvm) (NVM)
 - [Node.js](https://nodejs.org/en/) with NMV
 - [Yarn](https://yarnpkg.com/en/)
-- [Python 3.7](https://www.python.org/) with Homebrew
 - [virtualenv](https://virtualenv.pypa.io/en/latest/)
 - [pyenv](https://github.com/pyenv/pyenv)
 - [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
+- [Python](https://www.python.org/) v2.7.15 and v3.7.1 installed with pyenv
 - [Go programming language](https://golang.org/)
 
 ### Developer tools
