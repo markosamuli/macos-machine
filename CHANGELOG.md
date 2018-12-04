@@ -24,4 +24,5 @@
 ### Removed
 
 * Do not install Python with Homebrew
+* Do not install Yarn with Homebrew
 * Remove support for installing NPM packages

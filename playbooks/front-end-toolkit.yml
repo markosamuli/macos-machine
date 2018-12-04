@@ -7,13 +7,3 @@
   - role: markosamuli.nvm
     tags:
     - nvm
-
-- name: Yarn
-  hosts: all
-  tasks:
-
-  - name: Install Yarn
-    package:
-      name: "yarn"
-    tags:
-    - yarn

@@ -66,8 +66,7 @@ already found on the system.
 ### Programming languages and version managers
 
 - [Node Version Manager](https://github.com/creationix/nvm) (NVM)
-- [Node.js](https://nodejs.org/en/) with NMV
-- [Yarn](https://yarnpkg.com/en/)
+- [Node.js](https://nodejs.org/en/) stable installed with NMV
 - [virtualenv](https://virtualenv.pypa.io/en/latest/)
 - [pyenv](https://github.com/pyenv/pyenv)
 - [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
