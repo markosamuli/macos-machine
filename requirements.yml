@@ -2,17 +2,31 @@
 
 - src: https://github.com/markosamuli/ansible-terraform
   name: markosamuli.terraform
+  version: v1.0.0
+
 - src: https://github.com/markosamuli/ansible-packer
   name: markosamuli.packer
+  version: v1.0.0
+
 - src: https://github.com/markosamuli/ansible-aws-tools
   name: markosamuli.aws-tools
+
 - src: https://github.com/markosamuli/ansible-nvm
   name: markosamuli.nvm
+  version: v1.0.0
+
 - src: https://github.com/markosamuli/ansible-gcloud
   name: markosamuli.gcloud
+  version: v1.0.0
+
 - src: https://github.com/markosamuli/ansible-vagrant
   name: markosamuli.vagrant
+  version: v1.0.0
+
 - src: https://github.com/markosamuli/ansible-golang
   name: markosamuli.golang
+  version: v1.0.0
+
 - src: https://github.com/markosamuli/ansible-pyenv
   name: markosamuli.pyenv
+  version: v1.0.0
