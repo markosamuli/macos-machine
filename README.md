@@ -8,6 +8,8 @@ on macOS.
 This setup has only been tested on the macOS Sierra and not against existing
 installations.
 
+See [markosamuli/linux-machine](https://github.com/markosamuli/linux-machine) for my Ubuntu Linux setup.
+
 ## Requirements
 
 - OS X 10.10 or higher
