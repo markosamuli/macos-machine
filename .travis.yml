@@ -18,6 +18,7 @@ matrix:
       env: UNINSTALL_HOMEBREW=NO
 
 before_install:
+
   # Uninstall existing Homebrew installation
   - if [[ "${UNINSTALL_HOMEBREW}" == "YES" ]]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)" -- --force; fi
 
@@ -27,9 +28,6 @@ before_install:
   - unset NVM_BIN
   - rm -rf /Users/travis/.nvm
   - rm -rf /etc/profile.d/travis-nvm.sh
-
-  # Fix https://github.com/travis-ci/travis-ci/issues/6307
-  - rvm get stable
 
 script:
   # Test setup script
