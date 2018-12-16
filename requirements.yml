@@ -10,6 +10,7 @@
 
 - src: https://github.com/markosamuli/ansible-aws-tools
   name: markosamuli.aws-tools
+  version: v1.0.0
 
 - src: https://github.com/markosamuli/ansible-nvm
   name: markosamuli.nvm
