@@ -1,6 +1,6 @@
 - name: markosamuli.aws-tools
   src: https://github.com/markosamuli/ansible-aws-tools
-  version: v1.0.0
+  version: v1.0.1
 - name: markosamuli.gcloud
   src: https://github.com/markosamuli/ansible-gcloud
   version: v1.0.0
