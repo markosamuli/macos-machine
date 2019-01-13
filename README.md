@@ -124,6 +124,14 @@ The following external Ansible roles are installed and used:
 - [markosamuli.terraform](https://github.com/markosamuli/ansible-terraform)
 - [markosamuli.vagrant](https://github.com/markosamuli/ansible-vagrant)
 
+## References
+
+This is based on my previous setup [markosamuli/machine] that was forked off
+from  [caarlos0/machine] to suit my needs.
+
+[markosamuli/machine]: https://github.com/markosamuli/machine
+[caarlos0/machine]: https://github.com/caarlos0/machine
+
 ## License
 
 [MIT](LICENSE)
