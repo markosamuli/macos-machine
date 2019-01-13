@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+
+import yaml
+import json
+import os
+
+try:
+    from urllib2 import urlopen
+    from urllib2 import HTTPError
+except:
+    from urllib.request import urlopen
+    from urllib.error import HTTPError
+
+def github_request_url(api):
+    access_token = os.environ['GITHUB_OAUTH_TOKEN']
+    url = "https://api.github.com{api}".format(api=api)
+    if access_token:
+        url += "?access_token={access_token}".format(access_token=access_token)
+    return url
+
+def get_latest_version(repository):
+    """Get latest release for a GitHub repository"""
+    try:
+        # Get tag name from the latest release
+        api = "/repos/{repository}/releases/latest".format(repository=repository)
+        url = github_request_url(api)
+        response_body = urlopen(url).read()
+        release = json.loads(response_body)
+        return release['tag_name']
+    except HTTPError as e:
+        if e.code == 404:
+            # No releases, get latest tag name
+            api = "/repos/{repository}/tags".format(repository=repository)
+            url = github_request_url(api)
+            response_body = urlopen(url).read()
+            tags = json.loads(response_body)
+            return tags[0]['name']
+        else:
+            raise e
+
+def update_roles(roles):
+    roles_updated = 0
+    updated_roles = []
+    for role in roles:
+        repository = role['src'].replace('https://github.com/', '')
+        latest_version = get_latest_version(repository)
+        if latest_version != role['version']:
+            print("update {role}: {version} -> {latest_version}".format(role=role['name'], version=role['version'], latest_version=latest_version))
+            role['version'] = latest_version
+            roles_updated += 1
+        updated_roles.append(role)
+    if roles_updated > 0:
+        role_file = 'requirements.yml'
+        with open(role_file, 'w+') as f:
+            yaml.safe_dump(updated_roles, f, default_flow_style=False)
+
+def ansible_roles():
+    roles = []
+    role_file = 'requirements.yml'
+    with open(role_file, 'r') as f:
+        required_roles = yaml.safe_load(f.read())
+        for role in required_roles:
+            roles.append(role)
+    return sorted(roles, key=lambda role: role['name'])
+
+def main():
+    update_roles(ansible_roles())
+
+if __name__ == '__main__':
+    main()
