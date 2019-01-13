@@ -22,6 +22,9 @@ before_install:
   # Uninstall existing Homebrew installation
   - if [[ "${UNINSTALL_HOMEBREW}" == "YES" ]]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)" -- --force; fi
 
+  # Update Homebrew to fix HOMEBREW_LOGS error
+  - if [[ "${UNINSTALL_HOMEBREW}" == "NO" ]]; then brew update; fi
+
   # Cleanup existing NVM installation
   - unset NVM_CD_FLAGS
   - unset NVM_DIR
