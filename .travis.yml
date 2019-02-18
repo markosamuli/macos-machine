@@ -29,6 +29,13 @@ matrix:
       osx_image: xcode10.2
       env: UNINSTALL_HOMEBREW=NO
 
+branches:
+  only:
+  - master
+  - /^feature\/.*$/
+  - /^bugfix\/.*$/
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+
 before_install:
 
   # The default Git on macOS doesn't support protocol version 2 that's enabled on Travis
