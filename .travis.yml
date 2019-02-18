@@ -4,25 +4,28 @@ python: 2.7
 
 matrix:
   include:
-    # Xcode 9.4 on macOS High Sierra
-    - os: osx
+    - name: "macOS 10.13 (High Sierra) with Xcode 9.4 (uninstall Homebrew)"
+      os: osx
       osx_image: xcode9.4
       env: UNINSTALL_HOMEBREW=YES
-    - os: osx
+    - name: "macOS 10.13 (High Sierra) with Xcode 9.4"
+      os: osx
       osx_image: xcode9.4
       env: UNINSTALL_HOMEBREW=NO
-    # Xcode 10.1 on macOS High Sierra
-    - os: osx
+    - name: "macOS 10.13 (High Sierra) with Xcode 10.1 (uninstall Homebrew)"
+      os: osx
       osx_image: xcode10.1
       env: UNINSTALL_HOMEBREW=YES
-    - os: osx
+    - name: "macOS 10.13 (High Sierra) with Xcode 10.1"
+      os: osx
       osx_image: xcode10.1
       env: UNINSTALL_HOMEBREW=NO
-    # Xcode 10.2 beta on macOS Mojave
-    - os: osx
+    - name: "macOS 10.14 (Mojave) with Xcode 10.2 beta (uninstall Homebrew)"
+      os: osx
       osx_image: xcode10.2
       env: UNINSTALL_HOMEBREW=YES
-    - os: osx
+    - name: "macOS 10.14 (Mojave) with Xcode 10.2 beta"
+      os: osx
       osx_image: xcode10.2
       env: UNINSTALL_HOMEBREW=NO
 
