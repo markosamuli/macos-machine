@@ -15,7 +15,7 @@
   version: v1.0.0
 - name: markosamuli.pyenv
   src: https://github.com/markosamuli/ansible-pyenv
-  version: v1.0.0
+  version: v1.1.2
 - name: markosamuli.terraform
   src: https://github.com/markosamuli/ansible-terraform
   version: v1.1.0
