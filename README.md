@@ -73,6 +73,7 @@ already found on the system.
 ### Command line tools
 
 - [GNU Wget](https://www.gnu.org/software/wget/)
+- [GNU sed](https://www.gnu.org/software/sed/)
 - [jq](https://stedolan.github.io/jq/) command-line JSON processor
 - [The Silver Searcher](https://github.com/ggreer/the_silver_searcher) code
   searching utility similar to `ack`
