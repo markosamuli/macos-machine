@@ -3,7 +3,7 @@
   version: v1.0.1
 - name: markosamuli.gcloud
   src: https://github.com/markosamuli/ansible-gcloud
-  version: v1.0.0
+  version: v1.1.0
 - name: markosamuli.golang
   src: https://github.com/markosamuli/ansible-golang
   version: v1.0.0
