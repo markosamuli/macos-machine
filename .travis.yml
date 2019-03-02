@@ -4,18 +4,37 @@ python: 2.7
 
 matrix:
   include:
-    - os: osx
+    - name: "macOS 10.13 (High Sierra) with Xcode 9.4 (uninstall Homebrew)"
+      os: osx
       osx_image: xcode9.4
       env: UNINSTALL_HOMEBREW=YES
-    - os: osx
+    - name: "macOS 10.13 (High Sierra) with Xcode 9.4"
+      os: osx
       osx_image: xcode9.4
       env: UNINSTALL_HOMEBREW=NO
-    - os: osx
+    - name: "macOS 10.13 (High Sierra) with Xcode 10.1 (uninstall Homebrew)"
+      os: osx
       osx_image: xcode10.1
       env: UNINSTALL_HOMEBREW=YES
-    - os: osx
+    - name: "macOS 10.13 (High Sierra) with Xcode 10.1"
+      os: osx
       osx_image: xcode10.1
       env: UNINSTALL_HOMEBREW=NO
+    - name: "macOS 10.14 (Mojave) with Xcode 10.2 beta (uninstall Homebrew)"
+      os: osx
+      osx_image: xcode10.2
+      env: UNINSTALL_HOMEBREW=YES
+    - name: "macOS 10.14 (Mojave) with Xcode 10.2 beta"
+      os: osx
+      osx_image: xcode10.2
+      env: UNINSTALL_HOMEBREW=NO
+
+branches:
+  only:
+  - master
+  - /^feature\/.*$/
+  - /^bugfix\/.*$/
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 
 before_install:
 
