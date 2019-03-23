@@ -97,12 +97,6 @@ already found on the system.
 - [Certbot](https://certbot.eff.org/)
 - [Nmap](https://nmap.org/) utility for network discovery and security auditing
 
-You can override Google Cloud SDK version in `inventory/group_vars/all.yml`:
-
-```yaml
-gcloud_archive_name: google-cloud-sdk-174.0.0-darwin-x86_64.tar.gz
-```
-
 ## Changes to existing configuration
 
 The installer creates empty `~/.bash_profile` and `~/.bashrc` files and makes
