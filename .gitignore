@@ -1,1 +1,12 @@
+# Ansible
 *.retry
+
+# Ansible roles
+playbooks/roles/*
+!playbooks/roles/bash
+
+# IDEs
+.vscode
+
+# Local configuration
+machine.yaml
