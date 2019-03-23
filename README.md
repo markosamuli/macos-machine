@@ -35,6 +35,18 @@ cd macos-machine
 ./setup
 ```
 
+## Local options
+
+You can pass custom variables to the Ansible playbook and roles by creating
+a `machine.yaml` file to customise your configuration.
+
+```bash
+cp machine.yaml.example machine.yaml
+```
+
+The `setup` script will detect if this file exists and passes it to the
+Ansible Playbook with `--extra-vars`.
+
 ## Software installed by the playbooks
 
 ### Installation tools

@@ -1,0 +1,14 @@
+# Example configuration to customise local settings
+---
+
+# Use custom Go workspace directory
+# golang_path: "go"
+
+# Default Node.js version to install (NVM aliases supported)
+# nvm_default_node_version: "lts/*"
+
+# Default Python version in pyenv
+# pyenv_global: "2.7.15"
+
+# Google Cloud SDK version
+# gcloud_version: "236.0.0"

@@ -18,6 +18,9 @@ ansible_homebrew=1	# Force use of Ansible from Homebrew
 # Environment configuration
 deploy_env="local"
 
+# Local variables
+local_vars_file="machine.yaml"
+
 # Ansible playbook options
 ansible_playbook="playbooks/main.yml"
 ansible_roles="playbooks/roles"
@@ -169,6 +172,11 @@ function ansible_bin_prefix {
 function run_ansible_playbook {
 
     local ansible_opts=""
+
+    if [ -e "${local_vars_file}" ]; then
+        echo "*** Loading variables from ${local_vars_file}"
+        ansible_opts="--extra-vars @${local_vars_file}"
+    fi
 
     if [ "${ansible_verbose}" == "1" ]; then
         ansible_opts="-v ${ansible_opts}"
