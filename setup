@@ -6,23 +6,29 @@ syntax_check=0  # Run command to check syntax
 list_tags=0     # Run command to list tags
 
 # Setup options
-install_roles=1
-install_ansible=1
-install_homebrew=1
+install_roles=1		# Install Ansible roles
+install_ansible=1	# Install Ansible
+print_versions=0 	# Print Python and Ansible versions
+force_update_roles=0	# Force Ansible roles to be updated
+
+# macOS specific setup options
+install_homebrew=1	# Install Homebrew
+ansible_homebrew=1	# Force use of Ansible from Homebrew
 
 # Environment configuration
 deploy_env="local"
 
-# Force use of Ansible from Homebrew
-ansible_homebrew=1
-
 # Ansible playbook options
 ansible_playbook="playbooks/main.yml"
 ansible_roles="playbooks/roles"
+ansible_roles_opts=""
 ansible_tags=""
 ansible_skip_tags=""
 ansible_verbose=0
 ansible_become=0
+
+# Ansible version test
+required_ansible_version="2.4"
 
 ###
 # Print error into STDERR
@@ -37,6 +43,7 @@ function error {
 function show_help {
     echo "Usage: $0"
     echo " -h         Show this help"
+    echo " -f         Force update of Ansible roles"
     echo " -v         Verbose mode"
     echo " -n         Do not run Ansible playbook"
     echo " -q         Do not install Ansible requirements"
@@ -47,23 +54,36 @@ function show_help {
 }
 
 ###
+# Check Ansible version
+###
+function check_ansible_version {
+    local IFS=.
+    local required=($1)
+    local ansible_bin="$(ansible_bin_prefix)ansible"
+    local ansible_version=$(${ansible_bin} --version | grep "^ansible" | awk '{ print $2 }')
+    if [ -z "$ansible_version" ]; then
+        return 1
+    fi
+    local installed=($ansible_version)
+    if ((${installed[0]} < ${required[0]})); then
+        return 1
+    fi
+    if ((${installed[1]} < ${required[1]})); then
+        return 1
+    fi
+    return 0
+}
+
+###
 # Install dependencies on macOS
 ###
 function install_macos_dependencies {
     if [ "$install_homebrew" == "1" ]; then
-        if test ! $(which gcc); then
-            install_xcode_cli
-        fi
-        if test ! "$(which brew)"; then
-            install_homebrew
-        fi
+        install_xcode_cli
+        install_homebrew
     fi
     if [ "$install_ansible" == "1" ]; then
-        if test ! "$(which ansible)"; then
-            install_ansible_with_homebrew
-        elif [ "$(brew --prefix ansible)" == "" ]; then
-            install_ansible_with_homebrew
-        fi
+        install_ansible
     fi
 }
 
@@ -71,6 +91,9 @@ function install_macos_dependencies {
 # Install Xcode Command Line Tools
 ###
 function install_xcode_cli {
+    if test $(which gcc); then
+        return 0
+    fi
     local errmsg="Failed to install Xcode Command Line Tools"
     echo "*** Installing Xcode Command Line Tools..."
     xcode-select --install \
@@ -81,12 +104,32 @@ function install_xcode_cli {
 # Install Homebrew
 ###
 function install_homebrew {
+    if test "$(which brew)"; then
+        return 0
+    fi
     local url="https://raw.githubusercontent.com"
     url="${url}/Homebrew/install/master/install"
     local errmsg="Failed to install Homebrew"
     echo "*** Installing Homebrew..."
     ruby -e "$(curl -fsSL ${url})" \
         || { error "${errmsg}"; exit 1; }
+}
+
+###
+# Install Ansible
+###
+function install_ansible {
+    if test "$(which ansible)"; then
+        # If we don't require Ansible from Homebrew
+        if [ "${ansible_homebrew}" == "0" ]; then
+            return 0
+        fi
+        # Check if Ansible is installed with Homebrew
+        if [ "$(brew --prefix ansible)" != "" ]; then
+            return 0
+        fi
+    fi
+    install_ansible_with_homebrew
 }
 
 ###
@@ -139,6 +182,11 @@ function run_ansible_playbook {
         ansible_opts="--skip-tags=${ansible_skip_tags} ${ansible_opts}"
     fi
 
+    if [ "${ansible_become}" == "1" ]; then
+        ansible_opts="--become ${ansible_opts}"
+        sudo true || exit 1
+    fi
+
     $(ansible_bin_prefix)ansible-playbook ${ansible_playbook} \
         $(ansible_inventory) \
         ${ansible_opts}
@@ -185,12 +233,15 @@ function setup_dependencies {
     if test "$(uname)" = "Darwin"; then
         install_macos_dependencies
     elif test "$(uname)" = "Linux"; then
-        error "Linux is not currently supported."
+        error "Linux is not supported"
+        exit 1
+    else
+        error "Your system is not supported"
         exit 1
     fi
 
     if test ! "$(which ansible)"; then
-        error "You system is not supported yet."
+        error "Your system is not supported"
         exit 1
     fi
 
@@ -200,13 +251,23 @@ function setup_dependencies {
 }
 
 ###
+# Configuration
+###
+function configure {
+    ansible_become=0
+}
+
+###
 # Parse command line options
 ###
-while getopts ":hcnqlsvt:i:" opt; do
+while getopts ":hfcnqlsvt:i:" opt; do
     case $opt in
         h)
             show_help
             exit 0
+            ;;
+        f)
+            force_update_roles=1
             ;;
         n)
             run_playbook=0
@@ -226,6 +287,7 @@ while getopts ":hcnqlsvt:i:" opt; do
             ;;
         v)
             ansible_verbose=1
+            print_versions=1
             ;;
         i)
             ansible_skip_tags=$OPTARG
@@ -246,6 +308,20 @@ while getopts ":hcnqlsvt:i:" opt; do
 done
 
 setup_dependencies
+
+if [ "$print_versions" == "1" ]; then
+    python --version
+    ansible --version
+fi
+
+if ! check_ansible_version $required_ansible_version; then
+    error "Ansible $required_ansible_version required"
+    exit 1
+fi
+
+if [ "$force_update_roles" == "1" ]; then
+    ansible_roles_opts="${ansible_roles_opts} --force"
+fi
 
 if [ "$install_roles" == "1" ]; then
     install_ansible_roles
