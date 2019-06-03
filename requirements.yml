@@ -1,5 +1,7 @@
 ---
 
+- name: markosamuli.asdf
+  version: v1.0.0
 - name: markosamuli.aws-tools
   src: https://github.com/markosamuli/ansible-aws-tools
   version: v1.0.1
@@ -15,11 +17,10 @@
   src: https://github.com/markosamuli/ansible-packer
   version: v1.0.0
 - name: markosamuli.pyenv
-  version: v1.4.0
+  src: https://github.com/markosamuli/ansible-pyenv
+  version: develop
 - name: markosamuli.terraform
   version: v1.2.1
 - name: markosamuli.vagrant
   src: https://github.com/markosamuli/ansible-vagrant
-  version: v1.0.0
-- name: markosamuli.asdf
   version: v1.0.0
