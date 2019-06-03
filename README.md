@@ -1,6 +1,9 @@
 # Development macOS Setup
 
-[![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=master)](https://travis-ci.org/markosamuli/macos-machine)
+| Branch  | Status |
+|---------|--------|
+| master  | [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=master)](https://travis-ci.org/markosamuli/macos-machine)
+| develop | [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=develop)](https://travis-ci.org/markosamuli/macos-machine)
 
 This is a collection of Ansible roles and tasks to setup a new developer machine
 on macOS.
@@ -8,7 +11,9 @@ on macOS.
 This setup has only been tested on the macOS Sierra and not against existing
 installations.
 
-See [markosamuli/linux-machine](https://github.com/markosamuli/linux-machine) for my Ubuntu Linux setup.
+See [markosamuli/linux-machine] for my Ubuntu Linux setup.
+
+[markosamuli/linux-machine]: https://github.com/markosamuli/linux-machine
 
 ## Requirements
 
@@ -51,7 +56,7 @@ Ansible Playbook with `--extra-vars`.
 
 ### Installation tools
 
-The following tools are prequiresites and always installed during setup if not
+The following tools are prerequisites and always installed during setup if not
 already found on the system.
 
 - Xcode Command Line Tools
@@ -70,22 +75,41 @@ already found on the system.
 - [GNU Wget](https://www.gnu.org/software/wget/)
 - [jq](https://stedolan.github.io/jq/) command-line JSON processor
 - [The Silver Searcher](https://github.com/ggreer/the_silver_searcher) code
-  searcing utility similar to `ack`
+  searching utility similar to `ack`
 
 ### Editors
 
-- [Visual Studio Code](https://code.visualstudio.com/)
-- [Atom](https://atom.io/)
+- [Visual Studio Code]
+- [Atom]
 
-### Programming languages and version managers
+[Visual Studio Code]: https://code.visualstudio.com/
+[Atom]: https://atom.io/
 
-- [Node Version Manager](https://github.com/creationix/nvm) (NVM)
-- [Node.js](https://nodejs.org/en/) stable installed with NMV
-- [virtualenv](https://virtualenv.pypa.io/en/latest/)
-- [pyenv](https://github.com/pyenv/pyenv)
-- [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
-- [Python](https://www.python.org/) v2.7 and v3.7 installed with pyenv
-- [Go programming language](https://golang.org/)
+### Python
+
+Use [pyenv] to install and manage Python versions for the current user:
+
+- [pyenv]
+- [pyenv-virtualenv]
+- [Python] v2.7 and v3.7 installed with pyenv
+
+[Python]: https://www.python.org/
+[pyenv]: https://github.com/pyenv/pyenv
+[pyenv-virtualenv]: https://github.com/pyenv/pyenv-virtualenv
+
+### Node.js
+
+- [Node Version Manager] (NVM)
+- [Node.js] LTS installed with NMV
+
+[Node Version Manager]: https://github.com/creationix/nvm
+[Node.js]: https://nodejs.org/en/
+
+### Other programming languages
+
+- [Go programming language]
+
+[Go programming language]: https://golang.org/
 
 ### Developer tools
 
@@ -119,7 +143,8 @@ backup copies of them before running the script.
 
 ## Ansible Roles
 
-The following external Ansible roles are installed and used:
+The following external Ansible roles are installed and used. See
+[requirements.yml] file for the installed versions.
 
 | Role | Build status |
 |------|--------------|
@@ -140,7 +165,18 @@ The following external Ansible roles are installed and used:
 [markosamuli.pyenv]: https://github.com/markosamuli/ansible-pyenv
 [markosamuli.terraform]: https://github.com/markosamuli/ansible-terraform
 [markosamuli.vagrant]: https://github.com/markosamuli/ansible-vagrant
+[requirements.yml]: requirements.yml
 
+## Development
+
+Install [pre-commit] hooks:
+
+```bash
+pre-commit install
+pre-commit install --hook-type pre-push
+```
+
+[pre-commit]: https://pre-commit.com/
 
 ## References
 
@@ -152,7 +188,7 @@ from  [caarlos0/machine] to suit my needs.
 
 ## License
 
-[MIT](LICENSE)
+- [MIT](LICENSE)
 
 ## Authors
 
