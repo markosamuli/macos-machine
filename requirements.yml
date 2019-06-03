@@ -17,8 +17,7 @@
   src: https://github.com/markosamuli/ansible-packer
   version: v1.0.0
 - name: markosamuli.pyenv
-  src: https://github.com/markosamuli/ansible-pyenv
-  version: develop
+  version: v1.5.0
 - name: markosamuli.terraform
   version: v1.2.1
 - name: markosamuli.vagrant
