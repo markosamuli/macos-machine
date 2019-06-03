@@ -1,0 +1,8 @@
+---
+
+- name: asdf version manager
+  hosts: all
+  become: False
+  roles:
+  - role: markosamuli.asdf
+    tags: asdf

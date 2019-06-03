@@ -21,3 +21,5 @@
 - name: markosamuli.vagrant
   src: https://github.com/markosamuli/ansible-vagrant
   version: v1.0.0
+- name: markosamuli.asdf
+  version: v1.0.0
