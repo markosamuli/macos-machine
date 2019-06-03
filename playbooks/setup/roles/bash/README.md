@@ -1,14 +1,12 @@
-Configure bash on macOS
-=======================
+# Configure bash on macOS
 
-Configure bash on macOS. At the moment this just adds `.bashrc` to be loaded from `.bash_profile`.
+Configure bash on macOS. At the moment this just adds `.bashrc` to be loaded
+from `.bash_profile`.
 
-License
--------
+## License
 
 MIT
 
-Authors
--------
+## Authors
 
 - [@markosamuli](https://github.com/markosamuli)
