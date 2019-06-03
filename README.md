@@ -17,8 +17,8 @@ See [markosamuli/linux-machine] for my Ubuntu Linux setup.
 
 ## Requirements
 
-- OS X 10.10 or higher
-- Xcode installed
+- Mac running macOS 10.13 (High Sierra) or later
+- Xcode 10.1 or later installed
 - Git installed
 
 ## Install

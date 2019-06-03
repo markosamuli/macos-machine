@@ -1,17 +1,16 @@
+# -*- mode: yaml -*-
+# vim:ts=2:sw=2:ai:si:syntax=yaml
+#
+# Travis CI configuration
+# https://docs.travis-ci.com/
+---
+
 language: generic
 sudo: required
 python: 2.7
 
 matrix:
   include:
-    - name: "macOS 10.13 (High Sierra) with Xcode 9.4 (uninstall Homebrew)"
-      os: osx
-      osx_image: xcode9.4
-      env: UNINSTALL_HOMEBREW=YES
-    - name: "macOS 10.13 (High Sierra) with Xcode 9.4"
-      os: osx
-      osx_image: xcode9.4
-      env: UNINSTALL_HOMEBREW=NO
     - name: "macOS 10.13 (High Sierra) with Xcode 10.1 (uninstall Homebrew)"
       os: osx
       osx_image: xcode10.1
