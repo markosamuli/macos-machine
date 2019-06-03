@@ -1,18 +1,8 @@
 ---
 
-- name: Setup variables and check requirements
-  hosts: all
-  tags:
-    - always
-  tasks:
+- import_playbook: setup/macos.yml
 
-    - name: Check that we're running macOS
-      assert:
-        that:
-          - "ansible_os_family == 'Darwin'"
-        msg: "This playbook only supports macOS systems"
-
-- import_playbook: macos.yml
+- import_playbook: common.yml
 - import_playbook: tools.yml
 - import_playbook: editors.yml
 - import_playbook: git.yml

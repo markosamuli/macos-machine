@@ -1,10 +1,5 @@
 ---
 
-- name: Initialise shell on macOS
-  hosts: all
-  roles:
-  - role: bash
-
 - name: Install common macOS applications
   hosts: all
   tasks:

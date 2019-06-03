@@ -1,0 +1,18 @@
+---
+
+- name: Setup variables and check requirements
+  hosts: all
+  tags:
+    - always
+  tasks:
+
+    - name: Check that we're running macOS
+      assert:
+        that:
+          - "ansible_os_family == 'Darwin'"
+        msg: "This playbook only supports macOS systems"
+
+- name: Initialise shell on macOS
+  hosts: all
+  roles:
+  - role: bash
