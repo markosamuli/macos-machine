@@ -85,6 +85,25 @@ already found on the system.
 [Visual Studio Code]: https://code.visualstudio.com/
 [Atom]: https://atom.io/
 
+### asdf version manager
+
+[asdf] version manager is installed without plugin configuration.
+
+To configure [asdf plugins] and package versions to install, add them
+into the `machine.yaml` configuration.
+
+```yaml
+asdf_plugins:
+  - name: terraform
+    versions:
+      - "0.11.14"
+  - name: doctl
+  - name: kubectl
+  - name: concourse
+```
+
+[asdf plugins]: https://asdf-vm.com/#/plugins-all
+
 ### Python
 
 Use [pyenv] to install and manage Python versions for the current user:

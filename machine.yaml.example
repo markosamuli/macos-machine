@@ -12,3 +12,27 @@
 
 # Google Cloud SDK version
 # gcloud_version: "236.0.0"
+
+# Install asdf plugins
+# asdf_plugins:
+#   - name: terraform
+#     versions:
+#       - "0.11.14"
+#   - name: doctl
+#     versions:
+#       - "1.19.0"
+#   - name: kubectl
+#     versions:
+#       - "1.14.2"
+#   - name: helm
+#     versions:
+#       - "2.14.0"
+#   - name: concourse
+#     versions:
+#       - "5.2.0"
+#   - name: packer
+#     versions:
+#       - "1.4.1"
+#   - name: minikube
+#     versions:
+#      - "1.1.0"
