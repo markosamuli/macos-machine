@@ -5,7 +5,6 @@
   tags:
     - always
   tasks:
-
     - name: Check that we're running macOS
       assert:
         that:
@@ -15,4 +14,4 @@
 - name: Initialise shell on macOS
   hosts: all
   roles:
-  - role: bash
+    - role: bash
