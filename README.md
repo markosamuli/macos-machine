@@ -172,7 +172,7 @@ The following external Ansible roles are installed and used. See
 Install [pre-commit] hooks:
 
 ```bash
-pre-commit install
+pre-commit install --install-hooks
 pre-commit install --hook-type pre-push
 ```
 
