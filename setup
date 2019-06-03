@@ -60,7 +60,10 @@ function show_help {
 # Get Ansible version
 ###
 function get_ansible_version {
-    $(ansible_bin_prefix)ansible --version | grep "^ansible" | awk '{ print $2 }'
+    $(ansible_bin_prefix)ansible \
+        --version \
+        | grep "^ansible" \
+        | awk '{ print $2 }'
 }
 
 ###
@@ -232,7 +235,7 @@ function ansible_inventory {
     echo ${ansible_opts}
 }
 
-### 
+###
 # List tags available in Ansible playbooks
 ###
 function ansible_playbook_list_tags {
