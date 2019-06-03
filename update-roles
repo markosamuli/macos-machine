@@ -12,10 +12,14 @@ except:
     from urllib.error import HTTPError
 
 def github_request_url(api):
-    access_token = os.environ['GITHUB_OAUTH_TOKEN']
+    """Get authenticated URL for a GitHub API path"""
     url = "https://api.github.com{api}".format(api=api)
-    if access_token:
-        url += "?access_token={access_token}".format(access_token=access_token)
+    try:
+        access_token = os.environ['GITHUB_OAUTH_TOKEN']
+        if access_token:
+            url += "?access_token={access_token}".format(access_token=access_token)
+    except:
+        pass
     return url
 
 def get_latest_version(repository):
@@ -39,22 +43,45 @@ def get_latest_version(repository):
             raise e
 
 def update_roles(roles):
+    """Update role versions in the requirements.yml"""
     roles_updated = 0
     updated_roles = []
+
     for role in roles:
-        repository = role['src'].replace('https://github.com/', '')
-        latest_version = get_latest_version(repository)
-        if latest_version != role['version']:
-            print("update {role}: {version} -> {latest_version}".format(role=role['name'], version=role['version'], latest_version=latest_version))
-            role['version'] = latest_version
-            roles_updated += 1
+
+        repository = None
+
+        if 'src' in role:
+            repository = role['src'].replace('https://github.com/', '')
+        else:
+            (galaxy_user, galaxy_role) = role['name'].split('.')
+            if galaxy_user == 'markosamuli':
+                repository = '{github_user}/{github_repo}'.format(
+                    github_user=galaxy_user,
+                    github_repo='ansible-%s' % galaxy_role)
+
+        if repository:
+            latest_version = get_latest_version(repository)
+            if latest_version != role['version']:
+                print("update {role}: {version} -> {latest_version}".format(role=role['name'], version=role['version'], latest_version=latest_version))
+                role['version'] = latest_version
+                roles_updated += 1
+        else:
+            print('Could not find repository for role {role_name}'.format(
+                role_name=role['name']))
+
         updated_roles.append(role)
+
     if roles_updated > 0:
+        if len(roles) > len(updated_roles):
+            raise 'Roles missing from updated roles list'
+
         role_file = 'requirements.yml'
         with open(role_file, 'w+') as f:
             yaml.safe_dump(updated_roles, f, default_flow_style=False)
 
 def ansible_roles():
+    """Return Ansible roles from the requirements.yml file"""
     roles = []
     role_file = 'requirements.yml'
     with open(role_file, 'r') as f:
