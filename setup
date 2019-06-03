@@ -57,17 +57,24 @@ function show_help {
 }
 
 ###
+# Get Ansible version
+###
+function get_ansible_version {
+    $(ansible_bin_prefix)ansible --version | grep "^ansible" | awk '{ print $2 }'
+}
+
+###
 # Check Ansible version
 ###
 function check_ansible_version {
     local IFS=.
     local required=($1)
-    local ansible_bin="$(ansible_bin_prefix)ansible"
-    local ansible_version=$(${ansible_bin} --version | grep "^ansible" | awk '{ print $2 }')
-    if [ -z "$ansible_version" ]; then
+    local installed_ansible_version=""
+    installed_ansible_version=$(get_ansible_version)
+    if [ -z "$installed_ansible_version" ]; then
         return 1
     fi
-    local installed=($ansible_version)
+    local installed=($installed_ansible_version)
     if ((${installed[0]} < ${required[0]})); then
         return 1
     fi
@@ -154,6 +161,7 @@ function install_ansible_roles {
     $(ansible_bin_prefix)ansible-galaxy install \
         -r requirements.yml \
         -p ${ansible_roles} \
+        ${ansible_roles_opts} \
         || { error "${errmsg}"; exit 1; }
 }
 
@@ -315,6 +323,10 @@ while getopts ":hfcnqlsvt:i:" opt; do
     esac
 done
 
+# Configure options
+configure
+
+# Setup dependencies
 setup_dependencies
 
 if [ "$print_versions" == "1" ]; then
