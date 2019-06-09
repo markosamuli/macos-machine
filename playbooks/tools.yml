@@ -15,3 +15,7 @@
   - name: Install The Silver Searcher code searcing utility
     package:
       name: ag
+
+  - name: Install GNU sed
+    package:
+      name: gnu-sed
