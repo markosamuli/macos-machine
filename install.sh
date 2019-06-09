@@ -25,6 +25,16 @@ function setup_xcode {
 }
 
 ###
+# Check that Git is installed
+###
+function setup_git {
+    command -v git 1>/dev/null 2>&1 || {
+        echo "Git is not installed."
+        exit 1
+    }
+}
+
+###
 # Run setup script
 ###
 function setup_machine {
@@ -32,8 +42,9 @@ function setup_machine {
     ./setup
 }
 
-download_machine
-
 setup_xcode
+setup_git
+
+download_machine
 
 setup_machine
