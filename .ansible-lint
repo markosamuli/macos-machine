@@ -1,3 +1,12 @@
 exclude_paths:
 - .travis.yml
-- ./playbooks/roles/
+- playbooks/roles/markosamuli.asdf
+- playbooks/roles/markosamuli.aws-tools
+- playbooks/roles/markosamuli.gcloud
+- playbooks/roles/markosamuli.golang
+- playbooks/roles/markosamuli.hyper
+- playbooks/roles/markosamuli.nvm
+- playbooks/roles/markosamuli.packer
+- playbooks/roles/markosamuli.pyenv
+- playbooks/roles/markosamuli.terraform
+- playbooks/roles/markosamuli.vagrant
