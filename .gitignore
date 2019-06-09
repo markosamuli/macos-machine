@@ -6,7 +6,8 @@ playbooks/roles/*
 !playbooks/roles/bash
 
 # IDEs
-.vscode
+.vscode/*
+!.vscode/cSpell.json
 
 # Local configuration
 machine.yaml
