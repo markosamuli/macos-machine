@@ -6,10 +6,18 @@ syntax_check=0  # Run command to check syntax
 list_tags=0     # Run command to list tags
 
 # Setup options
-install_roles=1		# Install Ansible roles
-install_ansible=1	# Install Ansible
-print_versions=0 	# Print Python and Ansible versions
-force_update_roles=0	# Force Ansible roles to be updated
+install_roles=1         # Install Ansible roles
+install_ansible=1       # Install Ansible
+install_roles_force=0	# Force overwriting existing Ansible roles
+update_roles=0          # Update Ansible roles to the latest versions
+print_versions=0        # Print Python and Ansible versions
+
+# System properties
+is_macos=""     # macOS
+is_linux=""     # Linux
+is_ubuntu=""    # Ubuntu
+is_pengwin=""   # Pengwin
+is_wsl=""       # Windows Subsystem for Linux
 
 # macOS specific setup options
 install_homebrew=1	# Install Homebrew
@@ -33,6 +41,10 @@ ansible_become=0
 # Ansible version test
 required_ansible_version="2.4"
 
+# Ansible PPA to use
+ansible_version="2.7"
+ansible_ppa="ansible/ansible-2.7"
+
 ###
 # Print error into STDERR
 ###
@@ -46,12 +58,13 @@ function error {
 function show_help {
     echo "Usage: $0"
     echo " -h         Show this help"
-    echo " -f         Force update of Ansible roles"
+    echo " -f         Force overwriting existing Ansible roles"
     echo " -v         Verbose mode"
     echo " -n         Do not run Ansible playbook"
     echo " -q         Do not install Ansible requirements"
     echo " -l         List available Ansible tags"
     echo " -s         Ansible playbook syntax check"
+    echo " -u         Update Ansible roles to the latest versions"
     echo " -t TAGS    Run Ansible with the given comma separated list of tags"
     echo " -i TAGS    Skip the given list of tags"
 }
@@ -88,14 +101,23 @@ function check_ansible_version {
 }
 
 ###
+# Install dependencies on Linux
+###
+function install_linux_dependencies {
+    if [ "${install_ansible}" == "1" ]; then
+        install_ansible
+    fi
+}
+
+###
 # Install dependencies on macOS
 ###
 function install_macos_dependencies {
-    if [ "$install_homebrew" == "1" ]; then
+    if [ "${install_homebrew}" == "1" ]; then
         install_xcode_cli
         install_homebrew
     fi
-    if [ "$install_ansible" == "1" ]; then
+    if [ "${install_ansible}" == "1" ]; then
         install_ansible
     fi
 }
@@ -132,6 +154,37 @@ function install_homebrew {
 # Install Ansible
 ###
 function install_ansible {
+    if [ "${is_macos}" == "1" ]; then
+        install_ansible_on_macos
+    elif [ "${is_linux}" == "1" ]; then
+        install_ansible_on_linux
+    else
+        error "Your system is not supported"
+        exit 1
+    fi
+}
+
+###
+# Install Ansible on Linux
+###
+function install_ansible_on_linux {
+    if test "$(which ansible)"; then
+        return 0
+    fi
+    if [ "${is_ubuntu}" == "1" ]; then
+        install_ansible_on_ubuntu
+    elif [ "${is_pengwin}" == "1" ]; then
+        install_ansible_on_debian
+    else
+        error "Your system is not supported"
+        exit 1
+    fi
+}
+
+###
+# Install Ansible on macOS
+###
+function install_ansible_on_macos {
     if test "$(which ansible)"; then
         # If we don't require Ansible from Homebrew
         if [ "${ansible_homebrew}" == "0" ]; then
@@ -156,6 +209,48 @@ function install_ansible_with_homebrew {
 }
 
 ###
+# Install Ansible with APT on Ubuntu
+###
+function install_ansible_on_ubuntu {
+
+    add_ansible_ppa_key
+
+    echo "*** Add ${ansible_ppa} PPA repository..."
+    sudo apt-get install -y software-properties-common
+    sudo apt-add-repository -y "ppa:${ansible_ppa}"
+    sudo apt-get update
+
+    echo "*** Installing Ansible ${ansible_version}..."
+    sudo apt-get install -y "ansible=${ansible_version}*"
+}
+
+###
+# Install Ansible with APT on Debian
+###
+function install_ansible_on_debian {
+
+    add_ansible_ppa_key
+
+    echo "*** Add ${ansible_ppa} PPA repository..."
+    local deb_url="http://ppa.launchpad.net/${ansible_ppa}/ubuntu"
+    local apt_list="/etc/apt/sources.list.d/ansible.list"
+    sudo sh -c "echo 'deb ${deb_url} trusty main' > ${apt_list}"
+    sudo apt-get update
+
+    echo "*** Installing Ansible ${ansible_version}..."
+    sudo apt-get install -y "ansible=${ansible_version}*"
+}
+
+###
+# Add Ansible PPA signing key
+###
+function add_ansible_ppa_key {
+    echo "*** Add Ansible PPA signing key..."
+    gpg --keyserver keyserver.ubuntu.com --recv 93C4A3FD7BB9C367
+    gpg --export --armor 93C4A3FD7BB9C367 | sudo apt-key add -
+}
+
+###
 # Install Ansible roles
 ###
 function install_ansible_roles {
@@ -169,11 +264,87 @@ function install_ansible_roles {
 }
 
 ###
+# Update Ansible roles
+###
+function update_ansible_roles {
+    local errmsg="Failed to update Ansible roles"
+    echo "*** Installing Python requirements..."
+    pip install -r requirements.txt
+    echo "*** Updating Ansible roles..."
+    ./update-roles || { error "${errmsg}"; exit 1; }
+}
+
+###
+# Detect if we're running macOS or Linux
+###
+function detect_os {
+    if test "$(uname)" = "Darwin"; then
+        is_macos=1
+        is_linux=0
+    elif test "$(uname)" = "Linux"; then
+        is_linux=1
+        is_macos=0
+        detect_ubuntu
+        detect_pengwin
+        detect_wsl
+    else
+        error "Your system is not supported"
+        exit 1
+    fi
+}
+
+###
+# Detect Windows Subsystem for Linux
+###
+function detect_wsl {
+    if grep -q Microsoft /proc/version; then
+        echo "*** Windows Subsystem for Linux detected"
+        is_wsl=1
+    else
+        is_wsl=0
+    fi
+}
+
+###
+# Detect Ubuntu
+###
+function detect_ubuntu {
+    if test -f /etc/lsb-release; then
+        if grep -q Ubuntu /etc/lsb-release; then
+            echo "*** Ubuntu detected"
+            is_ubuntu=1
+        else
+            is_ubuntu=0
+        fi
+    else
+        is_ubuntu=0
+    fi
+}
+
+###
+# Detect Pengwin
+###
+function detect_pengwin {
+    if test -f /etc/os-release; then
+        if grep -q Pengwin /etc/os-release; then
+            echo "*** Pengwin detected"
+            is_pengwin=1
+        else
+            is_pengwin=0
+        fi
+    else
+        is_pengwin=0
+    fi
+}
+
+###
 # Ansible binary prefix
 ###
 function ansible_bin_prefix {
-    if [ "${ansible_homebrew}" == "1" ]; then
-        echo "$(brew --prefix ansible)/bin/"
+    if [ "${is_macos}" == "1" ]; then
+        if [ "${ansible_homebrew}" == "1" ]; then
+            echo "$(brew --prefix ansible)/bin/"
+        fi
     fi
 }
 
@@ -204,6 +375,14 @@ function run_ansible_playbook {
     if [ "${ansible_become}" == "1" ]; then
         ansible_opts="--become ${ansible_opts}"
         sudo true || exit 1
+    fi
+
+    if [ "${is_linux}" == "1" ]; then
+        if [ "${is_wsl}" == "1" ]; then
+            ansible_opts="-e {'is_wsl':True} ${ansible_opts}"
+        else
+            ansible_opts="-e {'is_wsl':False} ${ansible_opts}"
+        fi
     fi
 
     $(ansible_bin_prefix)ansible-playbook ${ansible_playbook} \
@@ -249,44 +428,50 @@ function ansible_playbook_list_tags {
 ###
 function setup_dependencies {
 
-    if test "$(uname)" = "Darwin"; then
+    if [ "${is_macos}" == "1" ]; then
         install_macos_dependencies
-    elif test "$(uname)" = "Linux"; then
-        error "Linux is not supported"
-        exit 1
+    elif [ "${is_linux}" == "1" ]; then
+        install_linux_dependencies
     else
         error "Your system is not supported"
         exit 1
     fi
 
-    if test ! "$(which ansible)"; then
-        error "Your system is not supported"
-        exit 1
+    local ansible_err="Ansible not found"
+    if [ "$(ansible_bin_prefix)" == "" ]; then
+        if test ! "$(which ansible)"; then
+            error "${ansible_err}"
+            exit 1
+        fi
+    else
+        $(ansible_bin_prefix)ansible --version >/dev/null \
+            || { error "${ansible_err}"; exit 1; }
     fi
 
-    local ansible_err="Ansible not found"
-    $(ansible_bin_prefix)ansible --version \
-        || { error "${ansible_err}"; exit 1; }
 }
 
 ###
 # Configuration
 ###
 function configure {
-    ansible_become=0
+    if [ "${is_macos}" == "1" ]; then
+        ansible_become=0
+    elif [ "${is_linux}" == "1" ]; then
+        ansible_become=1
+    fi
 }
 
 ###
 # Parse command line options
 ###
-while getopts ":hfcnqlsvt:i:" opt; do
+while getopts ":hfcnqlsvut:i:" opt; do
     case $opt in
         h)
             show_help
             exit 0
             ;;
         f)
-            force_update_roles=1
+            install_roles_force=1
             ;;
         n)
             run_playbook=0
@@ -308,6 +493,9 @@ while getopts ":hfcnqlsvt:i:" opt; do
             ansible_verbose=1
             print_versions=1
             ;;
+        u)
+            update_roles=1
+            ;;
         i)
             ansible_skip_tags=$OPTARG
             ;;
@@ -326,34 +514,41 @@ while getopts ":hfcnqlsvt:i:" opt; do
     esac
 done
 
+# Detect system properties
+detect_os
+
 # Configure options
 configure
 
 # Setup dependencies
 setup_dependencies
 
-if [ "$print_versions" == "1" ]; then
+if [ "${print_versions}" == "1" ]; then
     python --version
     ansible --version
 fi
 
-if ! check_ansible_version $required_ansible_version; then
-    error "Ansible $required_ansible_version required"
+if ! check_ansible_version ${required_ansible_version}; then
+    error "Ansible ${required_ansible_version} required"
     exit 1
 fi
 
-if [ "$force_update_roles" == "1" ]; then
+if [ "${update_roles}" == "1" ]; then
+    update_ansible_roles
+fi
+
+if [ "${install_roles_force}" == "1" ]; then
     ansible_roles_opts="${ansible_roles_opts} --force"
 fi
 
-if [ "$install_roles" == "1" ]; then
+if [ "${install_roles}" == "1" ]; then
     install_ansible_roles
 fi
 
-if [ "$list_tags" == "1" ]; then
+if [ "${list_tags}" == "1" ]; then
     ansible_playbook_list_tags
-elif [ "$syntax_check" == "1" ]; then
+elif [ "${syntax_check}" == "1" ]; then
     check_ansible_playbook_syntax
-elif [ "$run_playbook" == "1" ]; then
+elif [ "${run_playbook}" == "1" ]; then
     run_ansible_playbook
 fi
