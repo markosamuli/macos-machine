@@ -13,7 +13,9 @@ indent_size = 4
 [*.md]
 indent_style = space
 indent_size = 2
+max_line_length = 80
 
-[{*.yml,*.yaml,.ansible-lint}]
+[{*.yml,*.yaml,.ansible-lint,.yamllint}]
 indent_style = space
 indent_size = 2
+
