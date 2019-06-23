@@ -1,7 +1,4 @@
 ---
 
-# Default Node.js version to install (NVM aliases supported)
-# nvm_default_node_version: "lts/*"
-
-# Make Python 2.7.15 default global version in pyenv
-# pyenv_global: "2.7.15"
+# Do not install pyenv from package manager
+pyenv_install_from_package_manager: false
