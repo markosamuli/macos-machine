@@ -1,0 +1,16 @@
+---
+
+- name: iTerm
+  hosts: all
+  tasks:
+
+  - name: Check if iTerm has been installed
+    stat:
+      path: /Applications/iTerm.app
+    register: iterm_st
+    changed_when: False
+
+  - name: Install iTerm2
+    homebrew_cask:
+      name: iterm2
+    when: not iterm_st.stat.exists

@@ -1,0 +1,16 @@
+---
+
+- name: Google Drive File Stream
+  hosts: all
+  tags: gdfs
+  tasks:
+    - name: Check if Google Drive File Stream has been installed
+      stat:
+        path: /Applications/Google Drive File Stream.app
+      register: gdfs_st
+      changed_when: False
+
+    - name: Install Google Drive File Stream
+      homebrew_cask:
+        name: google-drive-file-stream
+      when: not gdfs_st.stat.exists
