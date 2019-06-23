@@ -1,6 +1,6 @@
 ---
 
-- name: Install additional tools
+- name: DevOps tools
   hosts: all
   tasks:
     - name: Install certbot with Homebrew

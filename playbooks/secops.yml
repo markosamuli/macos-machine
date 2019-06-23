@@ -1,6 +1,6 @@
 ---
 
-- name: Install SecOps tools
+- name: SecOps tools
   hosts: all
   tasks:
 

@@ -3,8 +3,9 @@
 - name: Git
   hosts: all
   tasks:
-
-  - name: Installing Git on macOS
+  - name: Installing Git
     package:
-      name: "git"
-    tags: git
+      name: git
+    tags:
+    - git
+    - frontend
