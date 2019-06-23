@@ -21,6 +21,7 @@
 - import_playbook: gcloud.yml
 - import_playbook: aws.yml
 
-- import_playbook: hashicorp.yml
+- import_playbook: terraform.yml
+- import_playbook: packer.yml
 - import_playbook: devops.yml
 - import_playbook: secops.yml
