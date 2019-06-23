@@ -5,9 +5,12 @@
 # https://docs.travis-ci.com/
 ---
 
+# Run tests against pull requests and main branches only
+if: |
+  type = pull_request OR \
+  branch IN (master, develop)
+
 language: generic
-sudo: required
-python: 2.7
 
 matrix:
   include:
@@ -27,14 +30,6 @@ matrix:
       os: osx
       osx_image: xcode10.2
       env: UNINSTALL_HOMEBREW=NO
-
-branches:
-  only:
-    - master
-    - develop
-    - /^feature\/.*$/
-    - /^bugfix\/.*$/
-    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 
 before_install:
 
