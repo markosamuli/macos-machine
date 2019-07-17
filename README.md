@@ -1,6 +1,7 @@
 # Development macOS Setup
 
 [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=master)](https://travis-ci.org/markosamuli/macos-machine)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmarkosamuli%2Fmacos-machine.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmarkosamuli%2Fmacos-machine?ref=badge_shield)
 
 This is a collection of Ansible roles and tasks to setup a new developer machine
 on macOS.
@@ -147,6 +148,9 @@ from  [caarlos0/machine] to suit my needs.
 ## License
 
 [MIT](LICENSE)
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmarkosamuli%2Fmacos-machine.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmarkosamuli%2Fmacos-machine?ref=badge_large)
 
 ## Authors
 
