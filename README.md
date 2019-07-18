@@ -10,19 +10,20 @@ on macOS.
 
 Read my [Machine Setup Guide][machine-setup-guide] for instructions.
 
-This setup has only been tested on the macOS Sierra and not against existing
-installations.
-
-See [markosamuli/linux-machine] for my Ubuntu Linux setup.
-
 [machine-setup-guide]: https://machine.msk.io/
-[markosamuli/linux-machine]: https://github.com/markosamuli/linux-machine
 
 ## Requirements
 
 - Mac running macOS 10.13 (High Sierra) or later
 - Xcode 10.1 or later installed
 - Git installed
+
+This setup has only been tested on the macOS Sierra and not against existing
+installations.
+
+See [markosamuli/linux-machine] for my Ubuntu Linux setup.
+
+[markosamuli/linux-machine]: https://github.com/markosamuli/linux-machine
 
 ## Install
 
