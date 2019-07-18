@@ -8,11 +8,14 @@
 This is a collection of Ansible roles and tasks to setup a new developer machine
 on macOS.
 
+Read my [Machine Setup Guide][machine-setup-guide] for instructions.
+
 This setup has only been tested on the macOS Sierra and not against existing
 installations.
 
 See [markosamuli/linux-machine] for my Ubuntu Linux setup.
 
+[machine-setup-guide]: https://machine.msk.io/
 [markosamuli/linux-machine]: https://github.com/markosamuli/linux-machine
 
 ## Requirements
