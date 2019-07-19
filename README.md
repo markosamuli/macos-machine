@@ -78,6 +78,7 @@ already found on the system.
 
 - [GNU Wget](https://www.gnu.org/software/wget/)
 - [GNU sed](https://www.gnu.org/software/sed/)
+- [GNU tar](https://www.gnu.org/software/tar/)
 - [jq](https://stedolan.github.io/jq/) command-line JSON processor
 - [The Silver Searcher](https://github.com/ggreer/the_silver_searcher) code
   searching utility similar to `ack`
@@ -117,6 +118,24 @@ Use [pyenv] to install and manage Python versions for the current user:
 - [pyenv-virtualenv]
 - [Python] v2.7 and v3.7 installed with pyenv
 
+The [markosamuli.pyenv] role will modify your `.bashrc` and `.zshrc` files
+during the setup. If you want to disable this, edit `machine.yaml` configuration
+and disable the following configuration option.
+
+```yaml
+# Do not configure pyenv shell when using existing dotfiles
+pyenv_init_shell: false
+```
+
+Note that pyenv will be installed from Git instead of Homebrew. If you prefer to
+install pyenv using package manager, enable it in the `machine.yaml`
+configuration file:
+
+```yaml
+# Install pyenv from package manager
+pyenv_install_from_package_manager: true
+```
+
 [Python]: https://www.python.org/
 [pyenv]: https://github.com/pyenv/pyenv
 [pyenv-virtualenv]: https://github.com/pyenv/pyenv-virtualenv
@@ -146,7 +165,11 @@ Use [pyenv] to install and manage Python versions for the current user:
 
 - [Terraform](https://www.terraform.io/)
 - [Packer](https://packer.io/)
-- [Google Cloud SDK](https://cloud.google.com/sdk/)
+- [Certbot](https://certbot.eff.org/)
+- [Nmap](https://nmap.org/) utility for network discovery and security auditing
+
+### Amazon Web Services
+
 - [AWS CLI](https://aws.amazon.com/cli/)
 - [aws-shell](https://github.com/awslabs/aws-shell) - interactive shell for
   AWS CLI
@@ -154,8 +177,21 @@ Use [pyenv] to install and manage Python versions for the current user:
   storing and accessing AWS credentials in development environments
 - [cli53](https://github.com/barnybug/cli53) - command line tool for Amazon
   Route 53
-- [Certbot](https://certbot.eff.org/)
-- [Nmap](https://nmap.org/) utility for network discovery and security auditing
+
+### Google Cloud Platform
+
+- [Google Cloud SDK] installed from the archive file under user home directory
+
+The [markosamuli.gcloud] role will modify your `.bashrc` and `.zshrc` files.
+To disable this and manage the configuration yourself, disable the following
+configuration option in the `machine.yaml` file.
+
+```yaml
+# Do not set up Cloud SDK shell when using existing dotfiles
+gcloud_setup_shell: false
+```
+
+[Google Cloud SDK]: https://cloud.google.com/sdk/
 
 ## Changes to existing configuration
 

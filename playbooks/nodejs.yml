@@ -1,9 +1,9 @@
 ---
 
-- name: NVM and Node.js
+- name: Node version management
   hosts: all
   roles:
-
   - role: markosamuli.nvm
     tags:
     - nvm
+    - frontend

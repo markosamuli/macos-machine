@@ -2,8 +2,7 @@
 
 - name: Python version management
   hosts: all
+  tags: python
   roles:
-
   - role: markosamuli.pyenv
-    tags:
-    - pyenv
+    tags: pyenv

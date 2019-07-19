@@ -19,3 +19,7 @@
   - name: Install GNU sed
     package:
       name: gnu-sed
+
+  - name: Install GNU tar
+    package:
+      name: gnu-tar

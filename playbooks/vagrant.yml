@@ -2,6 +2,6 @@
 
 - name: Vagrant
   hosts: all
+  tags: vagrant
   roles:
   - role: markosamuli.vagrant
-    tags: vagrant

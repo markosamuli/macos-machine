@@ -2,19 +2,26 @@
 
 - import_playbook: setup/macos.yml
 
-- import_playbook: common.yml
+- import_playbook: iterm.yml
+- import_playbook: slack.yml
+- import_playbook: gdfs.yml
+
 - import_playbook: tools.yml
 - import_playbook: editors.yml
 - import_playbook: git.yml
 - import_playbook: asdf.yml
 
-- import_playbook: front-end-toolkit.yml
+- import_playbook: nodejs.yml
 - import_playbook: python.yml
+- import_playbook: golang.yml
+
 - import_playbook: vagrant.yml
 - import_playbook: docker.yml
+
 - import_playbook: gcloud.yml
 - import_playbook: aws.yml
-- import_playbook: hashicorp.yml
-- import_playbook: golang.yml
+
+- import_playbook: terraform.yml
+- import_playbook: packer.yml
 - import_playbook: devops.yml
 - import_playbook: secops.yml
