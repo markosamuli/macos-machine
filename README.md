@@ -74,6 +74,10 @@ already found on the system.
 - [Google Drive File Stream](https://support.google.com/drive/answer/7329379?hl=en)
 - [Slack](https://slack.com/downloads/osx) desktop application
 
+### Shell
+
+- [Zsh](https://www.zsh.org/)
+
 ### Command line tools
 
 - [GNU Wget](https://www.gnu.org/software/wget/)
@@ -83,13 +87,16 @@ already found on the system.
 - [The Silver Searcher](https://github.com/ggreer/the_silver_searcher) code
   searching utility similar to `ack`
 
+### macOS customization and automation
+
+- [Hammerspoon](https://www.hammerspoon.org/)
+- [Hazel](https://www.noodlesoft.com/)
+
 ### Editors
 
 - [Visual Studio Code]
-- [Atom]
 
 [Visual Studio Code]: https://code.visualstudio.com/
-[Atom]: https://atom.io/
 
 ### asdf version manager
 
