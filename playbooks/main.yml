@@ -28,6 +28,9 @@
 
 - import_playbook: terraform.yml
 - import_playbook: packer.yml
-- import_playbook: devops.yml
+
+- import_playbook: certbot.yml
+  when: install_certbot | bool
+
 - import_playbook: nmap.yml
   when: install_nmap | bool
