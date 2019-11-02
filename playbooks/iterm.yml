@@ -2,6 +2,7 @@
 
 - name: iTerm
   hosts: all
+  tags: iterm
   tasks:
 
   - name: Check if iTerm has been installed
