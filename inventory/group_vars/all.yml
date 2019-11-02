@@ -53,3 +53,6 @@ install_certbot: false
 
 # Install nmap
 install_nmap: false
+
+# Install MacVim instead of Vim
+install_macvim: false

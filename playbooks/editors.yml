@@ -10,12 +10,30 @@
       name: visual-studio-code
     tags: vscode
 
+  - name: Uninstall Vim
+    homebrew:
+      name: vim
+      state: absent
+    tags: vim
+    when: install_macvim | bool
+
+  - name: Uninstall MacVim
+    homebrew:
+      name: macvim
+      state: absent
+    tags: vim
+    when: not install_macvim | bool
+
   - name: Install Vim
     homebrew:
       name: vim
+      state: present
     tags: vim
+    when: not install_macvim | bool
 
   - name: Install MacVim
     homebrew:
       name: macvim
+      state: present
     tags: vim
+    when: install_macvim | bool

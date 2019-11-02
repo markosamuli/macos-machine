@@ -95,8 +95,18 @@ already found on the system.
 ### Editors
 
 - [Visual Studio Code]
+- [Vim] or [MacVim] package from Homebrew
+
+To install MacVim instead of Vim, update `machine.yaml` with the following
+configuration:
+
+```yaml
+install_macvim: true
+```
 
 [Visual Studio Code]: https://code.visualstudio.com/
+[Vim]: https://www.vim.org/
+[MacVim]: https://github.com/macvim-dev/macvim
 
 ### asdf version manager
 
