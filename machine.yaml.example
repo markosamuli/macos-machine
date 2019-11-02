@@ -27,9 +27,6 @@
 
 # Install asdf plugins
 # asdf_plugins:
-#   - name: terraform
-#     versions:
-#       - "0.11.14"
 #   - name: doctl
 #     versions:
 #       - "1.19.0"

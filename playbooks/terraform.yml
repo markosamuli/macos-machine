@@ -5,31 +5,43 @@
   tags: terraform
   tasks:
 
-  - name: Check if Terraform is installed with asdf
-    stat:
-      path: "{{ ansible_env.HOME }}/.asdf/installs/terraform"
-    register: asdf_terraform_install
-
   - name: Remove /usr/bin/terraform binary
     file:
       path: /usr/bin/terraform
       state: absent
 
-  - name: Remove /usr/local/bin/terraform binary
-    file:
-      path: /usr/local/bin/terraform
-      state: absent
-    when: asdf_terraform_install.stat.exists
-
   - name: Remove /opt/terraform directory
     file:
       path: /opt/terraform
       state: absent
-    when: asdf_terraform_install.stat.exists
 
-- name: Install Terraform if not installed with asdf
-  hosts: all
-  tags: terraform
-  roles:
-  - role: markosamuli.terraform
-    when: not asdf_terraform_install.stat.exists
+  - name: Remove Terraform asdf plugin
+    file:
+      path: "{{ ansible_env.HOME }}/.asdf/plugins/terraform"
+      state: absent
+
+  - name: Remove Terraform asdf installation
+    file:
+      path: "{{ ansible_env.HOME }}/.asdf/installs/terraform"
+      state: absent
+
+  - name: Remove Terraform asdf shim
+    file:
+      path: "{{ ansible_env.HOME }}/.asdf/shims/terraform"
+      state: absent
+
+  - name: Install Terraform version manager
+    package:
+      name: tfenv
+
+  - name: Install latest Terraform version
+    command: tfenv install latest
+    register: tfenv_install_latest
+    changed_when: "'Installing' in tfenv_install_latest.stdout"
+
+# - name: Install Terraform if not installed with asdf
+#   hosts: all
+#   tags: terraform
+#   roles:
+#     - role: markosamuli.terraform
+#       when: not asdf_terraform_install.stat.exists

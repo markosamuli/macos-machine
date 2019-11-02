@@ -107,14 +107,12 @@ into the `machine.yaml` configuration.
 
 ```yaml
 asdf_plugins:
-  - name: terraform
-    versions:
-      - "0.11.14"
   - name: doctl
   - name: kubectl
   - name: concourse
 ```
 
+[asdf]: https://asdf-vm.com
 [asdf plugins]: https://asdf-vm.com/#/plugins-all
 
 ### Python
@@ -170,10 +168,19 @@ pyenv_install_from_package_manager: true
 
 ### DevOps and Cloud tools
 
-- [Terraform](https://www.terraform.io/)
 - [Packer](https://packer.io/)
 - [Certbot](https://certbot.eff.org/)
 - [Nmap](https://nmap.org/) utility for network discovery and security auditing
+
+### Terraform
+
+Install [tfenv] version manager for [Terraform]
+
+Any previous conflicting installations using [asdf] or
+[markosamuli.terraform] role are removed.
+
+[Terraform]: https://www.terraform.io/
+[tfenv]: https://github.com/tfutils/tfenv
 
 ### Amazon Web Services
 
