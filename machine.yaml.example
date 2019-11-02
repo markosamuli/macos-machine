@@ -28,6 +28,18 @@
 # Install Lua programming language
 # lua_install: true
 
+# Do not install Node.js programming language
+# install_nodejs: false
+
+# Do not install Python programming language
+# install_python: false
+
+# Do not install Go programming language
+# install_golang: false
+
+# Install asdf-vm
+# install_asdf: true
+
 # Install asdf plugins
 # asdf_plugins:
 #   - name: doctl

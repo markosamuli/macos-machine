@@ -3,8 +3,50 @@
 # Do not install pyenv from package manager
 pyenv_install_from_package_manager: false
 
+# Install asdf-vm
+install_asdf: false
+
 # Install Lua programming language
 install_lua: false
+
+# Install Node.js programming language
+install_nodejs: true
+
+# Install Python programming language
+install_python: true
+
+# Install Go programming language
+install_golang: true
+
+# Install Hazel automation tool
+install_hazel: false
+
+# Install Hammerspoon automation tool
+install_hammerspoon: false
+
+# Install Google Drive File Stream
+install_gdfs: false
+
+# Install Slack
+install_slack: false
+
+# Install Vagrant and VirtualBox
+install_vagrant: false
+
+# Install Docker
+install_docker: true
+
+# Install Google Cloud SDK
+install_gcloud: true
+
+# Install AWS tools
+install_aws: true
+
+# Install Terraform
+install_terraform: true
+
+# Install Packer
+install_packer: true
 
 # Install Certbox
 install_certbot: false

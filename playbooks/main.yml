@@ -4,30 +4,55 @@
 
 - import_playbook: zsh.yml
 - import_playbook: iterm.yml
+
 - import_playbook: slack.yml
+  when: install_slack | bool
+
 - import_playbook: gdfs.yml
+  when: install_gdfs | bool
 
 - import_playbook: tools.yml
 - import_playbook: editors.yml
 - import_playbook: git.yml
+
 - import_playbook: asdf.yml
+  when: install_asdf | bool
+
 - import_playbook: hazel.yml
+  when: install_hazel | bool
+
 - import_playbook: hammerspoon.yml
+  when: install_hammerspoon | bool
+
 - import_playbook: lua.yml
   when: install_lua | bool
 
 - import_playbook: nodejs.yml
+  when: install_nodejs | bool
+
 - import_playbook: python.yml
+  when: install_python | bool
+
 - import_playbook: golang.yml
+  when: install_golang | bool
 
 - import_playbook: vagrant.yml
+  when: install_vagrant | bool
+
 - import_playbook: docker.yml
+  when: install_docker | bool
 
 - import_playbook: gcloud.yml
+  when: install_gcloud | bool
+
 - import_playbook: aws.yml
+  when: install_aws | bool
 
 - import_playbook: terraform.yml
+  when: install_terraform | bool
+
 - import_playbook: packer.yml
+  when: install_packer | bool
 
 - import_playbook: certbot.yml
   when: install_certbot | bool
