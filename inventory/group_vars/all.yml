@@ -2,3 +2,6 @@
 
 # Do not install pyenv from package manager
 pyenv_install_from_package_manager: false
+
+# Install Lua programming language
+install_lua: false

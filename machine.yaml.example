@@ -25,6 +25,9 @@
 # Do not set up Cloud SDK shell when using existing dotfiles
 # gcloud_setup_shell: false
 
+# Install Lua programming language
+# lua_install: true
+
 # Install asdf plugins
 # asdf_plugins:
 #   - name: doctl
