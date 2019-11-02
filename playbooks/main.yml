@@ -2,6 +2,7 @@
 
 - import_playbook: setup/macos.yml
 
+- import_playbook: zsh.yml
 - import_playbook: iterm.yml
 - import_playbook: slack.yml
 - import_playbook: gdfs.yml
