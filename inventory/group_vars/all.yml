@@ -5,3 +5,6 @@ pyenv_install_from_package_manager: false
 
 # Install Lua programming language
 install_lua: false
+
+# Install nmap
+install_nmap: false

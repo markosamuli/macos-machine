@@ -29,4 +29,5 @@
 - import_playbook: terraform.yml
 - import_playbook: packer.yml
 - import_playbook: devops.yml
-- import_playbook: secops.yml
+- import_playbook: nmap.yml
+  when: install_nmap | bool
