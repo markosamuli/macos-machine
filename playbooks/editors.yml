@@ -9,3 +9,13 @@
     homebrew_cask:
       name: visual-studio-code
     tags: vscode
+
+  - name: Install Vim
+    homebrew:
+      name: vim
+    tags: vim
+
+  - name: Install MacVim
+    homebrew:
+      name: macvim
+    tags: vim
