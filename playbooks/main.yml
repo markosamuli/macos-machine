@@ -10,6 +10,7 @@
 - import_playbook: editors.yml
 - import_playbook: git.yml
 - import_playbook: asdf.yml
+- import_playbook: hammerspoon.yml
 
 - import_playbook: nodejs.yml
 - import_playbook: python.yml

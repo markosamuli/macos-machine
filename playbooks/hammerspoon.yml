@@ -1,0 +1,27 @@
+
+---
+
+- name: Hammerspoon
+  hosts: all
+  tags:
+    - hammerspoon
+  tasks:
+
+    - name: Check if Hammerspoon has been installed
+      stat:
+        path: /Applications/Hammerspoon.app
+      register: hammerspoon_st
+      changed_when: False
+
+    - name: Install Hammerspoon
+      homebrew_cask:
+        name: hammerspoon
+      when: not hammerspoon_st.stat.exists
+
+    - name: Download ReloadConfiguration.spoon
+      unarchive:
+        src: https://github.com/Hammerspoon/Spoons/raw/master/Spoons/ReloadConfiguration.spoon.zip
+        dest: ~/.hammerspoon/Spoons
+        remote_src: yes
+        creates: ~/.hammerspoon/Spoons/ReloadConfiguration.spoon
+      register: reloadconfiguration_spoon
