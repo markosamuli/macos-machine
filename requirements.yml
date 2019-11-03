@@ -14,7 +14,7 @@
   version: v2.0.0
 - name: markosamuli.golang
   src: https://github.com/markosamuli/ansible-golang
-  version: develop
+  version: v1.2.0
 - name: markosamuli.nvm
   src: https://github.com/markosamuli/ansible-nvm
   version: v1.4.1
