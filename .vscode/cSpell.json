@@ -9,6 +9,7 @@
         "debian",
         "doctl",
         "env",
+        "feature",
         "gcloud",
         "gdfs",
         "goimports",
@@ -29,11 +30,13 @@
         "pengwin",
         "playbook",
         "playbooks",
+        "pyenv",
         "recurse",
         "setup",
         "stat",
         "symlink",
         "vars",
+        "xcode",
         "xenial",
         "xerus"
     ]
