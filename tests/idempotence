@@ -4,39 +4,36 @@ passed=0
 failed=0
 total=0
 
-###
 # Run playbook
-###
-function run_playbook {
+run_playbook() {
     local playbook=$1
+    local status="failed"
     echo "*** Playbook: $playbook"
-    total=$((total+1))
+    total=$((total + 1))
     ansible-playbook \
-        -i inventory/local playbooks/$playbook | \
-        grep -q 'changed=0.*failed=0'
-    if [ "$?" == "0" ]; then
+        -i inventory/local "playbooks/$playbook" |
+        grep -q 'changed=0.*failed=0' && status="passed"
+    if [ "${status}" == "passed" ]; then
         echo "Idempotence test: pass on playbook $playbook"
-        passed=$((passed+1))
+        passed=$((passed + 1))
         return 0
     else
         echo "Idempotence test: fail on playbook $playbook"
-        failed=$((failed+1))
+        failed=$((failed + 1))
         return 1
     fi
 }
 
-###
 # Parse included playbooks from the main.yml file
-###
-function get_playbooks {
-    grep -e "- import_playbook: .*\.yml" playbooks/main.yml | \
-        grep -v vagrant.yml | \
+get_playbooks() {
+    grep -e "- import_playbook: .*\.yml" playbooks/main.yml |
+        grep -v vagrant.yml |
         sed 's/- import_playbook: //'
 }
 
 playbooks=$(get_playbooks)
 for playbook in $playbooks; do
-    run_playbook $playbook
+    run_playbook "$playbook"
 done
 
 if [ "$failed" -gt "0" ]; then
