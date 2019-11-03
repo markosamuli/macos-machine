@@ -6,4 +6,4 @@
     - golang
     - go
   roles:
-  - role: markosamuli.golang
+    - role: markosamuli.golang

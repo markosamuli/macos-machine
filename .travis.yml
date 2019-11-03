@@ -48,11 +48,16 @@ before_install:
       git config --global protocol.version 1
     fi
 
+
+  # yamllint disable rule:line-length
+
   # Uninstall existing Homebrew installation
   - >
     if [[ "${UNINSTALL_HOMEBREW}" == "YES" ]]; then
       ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)" -- --force
     fi
+
+  # yamllint enable rule:line-length
 
   # Update Homebrew to fix HOMEBREW_LOGS error
   - >

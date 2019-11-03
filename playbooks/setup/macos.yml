@@ -16,6 +16,6 @@
   roles:
     - role: bash
       tags:
-      - bash
-      - nvm
-      - pyenv
+        - bash
+        - nvm
+        - pyenv
