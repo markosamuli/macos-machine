@@ -46,7 +46,7 @@ install_aws: true
 install_terraform: true
 
 # Install Packer
-install_packer: true
+install_packer: false
 
 # Install Certbot
 install_certbot: false
