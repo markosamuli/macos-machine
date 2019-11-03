@@ -2,7 +2,7 @@
 
 - name: Install zsh
   hosts: all
-  tags: 
+  tags:
     - zsh
   tasks:
     - name: Install zsh

@@ -15,7 +15,7 @@
   hosts: all
   roles:
     - role: bash
-      tags: 
+      tags:
       - bash
       - nvm
       - pyenv
