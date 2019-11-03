@@ -29,7 +29,7 @@
 # gcloud_setup_shell: false
 
 # Install Lua programming language
-# lua_install: true
+# install_lua: true
 
 # Do not install Node.js programming language
 # install_nodejs: false
