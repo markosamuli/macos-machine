@@ -33,6 +33,8 @@
         "pyenv",
         "recurse",
         "setup",
+        "shellcheck",
+        "shfmt",
         "stat",
         "symlink",
         "vars",

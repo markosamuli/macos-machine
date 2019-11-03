@@ -25,3 +25,11 @@
     - name: Install GNU tar
       package:
         name: gnu-tar
+
+    - name: Install shellcheck
+      package:
+        name: shellcheck
+
+    - name: Install shfmt
+      package:
+        name: shfmt
