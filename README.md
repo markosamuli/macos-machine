@@ -253,11 +253,22 @@ The following external Ansible roles are installed and used. See
 
 ## Development
 
+Fix ansible-lint installation issues:
+
+```bash
+pip install virtualenv==16.3.0
+```
+
+Install pre-commit with pip:
+
+```bash
+pip install pre-commit
+```
+
 Install [pre-commit] hooks:
 
 ```bash
-pre-commit install --install-hooks
-pre-commit install --hook-type pre-push
+make install-git-hooks
 ```
 
 [pre-commit]: https://pre-commit.com/
