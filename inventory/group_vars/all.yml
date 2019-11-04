@@ -36,6 +36,9 @@ install_docker: true
 # Install Google Cloud SDK
 install_gcloud: true
 
+# Install Google Cloud SDK under user home directory
+gcloud_install_path: ~/
+
 # Install AWS tools
 install_aws: true
 
