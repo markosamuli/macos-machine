@@ -17,7 +17,7 @@ install_gdfs: true
 install_slack: true
 
 # Install Vagrant and VirtualBox
-install_vagrant: true
+install_vagrant: false
 
 # Install Docker
 install_docker: true

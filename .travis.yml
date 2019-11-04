@@ -74,7 +74,7 @@ before_install:
 
 script:
   # Use Travis test configuration
-  - cp tests/machine.travis.yaml machine.yaml
+  - cp machine.travis.yaml machine.yaml
 
   # Test setup script
   - ./setup -n
@@ -83,7 +83,11 @@ script:
   - ./setup -s
 
   # Run playbooks without installing roles
-  - ./setup -q -i vagrant
+  - ./setup -q
 
-  # Run idempotence tests for each playbook
-  - ./tests/idempotence
+  # Run idempotence tests
+  - >
+    ./setup -q \
+      | grep -q 'changed=0.*failed=0' \
+      && (echo 'Idempotence test: pass' && exit 0) \
+      || (echo 'Idempotence test: fail' && exit 1)
