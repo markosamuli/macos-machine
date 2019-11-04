@@ -1,0 +1,59 @@
+# -*- mode: yaml -*-
+# vim:ts=2:sw=2:ai:si:syntax=yaml
+#
+# Example configuration to customise local settings
+---
+
+# Install Hazel automation tool
+install_hazel: true
+
+# Install Hammerspoon automation tool
+install_hammerspoon: true
+
+# Install Google Drive File Stream
+install_gdfs: true
+
+# Install Slack
+install_slack: true
+
+# Install Vagrant and VirtualBox
+install_vagrant: true
+
+# Install Docker
+install_docker: true
+
+# Install Packer
+install_packer: true
+
+# Install Certbot
+install_certbot: true
+
+# Install nmap
+install_nmap: true
+
+# Install Lua programming language
+install_lua: true
+
+# Install asdf-vm
+install_asdf: true
+
+# Install asdf plugins
+asdf_plugins:
+  - name: doctl
+    versions:
+      - "1.19.0"
+  - name: kubectl
+    versions:
+      - "1.14.2"
+  - name: helm
+    versions:
+      - "2.14.0"
+  - name: concourse
+    versions:
+      - "5.2.0"
+  - name: packer
+    versions:
+      - "1.4.1"
+  - name: minikube
+    versions:
+     - "1.1.0"

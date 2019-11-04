@@ -73,6 +73,9 @@ before_install:
   - rm -rf /etc/profile.d/travis-nvm.sh
 
 script:
+  # Use Travis test configuration
+  - cp tests/machine.travis.yaml machine.yaml
+
   # Test setup script
   - ./setup -n
 
