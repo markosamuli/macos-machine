@@ -1,8 +1,5 @@
 ---
 
-# Do not install pyenv from package manager
-pyenv_install_from_package_manager: false
-
 # Install asdf-vm
 install_asdf: false
 
