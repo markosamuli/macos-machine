@@ -1,7 +1,5 @@
 # -*- mode: yaml -*-
 # vim:ts=2:sw=2:ai:si:syntax=yaml
-#
-# Example configuration to customise local settings
 ---
 
 # Install Hazel automation tool
@@ -56,4 +54,4 @@ asdf_plugins:
       - "1.4.1"
   - name: minikube
     versions:
-     - "1.1.0"
+      - "1.1.0"
