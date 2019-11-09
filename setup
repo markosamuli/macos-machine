@@ -355,30 +355,33 @@ run_ansible_playbook_opts() {
         ansible_opts+=("--skip-tags=${ansible_skip_tags}")
     fi
 
+    # Variables to pass to ansible-playbook
+    local ansible_vars=()
+
+    if [ "${is_linux}" == "1" ]; then
+        if [ "${is_wsl}" == "1" ]; then
+            ansible_vars+=("\"is_wsl\":true")
+        else
+            ansible_vars+=("\"is_wsl\":false")
+        fi
+    fi
+
+    ansible_vars+=("\"user_home\":\"${HOME}\"")
+    ansible_vars+=("\"user_name\":\"${USER}\"")
+
+    if [ "${#ansible_vars[@]}" -gt "0" ]; then
+        local extra_vars
+        extra_vars=$(printf ",%s" "${ansible_vars[@]}")
+        extra_vars="{${extra_vars:1}}"
+        ansible_opts+=("-e ${extra_vars}")
+    fi
+
     if [ "${ansible_become}" == "1" ]; then
         sudo true || {
             error "sudo failed"
             exit 1
         }
         ansible_opts+=("--become")
-    fi
-
-    # Variables to pass to ansible-playbook
-    local ansible_vars=()
-
-    if [ "${is_linux}" == "1" ]; then
-        if [ "${is_wsl}" == "1" ]; then
-            ansible_vars+=("'is_wsl':'True'")
-        else
-            ansible_vars+=("'is_wsl':'False'")
-        fi
-    fi
-
-    if [ "${#ansible_vars[@]}" -gt "0" ]; then
-        local extra_vars
-        extra_vars=$(printf ",%s" "${ansible_vars[@]}")
-        extra_vars="{${extra_vars:1}}"
-        ansible_opts+=("-e \"${extra_vars}\"")
     fi
 
     echo "${ansible_opts[@]}"
