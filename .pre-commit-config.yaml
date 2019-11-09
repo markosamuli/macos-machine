@@ -23,6 +23,17 @@ repos:
       - id: check-yaml
       - id: pretty-format-json
         args: ['--autofix', '--indent=2', '--no-sort-keys']
+      - id: check-ast
+
+  - repo: https://github.com/pre-commit/mirrors-autopep8.git
+    rev: v1.4.4
+    hooks:
+      - id: autopep8
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks.git
+    rev: v2.2.3
+    hooks:
+      - id: flake8
 
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.18.0
