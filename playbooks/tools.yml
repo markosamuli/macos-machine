@@ -33,3 +33,7 @@
     - name: Install shfmt
       package:
         name: shfmt
+
+    - name: Install asciinema
+      package:
+        name: asciinema
