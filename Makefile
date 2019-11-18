@@ -39,6 +39,38 @@ else
 	@travis lint
 endif
 
+.PHONY: roles
+roles:
+	@./setup -n
+
+.PHONY: tools
+tools:
+	@./setup -q -t tools
+
+.PHONY: golang
+golang:
+	@./setup -q -t golang
+
+.PHONY: python
+python:
+	@./setup -q -t python,pyenv
+
+.PHONY: node
+node:
+	@./setup -q -t node,nvm
+
+.PHONY: terraform
+terraform:
+	@./setup -q -t terraform
+
+.PHONY: gcloud
+gcloud:
+	@./setup -q -t gcloud
+
+.PHONY: docker
+docker:
+	@./setup -q -t docker
+
 .PHONY: install-git-hooks
 install-git-hooks: $(PRE_COMMIT_HOOKS) $(PRE_PUSH_HOOKS) $(COMMIT_MSG_HOOKS)
 
