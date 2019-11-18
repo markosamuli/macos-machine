@@ -57,6 +57,9 @@ install_nmap: false
 # Install MacVim instead of Vim
 install_macvim: false
 
+# Install JetBrains Toolbox
+install_jetbrains_toolbox: false
+
 # GOPATH relative to user home directory
 golang_path: "go"
 

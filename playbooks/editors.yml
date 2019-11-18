@@ -10,30 +10,43 @@
       name: visual-studio-code
     tags: vscode
 
-  - name: Uninstall Vim
-    homebrew:
-      name: vim
-      state: absent
-    tags: vim
-    when: install_macvim | bool
-
-  - name: Uninstall MacVim
-    homebrew:
-      name: macvim
-      state: absent
-    tags: vim
+  - name: Vim
     when: not install_macvim | bool
+    block:
+    - name: Uninstall MacVim
+      homebrew:
+        name: macvim
+        state: absent
+      tags: vim
+    - name: Install Vim
+      homebrew:
+        name: vim
+        state: present
+      tags: vim
 
-  - name: Install Vim
-    homebrew:
-      name: vim
-      state: present
-    tags: vim
-    when: not install_macvim | bool
-
-  - name: Install MacVim
-    homebrew:
-      name: macvim
-      state: present
-    tags: vim
+  - name: MacVim
     when: install_macvim | bool
+    block:
+    - name: Uninstall Vim
+      homebrew:
+        name: vim
+        state: absent
+      tags: vim
+    - name: Install MacVim
+      homebrew:
+        name: macvim
+        state: present
+      tags: vim
+
+  - name: JetBrains Toolbox
+    when: install_jetbrains_toolbox | bool
+    block:
+    - name: Check if JetBrains Toolbox has been installed
+      stat:
+        path: "/Applications/JetBrains Toolbox.app"
+      register: jetbrains_toolbox_st
+      changed_when: False
+    - name: Install JetBrains Toolbox
+      homebrew_cask:
+        name: jetbrains-toolbox
+      when: not jetbrains_toolbox_st.stat.exists
