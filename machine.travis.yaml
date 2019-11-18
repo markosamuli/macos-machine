@@ -39,7 +39,7 @@ install_asdf: true
 asdf_plugins:
   - name: doctl
     versions:
-      - "1.19.0"
+      - "1.33.1"
   - name: kubectl
     versions:
       - "1.14.2"
