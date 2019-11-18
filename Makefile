@@ -118,6 +118,10 @@ gcloud:
 docker:
 	@./setup -q -t docker
 
+.PHONY: rust
+rust:
+	@./setup -q -t rust
+
 .PHONY: permissions
 permissions:
 	@USER_HOME_FIX_PERMISSIONS=true ./setup -q -t permissions

@@ -77,6 +77,9 @@ rbenv:
   rubies:
     - version: 2.6.3
 
+# Install Rust programming language
+install_rust: false
+
 # GOPATH relative to user home directory
 golang_path: "go"
 
