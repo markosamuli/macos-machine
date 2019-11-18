@@ -47,7 +47,7 @@ cd macos-machine
 ## Local options
 
 You can pass custom variables to the Ansible playbook and roles by creating
-a `machine.yaml` file to customise your configuration.
+a [`machine.yaml`][machine.yaml] file to customise your configuration.
 
 ```bash
 cp machine.yaml.example machine.yaml
@@ -55,6 +55,8 @@ cp machine.yaml.example machine.yaml
 
 The `setup` script will detect if this file exists and passes it to the
 Ansible Playbook with `--extra-vars`.
+
+[machine.yaml]: machine.yaml
 
 ## Software installed by the playbooks
 
@@ -70,57 +72,114 @@ already found on the system.
 
 ### Desktop applications
 
-- [iTerm2](https://www.iterm2.com/)
-- [Google Drive File Stream](https://support.google.com/drive/answer/7329379?hl=en)
-- [Slack](https://slack.com/downloads/osx) desktop application
+[iTerm2] terminal will be installed on all environments.
+
+To install [Google Drive File Stream]:
+
+```yaml
+install_gdfs: true
+```
+
+To install [Slack] desktop application:
+
+```yaml
+install_slack: true
+```
+
+[iTerm2]: https://www.iterm2.com/
+[Slack]: https://slack.com/downloads/osx
+[Google Drive File Stream]: https://support.google.com/drive/answer/7329379?hl=en
 
 ### Shell
 
-- [Zsh](https://www.zsh.org/)
+Latest version of [Zsh] will be installed from Homebrew.
+
+[Zsh]: https://www.zsh.org/
 
 ### Command line tools
 
-- [GNU Wget](https://www.gnu.org/software/wget/)
-- [GNU sed](https://www.gnu.org/software/sed/)
-- [GNU tar](https://www.gnu.org/software/tar/)
-- [jq](https://stedolan.github.io/jq/) command-line JSON processor
-- [The Silver Searcher](https://github.com/ggreer/the_silver_searcher) code
-  searching utility similar to `ack`
+- [GNU Wget]
+- [GNU sed] as `gsed` command
+- [GNU tar] as `gtar` command
+- [jq] command-line JSON processor
+- [The Silver Searcher] (`ag` command) code searching utility similar to `ack`
+- [htop] process viewer for console
+- [ShellCheck] static analysis tool for shell scripts
+- [shfmt] formatter for shell scripts
+- [asciinema] for recording terminal session
+
+[GNU Wget]: https://www.gnu.org/software/wget/
+[GNU sed]: https://www.gnu.org/software/sed/
+[GNU tar]: https://www.gnu.org/software/tar/
+[jq]: https://stedolan.github.io/jq/
+[htop]: https://hisham.hm/htop/
+[The Silver Searcher]: https://github.com/ggreer/the_silver_searcher
+[shellcheck]: https://github.com/koalaman/shellcheck
+[shfmt]: https://github.com/mvdan/sh
+[asciinema]: https://asciinema.org/
 
 ### macOS customization and automation
 
-- [Hammerspoon](https://www.hammerspoon.org/)
-- [Hazel](https://www.noodlesoft.com/)
+To install [Hazel] automation tool:
+
+```yaml
+install_hazel: true
+```
+
+To install [Hammerspoon] automation tool:
+
+```yaml
+install_hammerspoon: true
+```
+
+[Hazel]: https://www.noodlesoft.com/
+[Hammerspoon]: https://www.hammerspoon.org/
 
 ### Editors
 
-- [Visual Studio Code]
-- [Vim] or [MacVim] package from Homebrew
+[Visual Studio Code] will be installed on all environments.
 
-To install MacVim instead of Vim, update `machine.yaml` with the following
+Latest [Vim] package will be installed from Homebrew.
+
+To install [MacVim] instead of Vim, update `machine.yaml` with the following
 configuration:
 
 ```yaml
 install_macvim: true
 ```
 
+To install [JetBrains Toolbox] to install and manage JetBrains applications:
+
+```yaml
+install_jetbrains_toolbox: true
+```
+
 [Visual Studio Code]: https://code.visualstudio.com/
 [Vim]: https://www.vim.org/
 [MacVim]: https://github.com/macvim-dev/macvim
+[JetBrains Toolbox]: https://www.jetbrains.com/toolbox-app/
 
 ### asdf version manager
 
-[asdf] version manager is installed without plugin configuration.
+You can install [asdf] version manager by adding the following
+option to your [`machine.yaml`][machine.yaml]:
+
+```yaml
+install_asdf: true
+```
 
 To configure [asdf plugins] and package versions to install, add them
-into the `machine.yaml` configuration.
+into your [`machine.yaml`][machine.yaml] configuration.
 
 ```yaml
 asdf_plugins:
-  - name: doctl
   - name: kubectl
   - name: concourse
 ```
+
+Note that some of the playbooks remove conflicting asdf plugins and
+versions if a respective tool is installed using another package
+or version manager.
 
 [asdf]: https://asdf-vm.com
 [asdf plugins]: https://asdf-vm.com/#/plugins-all
@@ -133,22 +192,19 @@ Use [pyenv] to install and manage Python versions for the current user:
 - [pyenv-virtualenv]
 - [Python] v2.7 and v3.7 installed with pyenv
 
+You can disable installation by adding the following option to
+your [`machine.yaml`][machine.yaml]:
+
+```yaml
+install_python: false
+```
+
 The [markosamuli.pyenv] role will modify your `.bashrc` and `.zshrc` files
-during the setup. If you want to disable this, edit `machine.yaml` configuration
+during the setup. If you want to disable this, edit `machine.yaml` file
 and disable the following configuration option.
 
 ```yaml
-# Do not configure pyenv shell when using existing dotfiles
 pyenv_init_shell: false
-```
-
-Note that pyenv will be installed from Git instead of Homebrew. If you prefer to
-install pyenv using package manager, enable it in the `machine.yaml`
-configuration file:
-
-```yaml
-# Install pyenv from package manager
-pyenv_install_from_package_manager: true
 ```
 
 [Python]: https://www.python.org/
@@ -160,37 +216,136 @@ pyenv_install_from_package_manager: true
 - [Node Version Manager] (NVM)
 - [Node.js] LTS installed with NMV
 
+You can disable installation by adding the following option to
+your [`machine.yaml`][machine.yaml]:
+
+```yaml
+install_nodejs: false
+```
+
 [Node Version Manager]: https://github.com/creationix/nvm
 [Node.js]: https://nodejs.org/en/
 
-### Other programming languages
+### Go
 
-- [Go programming language]
+[Go programming language] installed using [markosamuli.golang]
+Ansible role.
+
+You can disable installation by adding the following option to
+your [`machine.yaml`][machine.yaml]:
+
+```yaml
+install_golang: false
+```
 
 [Go programming language]: https://golang.org/
 
-### Developer tools
+### Lua
 
-- [Git](https://git-scm.com/)
-- [Docker for Mac](https://docs.docker.com/docker-for-mac/)
-- [VirtualBox](https://www.virtualbox.org/)
-- [Vagrant](https://www.vagrantup.com/)
+You can install [Lua] programming language by adding the following
+option to your [`machine.yaml`][machine.yaml] file:
 
-### DevOps and Cloud tools
+```yaml
+install_lua: true
+```
 
-- [Packer](https://packer.io/)
-- [Certbot](https://certbot.eff.org/)
-- [Nmap](https://nmap.org/) utility for network discovery and security auditing
+This will also install [LuaRocks] package manager and [luacheck]
+rock using the custom [luarocks module].
+
+[Lua]: https://www.lua.org/
+[LuaRocks]: https://luarocks.org/
+[luacheck]: https://github.com/mpeterv/luacheck
+[luarocks module]: playbooks/library/luarocks.py
+
+### Git
+
+Latest version of [Git] will be installed from Homebrew.
+
+[Git]: https://git-scm.com/
+
+### Vagrant and VirtualBox
+
+[Vagrant] and [VirtualBox] are no longer installed by default, but you can
+enable them by adding:
+
+```yaml
+install_vagrant: true
+```
+
+[Vagrant]: https://www.vagrantup.com/
+[VirtualBox]: https://www.virtualbox.org/
+
+### Docker
+
+[Docker for Mac] will be installed by default.
+
+To disable installation, add:
+
+```yaml
+install_docker: false
+```
+
+[Docker for Mac]: https://docs.docker.com/docker-for-mac/
+
+### Certbot
+
+Install [Certbot] with:
+
+```yaml
+install_certbot: true
+```
+
+[Certbot]: https://certbot.eff.org
+
+### Nmap
+
+Install [Nmap](https://nmap.org/) utility for network discovery
+and security auditing by adding:
+
+```yaml
+install_nmap: true
+```
+
+[Nmap]: https://nmap.org/
+
+### Packer
+
+To install [Packer] add:
+
+```yaml
+install_packer: true
+```
+
+[Packer]: https://packer.io/
 
 ### Terraform
 
-Install [tfenv] version manager for [Terraform]
+Install [tfenv] version manager for [Terraform] and install the latest version.
 
 Any previous conflicting installations using [asdf] or
 [markosamuli.terraform] role are removed.
 
+Disable installation with:
+
+```yaml
+install_terraform: false
+```
+
 [Terraform]: https://www.terraform.io/
 [tfenv]: https://github.com/tfutils/tfenv
+
+### Digital Ocean
+
+Install [doctl] using Homebrew package manager by adding the following
+option to your [`machine.yaml`][machine.yaml]:
+
+```yaml
+install_doctl: true
+```
+
+This will uninstall any conflicting asdf plugins and versions.
+
+[doctl]: https://github.com/digitalocean/doctl
 
 ### Amazon Web Services
 
@@ -202,17 +357,40 @@ Any previous conflicting installations using [asdf] or
 - [cli53](https://github.com/barnybug/cli53) - command line tool for Amazon
   Route 53
 
+You can disable installation by adding the following option to
+your [`machine.yaml`][machine.yaml]:
+
+```yaml
+install_aws: false
+```
+
 ### Google Cloud Platform
 
-- [Google Cloud SDK] installed from the archive file under user home directory
+[Google Cloud SDK] installed from the archive file under user
+home directory. You shouldn't try to install a global version
+with these playbooks.
+
+Default install path is in `~/google-cloud-sdk`, but you can
+install it to another location, for example if you prefer
+`~/opt/google-cloud-sdk` add the following option:
+
+```yaml
+gcloud_install_path: ~/opt
+```
 
 The [markosamuli.gcloud] role will modify your `.bashrc` and `.zshrc` files.
 To disable this and manage the configuration yourself, disable the following
-configuration option in the `machine.yaml` file.
+configuration option in the [`machine.yaml`][machine.yaml] file:
 
 ```yaml
-# Do not set up Cloud SDK shell when using existing dotfiles
 gcloud_setup_shell: false
+```
+
+You can disable installation by adding the following option to
+your [`machine.yaml`][machine.yaml]:
+
+```yaml
+install_gcloud: false
 ```
 
 [Google Cloud SDK]: https://cloud.google.com/sdk/

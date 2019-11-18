@@ -18,3 +18,7 @@ max_line_length = 80
 [{*.yml,*.yaml,.ansible-lint,.yamllint}]
 indent_style = space
 indent_size = 2
+
+[*.json]
+indent_style = space
+indent_size = 2
