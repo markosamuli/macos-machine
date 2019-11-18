@@ -25,6 +25,7 @@
 
     - name: Download ReloadConfiguration.spoon
       unarchive:
+        # yamllint disable-line rule:line-length
         src: https://github.com/Hammerspoon/Spoons/raw/master/Spoons/ReloadConfiguration.spoon.zip
         dest: ~/.hammerspoon/Spoons
         remote_src: yes
@@ -38,4 +39,5 @@
 
     - name: Check ReloadConfiguration.spoon/init.lua checksum
       assert:
+        # yamllint disable-line rule:line-length
         that: "rc_spoon_st.stat.checksum == 'fa06f125578ad79e4b669814dfe0fb24a6c8b1fb'"
