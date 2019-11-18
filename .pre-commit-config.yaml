@@ -29,11 +29,19 @@ repos:
     rev: v1.4.4
     hooks:
       - id: autopep8
+        exclude: ^playbooks/library/luarocks\.py$
+
+  - repo: https://github.com/pre-commit/mirrors-yapf.git
+    rev: v0.28.0
+    hooks:
+      - id: yapf
+        exclude: ^playbooks/library/luarocks\.py$
 
   - repo: https://github.com/pre-commit/pre-commit-hooks.git
     rev: v2.2.3
     hooks:
       - id: flake8
+        exclude: ^playbooks/library/luarocks\.py$
 
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.18.0
