@@ -60,6 +60,9 @@ install_macvim: false
 # Install JetBrains Toolbox
 install_jetbrains_toolbox: false
 
+# Install Digital Ocean CLI
+install_doctl: false
+
 # GOPATH relative to user home directory
 golang_path: "go"
 

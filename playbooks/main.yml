@@ -59,3 +59,6 @@
 
 - import_playbook: nmap.yml
   when: install_nmap | bool
+
+- import_playbook: doctl.yml
+  when: install_doctl | bool

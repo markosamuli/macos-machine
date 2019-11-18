@@ -35,11 +35,11 @@ install_lua: true
 # Install asdf-vm
 install_asdf: true
 
+# Install doctl with Homebrew
+install_doctl: true
+
 # Install asdf plugins
 asdf_plugins:
-  - name: doctl
-    versions:
-      - "1.33.1"
   - name: kubectl
     versions:
       - "1.14.2"
