@@ -41,3 +41,7 @@
     - name: Install htop
       package:
         name: htop
+
+    - name: Install 7zip
+      package:
+        name: p7zip
