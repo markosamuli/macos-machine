@@ -37,3 +37,7 @@
     - name: Install asciinema
       package:
         name: asciinema
+
+    - name: Install htop
+      package:
+        name: htop
