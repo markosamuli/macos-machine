@@ -2,20 +2,20 @@
 # vim:ts=2:sw=2:ai:si:syntax=yaml
 ---
 
-# Install Hazel automation tool
-install_hazel: true
+# Do not install Hazel automation tool
+install_hazel: false
+
+# Do not install Google Drive File Stream
+install_gdfs: false
+
+# Do not install Slack
+install_slack: false
+
+# Do not install Vagrant or VirtualBox
+install_vagrant: false
 
 # Install Hammerspoon automation tool
 install_hammerspoon: true
-
-# Install Google Drive File Stream
-install_gdfs: true
-
-# Install Slack
-install_slack: true
-
-# Install Vagrant and VirtualBox
-install_vagrant: false
 
 # Install Docker
 install_docker: true
