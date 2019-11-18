@@ -17,6 +17,12 @@
         name: hammerspoon
       when: not hammerspoon_st.stat.exists
 
+    - name: Create ~/.hammerspoon/Spoons directory if it doesn't exist
+      file:
+        path: ~/.hammerspoon/Spoons
+        state: directory
+        mode: '0755'
+
     - name: Download ReloadConfiguration.spoon
       unarchive:
         src: https://github.com/Hammerspoon/Spoons/raw/master/Spoons/ReloadConfiguration.spoon.zip
