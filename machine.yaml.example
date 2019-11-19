@@ -19,12 +19,6 @@
 # Install pyenv from package manager
 # pyenv_install_from_package_manager: true
 
-# Google Cloud SDK version
-# gcloud_version: "236.0.0"
-
-# Install Google Cloud SDK under user home directory
-# gcloud_install_path: ~/
-
 # Do not set up Cloud SDK shell when using existing dotfiles
 # gcloud_setup_shell: false
 
