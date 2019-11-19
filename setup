@@ -132,7 +132,7 @@ install_xcode_cli() {
 
 # Install Homebrew
 install_homebrew() {
-    if command -v brew /dev/null; then
+    if command -v brew >/dev/null; then
         return 0
     fi
     local url="https://raw.githubusercontent.com"
