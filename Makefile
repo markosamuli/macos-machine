@@ -51,6 +51,10 @@ golang:
 python:
 	@./setup -q -t python,pyenv
 
+.PHONY: ruby
+ruby:
+	@./setup -q -t ruby,rbenv
+
 .PHONY: node
 node:
 	@./setup -q -t node,nvm

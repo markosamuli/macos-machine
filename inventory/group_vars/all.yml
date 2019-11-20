@@ -1,5 +1,11 @@
 ---
 
+# User home
+user_home: "{{ ansible_env.HOME }}"
+
+# User name
+user_name: "{{ ansible_env.USER }}"
+
 # Install asdf-vm
 install_asdf: false
 
@@ -59,6 +65,17 @@ install_jetbrains_toolbox: false
 
 # Install Digital Ocean CLI
 install_doctl: false
+
+# Install Ruby and rbenv
+install_ruby: false
+
+# Install rbenv for the current user
+rbenv:
+  env: user
+  version: v1.1.2
+  default_ruby: 2.6.3
+  rubies:
+    - version: 2.6.3
 
 # GOPATH relative to user home directory
 golang_path: "go"

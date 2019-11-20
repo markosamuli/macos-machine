@@ -10,3 +10,4 @@ exclude_paths:
 - playbooks/roles/markosamuli.pyenv
 - playbooks/roles/markosamuli.terraform
 - playbooks/roles/markosamuli.vagrant
+- playbooks/roles/zzet.rbenv

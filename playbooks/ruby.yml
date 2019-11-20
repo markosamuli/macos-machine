@@ -1,0 +1,30 @@
+---
+
+- name: Configuration for rbenv
+  hosts: all
+  tags:
+    - ruby
+    - rbenv
+  tasks:
+    - name: Add rbenv initialization to ~/.profile
+      blockinfile:
+        block: |
+          if [ -z "${RBENV_ROOT}" ]; then
+            if [ -d "$HOME/.rbenv" ]; then
+              export PATH=$HOME/.rbenv/bin:$PATH;
+              export RBENV_ROOT=$HOME/.rbenv;
+              eval "$(rbenv init -)";
+            fi
+          fi
+        dest: "~/.profile"
+
+- name: Ruby with rbenv
+  hosts: all
+  tags:
+    - ruby
+    - rbenv
+  roles:
+    - role: zzet.rbenv
+      rbenv_users:
+        - "{{ user_name }}"
+      rbenv_user_profile: false
