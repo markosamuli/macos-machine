@@ -46,6 +46,7 @@
     "playbook",
     "playbooks",
     "pyenv",
+    "rbenv",
     "recurse",
     "reloadconfiguration",
     "repos",
@@ -63,6 +64,7 @@
     "vars",
     "xcode",
     "xenial",
-    "xerus"
+    "xerus",
+    "zzet"
   ]
 }

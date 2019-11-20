@@ -19,10 +19,15 @@ else
 fi
 
 if [ "${install_travis}" -eq "1" ]; then
-    command -v gem || {
+    command -v gem >/dev/null || {
         error "gem command not found"
         exit 1
     }
+    gem_path=$(command -v gem)
+    if [ "${gem_path}" == "/usr/bin/gem" ]; then
+        error "Installing Gems requires sudo permissions"
+        exit 1
+    fi
     gem install travis || {
         error "Couldn't install travis CLI"
         exit 1
@@ -35,5 +40,5 @@ cd "${PROJECT_ROOT}" || {
 }
 
 for file in "$@"; do
-    travis lint -x "${file}"
+    travis lint --no-interactive -q -x "${file}"
 done
