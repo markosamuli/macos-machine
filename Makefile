@@ -76,7 +76,7 @@ travis-lint: setup-pre-commit
 
 .PHONY: roles
 roles:
-	@./setup -n
+	@./setup -n -f
 
 .PHONY: tools
 tools:

@@ -450,18 +450,32 @@ backup copies of them before running the script.
 The following external Ansible roles are installed and used. See
 [requirements.yml] file for the installed versions.
 
+To install roles and forcibly update any existing ones:
+
+```bash
+make roles
+```
+
+To update roles to the latest release versions:
+
+```bash
+make update
+```
+
 | Role | Build status |
 |------|--------------|
-| [markosamuli.aws-tools] | [![Build Status](https://travis-ci.org/markosamuli/ansible-aws-tools.svg?branch=master)](https://travis-ci.orgmarkosamuli/ansible-aws-tools) |
-| [markosamuli.gcloud] | [![Build Status](https://travis-ci.org/markosamuli/ansible-gcloud.svg?branch=master)](https://travis-ci.orgmarkosamuli/ansible-gcloud) |
-| [markosamuli.golang] | [![Build Status](https://travis-ci.org/markosamuli/ansible-golang.svg?branch=master)](https://travis-ci.orgmarkosamuli/ansible-golang) |
-| [markosamuli.nvm] | [![Build Status](https://travis-ci.org/markosamuli/ansible-nvm.svg?branch=master)](https://travis-ci.orgmarkosamuli/ansible-nvm) |
-| [markosamuli.packer] | [![Build Status](https://travis-ci.org/markosamuli/ansible-packer.svg?branch=master)](https://travis-ci.orgmarkosamuli/ansible-packer) |
-| [markosamuli.pyenv] | [![Build Status](https://travis-ci.org/markosamuli/ansible-pyenv.svg?branch=master)](https://travis-ci.orgmarkosamuli/ansible-pyenv) |
-| [markosamuli.terraform] | [![Build Status](https://travis-ci.org/markosamuli/ansible-terraform.svg?branch=master)](https://travis-ci.orgmarkosamuli/ansible-terraform) |
-| [markosamuli.vagrant] | [![Build Status](https://travis-ci.org/markosamuli/ansible-vagrant.svg?branch=master)](https://travis-ci.orgmarkosamuli/ansible-vagrant) |
+| [markosamuli.asdf] | [![Build Status](https://travis-ci.org/markosamuli/ansible-asdf.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-asdf) |
+| [markosamuli.aws_tools] | [![Build Status](https://travis-ci.org/markosamuli/ansible-aws-tools.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-aws-tools) |
+| [markosamuli.gcloud] | [![Build Status](https://travis-ci.org/markosamuli/ansible-gcloud.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-gcloud) |
+| [markosamuli.golang] | [![Build Status](https://travis-ci.org/markosamuli/ansible-golang.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-golang) |
+| [markosamuli.nvm] | [![Build Status](https://travis-ci.org/markosamuli/ansible-nvm.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-nvm) |
+| [markosamuli.packer] | [![Build Status](https://travis-ci.org/markosamuli/ansible-packer.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-packer) |
+| [markosamuli.pyenv] | [![Build Status](https://travis-ci.org/markosamuli/ansible-pyenv.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-pyenv) |
+| [markosamuli.terraform] | [![Build Status](https://travis-ci.org/markosamuli/ansible-terraform.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-terraform) |
+| [markosamuli.vagrant] | [![Build Status](https://travis-ci.org/markosamuli/ansible-vagrant.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-vagrant) |
 
-[markosamuli.aws-tools]: https://github.com/markosamuli/ansible-aws-tools
+[markosamuli.asdf]: https://github.com/markosamuli/ansible-asdf
+[markosamuli.aws_tools]: https://github.com/markosamuli/ansible-aws-tools
 [markosamuli.gcloud]: https://github.com/markosamuli/ansible-gcloud
 [markosamuli.golang]: https://github.com/markosamuli/ansible-golang
 [markosamuli.nvm]: https://github.com/markosamuli/ansible-nvm
@@ -479,16 +493,16 @@ Fix ansible-lint installation issues:
 pip install virtualenv==16.3.0
 ```
 
-Install pre-commit with pip:
-
-```bash
-pip install pre-commit
-```
-
 Install [pre-commit] hooks:
 
 ```bash
 make install-git-hooks
+```
+
+Lint code and configuration:
+
+```bash
+make lint
 ```
 
 [pre-commit]: https://pre-commit.com/
