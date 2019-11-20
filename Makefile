@@ -1,11 +1,7 @@
-PRE_COMMIT := $(shell command -v pre-commit 2> /dev/null)
-TRAVIS := $(shell command -v travis 2> /dev/null)
-SHELLCHECK := $(shell command -v shellcheck 2> /dev/null)
-SHFMT := $(shell command -v shfmt 2> /dev/null)
-
-PRE_COMMIT_HOOKS = .git/hooks/pre-commit
-PRE_PUSH_HOOKS = .git/hooks/pre-push
-COMMIT_MSG_HOOKS = .git/hooks/commit-msg
+PRE_COMMIT_INSTALLED = $(shell pre-commit --version 2>&1 | head -1 | grep -q 'pre-commit 1' && echo true)
+TRAVIS = $(shell command -v travis 2> /dev/null)
+SHELLCHECK = $(shell command -v shellcheck 2> /dev/null)
+SHFMT = $(shell command -v shfmt 2> /dev/null)
 
 .PHONY: all
 all: install-git-hooks lint
@@ -25,7 +21,7 @@ endif
 ifndef SHFMT
 	$(error "shfmt not found, try: 'brew install shfmt'")
 endif
-ifndef PRE_COMMIT
+ifneq ($(PRE_COMMIT_INSTALLED),true)
 	$(error "pre-commit not found, try: 'brew install pre-commit'")
 else
 	@pre-commit run -a -v
@@ -33,7 +29,7 @@ endif
 
 .PHONY: travis-lint
 travis-lint:
-ifndef PRE_COMMIT
+ifneq ($(PRE_COMMIT_INSTALLED),true)
 	$(error "pre-commit not found, try: 'brew install pre-commit'")
 else
 	@pre-commit run -a travis-lint -v
@@ -70,6 +66,10 @@ gcloud:
 .PHONY: docker
 docker:
 	@./setup -q -t docker
+
+PRE_COMMIT_HOOKS = .git/hooks/pre-commit
+PRE_PUSH_HOOKS = .git/hooks/pre-push
+COMMIT_MSG_HOOKS = .git/hooks/commit-msg
 
 .PHONY: install-git-hooks
 install-git-hooks: $(PRE_COMMIT_HOOKS) $(PRE_PUSH_HOOKS) $(COMMIT_MSG_HOOKS)
