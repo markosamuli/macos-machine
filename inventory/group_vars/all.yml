@@ -1,4 +1,95 @@
 ---
 
-# Do not install pyenv from package manager
-pyenv_install_from_package_manager: false
+# User home
+user_home: "{{ ansible_env.HOME }}"
+
+# User name
+user_name: "{{ ansible_env.USER }}"
+
+# Install asdf-vm
+install_asdf: false
+
+# Install Lua programming language
+install_lua: false
+
+# Install Node.js programming language
+install_nodejs: true
+
+# Install Python programming language
+install_python: true
+
+# Install Go programming language
+install_golang: true
+
+# Install Hazel automation tool
+install_hazel: false
+
+# Install Hammerspoon automation tool
+install_hammerspoon: false
+
+# Install Google Drive File Stream
+install_gdfs: false
+
+# Install Slack
+install_slack: false
+
+# Install Vagrant and VirtualBox
+install_vagrant: false
+
+# Install Docker
+install_docker: true
+
+# Install Google Cloud SDK
+install_gcloud: true
+
+# Install AWS tools
+install_aws: true
+
+# Install Terraform
+install_terraform: true
+
+# Install Packer
+install_packer: false
+
+# Install Certbot
+install_certbot: false
+
+# Install nmap
+install_nmap: false
+
+# Install MacVim instead of Vim
+install_macvim: false
+
+# Install JetBrains Toolbox
+install_jetbrains_toolbox: false
+
+# Install Digital Ocean CLI
+install_doctl: false
+
+# Install Ruby and rbenv
+install_ruby: false
+
+# Install rbenv for the current user
+rbenv:
+  env: user
+  version: v1.1.2
+  default_ruby: 2.6.3
+  rubies:
+    - version: 2.6.3
+
+# GOPATH relative to user home directory
+golang_path: "go"
+
+# Enable Go modules
+golang_modules: true
+
+# Install Go packages
+golang_packages:
+  - name: github.com/kisielk/errcheck
+  - name: github.com/TrueFurby/go-callvis
+  - name: github.com/uudashr/gopkgs/cmd/gopkgs
+  - name: golang.org/x/lint
+  - name: golang.org/x/tools/cmd/goimports
+  - name: golang.org/x/tools/cmd/stringer
+  - name: golang.org/x/tools/cmd/guru
+  - name: honnef.co/go/tools/cmd/staticcheck

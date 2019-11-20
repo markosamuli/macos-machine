@@ -19,17 +19,26 @@
 # Install pyenv from package manager
 # pyenv_install_from_package_manager: true
 
-# Google Cloud SDK version
-# gcloud_version: "236.0.0"
-
 # Do not set up Cloud SDK shell when using existing dotfiles
 # gcloud_setup_shell: false
 
+# Install Lua programming language
+# install_lua: true
+
+# Do not install Node.js programming language
+# install_nodejs: false
+
+# Do not install Python programming language
+# install_python: false
+
+# Do not install Go programming language
+# install_golang: false
+
+# Install asdf-vm
+# install_asdf: true
+
 # Install asdf plugins
 # asdf_plugins:
-#   - name: terraform
-#     versions:
-#       - "0.11.14"
 #   - name: doctl
 #     versions:
 #       - "1.19.0"

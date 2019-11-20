@@ -1,0 +1,37 @@
+---
+
+- name: Find directories to fix in user home
+  stat:
+    path: "{{ item }}"
+  with_items: "{{ user_home_group_readable }}"
+  register: group_readable_dirs_st
+
+- name: Fix insecure directory permissions
+  file:
+    path: "{{ item.stat.path }}"
+    state: directory
+    recurse: true
+    owner: "{{ user_name }}"
+    mode: "u=rwX,g=rX,o="
+  with_items: "{{ group_readable_dirs_st.results }}"
+  when:
+    - item.stat.exists
+    - item.stat.isdir
+
+- name: Find directories to fix in user home
+  stat:
+    path: "{{ item }}"
+  with_items: "{{ user_home_user_readable }}"
+  register: user_readable_dirs_st
+
+- name: Fix insecure directory permissions
+  file:
+    path: "{{ item.stat.path }}"
+    state: directory
+    recurse: true
+    owner: "{{ user_name }}"
+    mode: "u=rwX,g=,o="
+  with_items: "{{ user_readable_dirs_st.results }}"
+  when:
+    - item.stat.exists
+    - item.stat.isdir

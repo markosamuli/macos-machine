@@ -1,9 +1,9 @@
 ---
 
-- name: DevOps tools
+- name: Install certbot
   hosts: all
+  tags: certbot
   tasks:
     - name: Install certbot with Homebrew
       package:
         name: certbot
-      tags: certbot

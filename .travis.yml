@@ -48,11 +48,16 @@ before_install:
       git config --global protocol.version 1
     fi
 
+
+  # yamllint disable rule:line-length
+
   # Uninstall existing Homebrew installation
   - >
     if [[ "${UNINSTALL_HOMEBREW}" == "YES" ]]; then
       ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)" -- --force
     fi
+
+  # yamllint enable rule:line-length
 
   # Update Homebrew to fix HOMEBREW_LOGS error
   - >
@@ -68,14 +73,21 @@ before_install:
   - rm -rf /etc/profile.d/travis-nvm.sh
 
 script:
-  # Test setup script
-  - ./setup -n
+  # Use Travis test configuration
+  - cp machine.travis.yaml machine.yaml
+
+  # Install roles
+  - ./setup -n || travis_terminate 1
 
   # Check syntax of the Ansible playbooks
-  - ./setup -s
+  - ./setup -s || travis_terminate 1
 
   # Run playbooks without installing roles
-  - ./setup -q -i vagrant
+  - ./setup -q || travis_terminate 1
 
-  # Run idempotence tests for each playbook
-  - ./tests/idempotence
+  # Run idempotence tests
+  - >
+    ./setup -q \
+      | grep -q 'changed=0.*failed=0' \
+      && (echo 'Idempotence test: pass' && exit 0) \
+      || (echo 'Idempotence test: fail' && exit 1)

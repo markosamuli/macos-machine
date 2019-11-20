@@ -5,25 +5,28 @@
 ---
 
 - name: markosamuli.asdf
-  version: v1.0.0
-- name: markosamuli.aws-tools
+  src: https://github.com/markosamuli/ansible-asdf
+  version: v1.1.0
+- name: markosamuli.aws_tools
   src: https://github.com/markosamuli/ansible-aws-tools
   version: v1.0.1
 - name: markosamuli.gcloud
-  version: v2.0.0
+  src: https://github.com/markosamuli/ansible-gcloud
+  version: v2.1.1
 - name: markosamuli.golang
   src: https://github.com/markosamuli/ansible-golang
-  version: v1.0.0
+  version: v1.2.1
 - name: markosamuli.nvm
-  version: v1.3.0
+  src: https://github.com/markosamuli/ansible-nvm
+  version: v1.4.1
 - name: markosamuli.packer
   src: https://github.com/markosamuli/ansible-packer
   version: v1.0.0
 - name: markosamuli.pyenv
   src: https://github.com/markosamuli/ansible-pyenv
-  version: v2.1.0-rc.1
-- name: markosamuli.terraform
-  version: v1.2.1
+  version: v2.1.1
 - name: markosamuli.vagrant
   src: https://github.com/markosamuli/ansible-vagrant
   version: v1.0.0
+- name: zzet.rbenv
+  version: "3.4.7"

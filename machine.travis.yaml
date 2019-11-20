@@ -1,0 +1,60 @@
+# -*- mode: yaml -*-
+# vim:ts=2:sw=2:ai:si:syntax=yaml
+---
+
+# Do not fix permissions
+user_home_fix_permissions: false
+
+# Do not install Hazel automation tool
+install_hazel: false
+
+# Do not install Google Drive File Stream
+install_gdfs: false
+
+# Do not install Slack
+install_slack: false
+
+# Do not install Vagrant or VirtualBox
+install_vagrant: false
+
+# Install Hammerspoon automation tool
+install_hammerspoon: true
+
+# Install Docker
+install_docker: true
+
+# Install Packer
+install_packer: true
+
+# Install Certbot
+install_certbot: true
+
+# Install nmap
+install_nmap: true
+
+# Install Lua programming language
+install_lua: true
+
+# Install asdf-vm
+install_asdf: true
+
+# Install doctl with Homebrew
+install_doctl: true
+
+# Install asdf plugins
+asdf_plugins:
+  - name: kubectl
+    versions:
+      - "1.14.2"
+  - name: helm
+    versions:
+      - "2.14.0"
+  - name: concourse
+    versions:
+      - "5.2.0"
+  - name: packer
+    versions:
+      - "1.4.1"
+  - name: minikube
+    versions:
+      - "1.1.0"

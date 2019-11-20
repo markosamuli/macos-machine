@@ -2,24 +2,46 @@
 
 - name: Tools
   hosts: all
+  tags:
+    - tools
   tasks:
 
-  - name: Install wget
-    package:
-      name: wget
+    - name: Install wget
+      package:
+        name: wget
 
-  - name: Install jq command-line JSON processor
-    package:
-      name: jq
+    - name: Install jq command-line JSON processor
+      package:
+        name: jq
 
-  - name: Install The Silver Searcher code searcing utility
-    package:
-      name: ag
+    - name: Install The Silver Searcher code searching utility
+      package:
+        name: ag
 
-  - name: Install GNU sed
-    package:
-      name: gnu-sed
+    - name: Install GNU sed
+      package:
+        name: gnu-sed
 
-  - name: Install GNU tar
-    package:
-      name: gnu-tar
+    - name: Install GNU tar
+      package:
+        name: gnu-tar
+
+    - name: Install shellcheck
+      package:
+        name: shellcheck
+
+    - name: Install shfmt
+      package:
+        name: shfmt
+
+    - name: Install asciinema
+      package:
+        name: asciinema
+
+    - name: Install htop
+      package:
+        name: htop
+
+    - name: Install 7zip
+      package:
+        name: p7zip

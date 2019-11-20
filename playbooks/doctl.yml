@@ -1,0 +1,25 @@
+---
+
+- name: Digital Ocean
+  hosts: all
+  tags: doctl
+  tasks:
+
+  - name: Remove doctl asdf plugin
+    file:
+      path: "{{ ansible_env.HOME }}/.asdf/plugins/doctl"
+      state: absent
+
+  - name: Remove doctl asdf installation
+    file:
+      path: "{{ ansible_env.HOME }}/.asdf/installs/doctl"
+      state: absent
+
+  - name: Remove doctl asdf shim
+    file:
+      path: "{{ ansible_env.HOME }}/.asdf/shims/doctl"
+      state: absent
+
+  - name: Install doctl
+    package:
+      name: doctl

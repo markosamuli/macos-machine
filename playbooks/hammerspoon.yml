@@ -1,0 +1,43 @@
+---
+
+- name: Hammerspoon
+  hosts: all
+  tags:
+    - hammerspoon
+  tasks:
+
+    - name: Check if Hammerspoon has been installed
+      stat:
+        path: /Applications/Hammerspoon.app
+      register: hammerspoon_st
+      changed_when: False
+
+    - name: Install Hammerspoon
+      homebrew_cask:
+        name: hammerspoon
+      when: not hammerspoon_st.stat.exists
+
+    - name: Create ~/.hammerspoon/Spoons directory if it doesn't exist
+      file:
+        path: ~/.hammerspoon/Spoons
+        state: directory
+        mode: '0755'
+
+    - name: Download ReloadConfiguration.spoon
+      unarchive:
+        # yamllint disable-line rule:line-length
+        src: https://github.com/Hammerspoon/Spoons/raw/master/Spoons/ReloadConfiguration.spoon.zip
+        dest: ~/.hammerspoon/Spoons
+        remote_src: yes
+        creates: ~/.hammerspoon/Spoons/ReloadConfiguration.spoon
+
+    - name: Get ReloadConfiguration.spoon/init.lua checksum
+      stat:
+        path: ~/.hammerspoon/Spoons/ReloadConfiguration.spoon/init.lua
+        checksum_algorithm: sha1
+      register: rc_spoon_st
+
+    - name: Check ReloadConfiguration.spoon/init.lua checksum
+      assert:
+        # yamllint disable-line rule:line-length
+        that: "rc_spoon_st.stat.checksum == 'fa06f125578ad79e4b669814dfe0fb24a6c8b1fb'"

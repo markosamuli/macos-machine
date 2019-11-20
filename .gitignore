@@ -3,7 +3,7 @@
 
 # Ansible roles
 playbooks/roles/*
-!playbooks/roles/bash
+!playbooks/roles/user_home_permissions
 
 # IDEs
 .vscode/*
@@ -11,3 +11,6 @@ playbooks/roles/*
 
 # Local configuration
 machine.yaml
+
+# Development
+.python-version
