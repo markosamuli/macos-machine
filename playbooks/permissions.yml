@@ -1,0 +1,14 @@
+---
+
+- name: Fix insecure permissions in user home directory
+  hosts: all
+  become: false
+  tags:
+    - permissions
+    - asdf
+    - nvm
+    - pyenv
+    - rbenv
+    - terraform
+  roles:
+    - role: user_home_permissions

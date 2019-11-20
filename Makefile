@@ -110,6 +110,10 @@ gcloud:
 docker:
 	@./setup -q -t docker
 
+.PHONY: permissions
+permissions:
+	@USER_HOME_FIX_PERMISSIONS=true ./setup -q -t permissions
+
 PRE_COMMIT_HOOKS = .git/hooks/pre-commit
 PRE_PUSH_HOOKS = .git/hooks/pre-push
 COMMIT_MSG_HOOKS = .git/hooks/commit-msg
