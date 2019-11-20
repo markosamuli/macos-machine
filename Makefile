@@ -9,7 +9,7 @@ PYENV_BIN = $(shell command -v pyenv)
 PYTHON_BIN = $(shell command -v python)
 PYTHON_VERSION = 3.7.5
 PYTHON_VERSION_PATH = $(HOME)/.pyenv/versions/$(PYTHON_VERSION)
-PYENV_VIRTUALENV = macos-machine
+PYENV_VIRTUALENV = $(shell basename $(shell pwd))
 PYENV_VIRTUALENV_PATH = $(HOME)/.pyenv/versions/$(PYENV_VIRTUALENV)
 PYENV_LOCAL = $(shell pyenv local 2>/dev/null)
 
@@ -50,12 +50,12 @@ PRE_COMMIT_INSTALLED = $(shell pre-commit --version 2>&1 | head -1 | grep -q 'pr
 .PHONY: setup-pre-commit
 setup-pre-commit:
 ifneq ($(PRE_COMMIT_INSTALLED),true)
-	$(MAKE) setup-requirements
+	@$(MAKE) setup-requirements
 endif
 
 .PHONY: update
 update:
-	@./update-roles
+	@./scripts/update-roles.py
 
 .PHONY: lint
 lint: pre-commit

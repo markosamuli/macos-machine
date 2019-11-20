@@ -256,7 +256,7 @@ update_ansible_roles() {
     echo "*** Installing Python requirements..."
     pip install -r requirements.txt
     echo "*** Updating Ansible roles..."
-    ./update-roles || {
+    ./scripts/update-roles.py || {
         error "${errmsg}"
         exit 1
     }
