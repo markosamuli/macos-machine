@@ -108,6 +108,12 @@ Latest version of [Zsh] will be installed from Homebrew.
 - [shfmt] formatter for shell scripts
 - [asciinema] for recording terminal session
 
+Run tools playbook:
+
+```bash
+make tools
+```
+
 [GNU Wget]: https://www.gnu.org/software/wget/
 [GNU sed]: https://www.gnu.org/software/sed/
 [GNU tar]: https://www.gnu.org/software/tar/
@@ -192,6 +198,12 @@ Use [pyenv] to install and manage Python versions for the current user:
 - [pyenv-virtualenv]
 - [Python] v2.7 and v3.7 installed with pyenv
 
+Run Python playbook:
+
+```bash
+make python
+```
+
 You can disable installation by adding the following option to
 your [`machine.yaml`][machine.yaml]:
 
@@ -223,6 +235,12 @@ This will install:
 
 - [rbenv] using [zzet.rbenv] role
 - [Ruby] version 2.6.3 with rbenv
+
+Run Ruby playbook:
+
+```bash
+make ruby
+```
 
 To change the installed rubies and default version, add the following to your
 `machine.yaml` file and customize it to your needs:
@@ -258,6 +276,12 @@ fi
 - [Node Version Manager] (NVM)
 - [Node.js] LTS installed with NMV
 
+Run Node.js playbook:
+
+```bash
+make node
+```
+
 You can disable installation by adding the following option to
 your [`machine.yaml`][machine.yaml]:
 
@@ -272,6 +296,12 @@ install_nodejs: false
 
 [Go programming language] installed using [markosamuli.golang]
 Ansible role.
+
+Run Go playbook:
+
+```bash
+make golang
+```
 
 You can disable installation by adding the following option to
 your [`machine.yaml`][machine.yaml]:
@@ -289,6 +319,12 @@ option to your [`machine.yaml`][machine.yaml] file:
 
 ```yaml
 install_lua: true
+```
+
+Run Lua playbook:
+
+```bash
+make lua
 ```
 
 This will also install [LuaRocks] package manager and [luacheck]
@@ -320,6 +356,12 @@ install_vagrant: true
 ### Docker
 
 [Docker for Mac] will be installed by default.
+
+Run Docker playbook:
+
+```bash
+make docker
+```
 
 To disable installation, add:
 
@@ -367,7 +409,13 @@ Install [tfenv] version manager for [Terraform] and install the latest version.
 Any previous conflicting installations using [asdf] or
 [markosamuli.terraform] role are removed.
 
-Disable installation with:
+Run Terraform playbook:
+
+```bash
+make terraform
+```
+
+Disable [Terraform] installation with:
 
 ```yaml
 install_terraform: false
@@ -399,6 +447,12 @@ This will uninstall any conflicting asdf plugins and versions.
 - [cli53](https://github.com/barnybug/cli53) - command line tool for Amazon
   Route 53
 
+Run AWS playbook:
+
+```bash
+make gcloud
+```
+
 You can disable installation by adding the following option to
 your [`machine.yaml`][machine.yaml]:
 
@@ -411,6 +465,12 @@ install_aws: false
 [Google Cloud SDK] installed from the archive file under user
 home directory. You shouldn't try to install a global version
 with these playbooks.
+
+Run Google Cloud SDK playbook:
+
+```bash
+make gcloud
+```
 
 Default install path is in `~/google-cloud-sdk`, but you can
 install it to another location, for example if you prefer

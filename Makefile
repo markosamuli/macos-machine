@@ -78,6 +78,10 @@ travis-lint: setup-pre-commit
 roles:
 	@./setup -n -f
 
+.PHONY: aws
+aws:
+	@./setup -q -t aws
+
 .PHONY: tools
 tools:
 	@./setup -q -t tools
@@ -85,6 +89,10 @@ tools:
 .PHONY: golang
 golang:
 	@./setup -q -t golang
+
+.PHONY: lua
+lua:
+	@./setup -q -t lua
 
 .PHONY: python
 python:
