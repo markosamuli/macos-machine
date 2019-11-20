@@ -77,3 +77,11 @@ repos:
       - id: commitlint
         stages: [commit-msg]
         additional_dependencies: ['@commitlint/config-conventional']
+
+  - repo: local
+    hooks:
+      - id: travis-lint
+        name: Lint .travis.yml
+        entry: scripts/travis-lint.sh
+        language: script
+        files: '^.travis.yml$'

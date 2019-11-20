@@ -15,28 +15,28 @@ update:
 	@./update-roles
 
 .PHONY: lint
-lint: pre-commit travis-lint
+lint: pre-commit
 
 .PHONY: pre-commit
 pre-commit: install-git-hooks
 ifndef SHELLCHECK
-	$(error "shellcheck not found")
+	$(error "shellcheck not found, try: 'brew install shellcheck'")
 endif
 ifndef SHFMT
-	$(error "shfmt not found")
+	$(error "shfmt not found, try: 'brew install shfmt'")
 endif
 ifndef PRE_COMMIT
-	$(error "pre-commit not found, try: 'pip install pre-commit'")
+	$(error "pre-commit not found, try: 'brew install pre-commit'")
 else
 	@pre-commit run -a -v
 endif
 
 .PHONY: travis-lint
 travis-lint:
-ifndef TRAVIS
-	$(error "travis CLI not found, try: 'gem install travis'")
+ifndef PRE_COMMIT
+	$(error "pre-commit not found, try: 'brew install pre-commit'")
 else
-	@travis lint
+	@pre-commit run -a travis-lint -v
 endif
 
 .PHONY: roles
