@@ -27,6 +27,7 @@ def github_request_url(api):
 
 
 def get_latest_version(repository):
+    repository = repository.replace('_', '-')
     """Get latest release for a GitHub repository"""
     try:
         # Get tag name from the latest release
@@ -57,7 +58,9 @@ def update_roles(roles):
 
         repository = None
 
-        if 'src' in role:
+        if role['name'] == 'zzet.rbenv':
+            repository = 'zzet/ansible-rbenv-role'
+        elif 'src' in role:
             repository = role['src'].replace('https://github.com/', '')
         else:
             (galaxy_user, galaxy_role) = role['name'].split('.')
