@@ -76,14 +76,14 @@ script:
   # Use Travis test configuration
   - cp machine.travis.yaml machine.yaml
 
-  # Test setup script
-  - ./setup -n
+  # Install roles
+  - ./setup -n || travis_terminate 1
 
   # Check syntax of the Ansible playbooks
-  - ./setup -s
+  - ./setup -s || travis_terminate 1
 
   # Run playbooks without installing roles
-  - ./setup -q
+  - ./setup -q || travis_terminate 1
 
   # Run idempotence tests
   - >
