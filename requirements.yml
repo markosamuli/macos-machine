@@ -24,7 +24,7 @@
   version: v1.0.0
 - name: markosamuli.pyenv
   src: https://github.com/markosamuli/ansible-pyenv
-  version: v2.1.0
+  version: v2.1.1
 - name: markosamuli.vagrant
   src: https://github.com/markosamuli/ansible-vagrant
   version: v1.0.0
