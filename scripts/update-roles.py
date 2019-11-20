@@ -6,6 +6,11 @@ import os
 import sys
 
 try:
+    from StringIO import StringIO
+except ModuleNotFoundError:
+    from io import StringIO
+
+try:
     from urllib2 import urlopen
     from urllib2 import HTTPError
 except ImportError:
@@ -46,6 +51,7 @@ def get_latest_version(repository):
             tags = json.loads(response_body)
             return tags[0]['name']
         else:
+            print(repository)
             raise e
 
 
@@ -89,9 +95,15 @@ def update_roles(roles):
             print('update failed: roles missing from updated roles list')
             sys.exit(1)
 
+        output = StringIO()
+        yaml.safe_dump(updated_roles, output, default_flow_style=False)
+
         role_file = 'requirements.yml'
         with open(role_file, 'w+') as f:
-            yaml.safe_dump(updated_roles, f, default_flow_style=False)
+            f.write('---\n')
+            f.write(output.getvalue())
+
+        output.close()
 
 
 def ansible_roles():
