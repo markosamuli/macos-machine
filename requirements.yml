@@ -6,7 +6,7 @@
 
 - name: markosamuli.asdf
   src: https://github.com/markosamuli/ansible-asdf
-  version: develop
+  version: v1.1.0
 - name: markosamuli.aws-tools
   src: https://github.com/markosamuli/ansible-aws-tools
   version: v1.0.1
