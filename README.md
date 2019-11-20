@@ -211,6 +211,48 @@ pyenv_init_shell: false
 [pyenv]: https://github.com/pyenv/pyenv
 [pyenv-virtualenv]: https://github.com/pyenv/pyenv-virtualenv
 
+### Ruby
+
+To install Ruby for development, enable it in your `machine.yaml` configuration:
+
+```yaml
+install_ruby: true
+```
+
+This will install:
+
+- [rbenv] using [zzet.rbenv] role
+- [Ruby] version 2.6.3 with rbenv
+
+To change the installed rubies and default version, add the following to your
+`machine.yaml` file and customize it to your needs:
+
+```yaml
+rbenv:
+  env: user
+  version: v1.1.2
+  default_ruby: 2.6.3
+  rubies:
+    - version: 2.6.3
+```
+
+The role doesn't update your `.bashrc` or `.zshrc` files, so you need to add
+something like below to initialize rbenv in your shell:
+
+```bash
+if [ -z "${RBENV_ROOT}" ]; then
+  if [ -d "$HOME/.rbenv" ]; then
+    export PATH=$HOME/.rbenv/bin:$PATH;
+    export RBENV_ROOT=$HOME/.rbenv;
+    eval "$(rbenv init -)";
+  fi
+fi
+```
+
+[zzet.rbenv]: https://github.com/zzet/ansible-rbenv-role
+[rbenv]: https://github.com/rbenv/rbenv
+[Ruby]: https://www.ruby-lang.org/en/
+
 ### Node.js
 
 - [Node Version Manager] (NVM)
