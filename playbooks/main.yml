@@ -1,8 +1,9 @@
 ---
 
-- import_playbook: setup/macos.yml
+- import_playbook: setup.yml
 
 - import_playbook: zsh.yml
+
 - import_playbook: iterm.yml
 
 - import_playbook: slack.yml
@@ -12,7 +13,9 @@
   when: install_gdfs | bool
 
 - import_playbook: tools.yml
+
 - import_playbook: editors.yml
+
 - import_playbook: git.yml
 
 - import_playbook: asdf.yml

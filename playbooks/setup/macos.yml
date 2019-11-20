@@ -11,7 +11,7 @@
           - "ansible_os_family == 'Darwin'"
         msg: "This playbook only supports macOS systems"
 
-- name: Initialise shell on macOS
+- name: Initialize shell on macOS
   hosts: all
   roles:
     - role: bash
