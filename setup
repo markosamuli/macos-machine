@@ -6,6 +6,7 @@ syntax_check=0        # Run command to check syntax
 list_tags=0           # Run command to list tags
 
 # Setup options
+check_os_upgrades=1   # Check for OS upgrades
 install_roles=1       # Install Ansible roles
 install_ansible=1     # Install Ansible
 install_roles_force=0 # Force overwriting existing Ansible roles
@@ -456,6 +457,62 @@ configure() {
     fi
 }
 
+# Check for upgrades
+check_upgrades() {
+    if [ "${check_os_upgrades}" != "1" ]; then
+        return 0
+    fi
+    if [ "${is_ubuntu}" == "1" ]; then
+        check_dist_upgrades
+    elif [ "${is_pengwin}" == "1" ]; then
+        check_dist_upgrades
+        check_pengwin_upgrades
+    elif [ "${is_macos}" == "1" ]; then
+        check_brew_upgrades
+    fi
+}
+
+# Check for distribution upgrades on Debian-based systems
+check_dist_upgrades() {
+    echo "*** Checking for distribution upgrade..."
+    if [ -f "/etc/apt/.dist-upgrade" ]; then
+        echo "A distribution upgrade is available."
+    fi
+}
+
+# Check for Pengwin core upgrades
+check_pengwin_upgrades() {
+    echo "*** Checking for Pengwin core upgrades..."
+    local upgrades=""
+    upgrades="$(apt-get -s upgrade --show-upgraded --assume-no | grep pengwin)"
+    if [[ "${upgrades}" == *"pengwin"* ]]; then
+        echo "Pengwin core package upgrades found."
+        echo "Use 'pengwin-setup' to upgrade them."
+    fi
+}
+
+# Check for Homebrew upgrades
+check_brew_upgrades() {
+    local outdated
+    outdated="$(brew outdated -q)"
+    if [ -n "${outdated}" ]; then
+        echo "Outdated Homebrew packages found"
+        echo "Run 'brew outdated' to list them and 'brew upgrade' to upgrade"
+    fi
+}
+
+# Check user is not root
+check_user() {
+    if [ "$USER" == "root" ]; then
+        error "FAILED: USER is root"
+        exit 1
+    fi
+    if [ "$HOME" == "/root" ]; then
+        error "FAILED: HOME set to /root"
+        exit 1
+    fi
+}
+
 # Parse command line options
 while getopts ":hfnqlsvut:i:" opt; do
     case $opt in
@@ -470,6 +527,7 @@ while getopts ":hfnqlsvut:i:" opt; do
             run_playbook=0
             ;;
         q)
+            check_os_upgrades=0
             install_roles=0
             install_ansible=0
             install_homebrew=0
@@ -515,6 +573,12 @@ configure
 
 # Setup dependencies
 setup_dependencies
+
+# Check for upgrades
+check_upgrades
+
+# Check current user is not root
+check_user
 
 if [ "${print_versions}" == "1" ]; then
     python --version
