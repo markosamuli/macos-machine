@@ -38,10 +38,3 @@
     command: tfenv install latest
     register: tfenv_install_latest
     changed_when: "'Installing' in tfenv_install_latest.stdout"
-
-# - name: Install Terraform if not installed with asdf
-#   hosts: all
-#   tags: terraform
-#   roles:
-#     - role: markosamuli.terraform
-#       when: not asdf_terraform_install.stat.exists
