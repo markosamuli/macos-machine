@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased changes] - 2019-11-20
+## [2.1.0] - 2019-11-24
 
 ### Added
 
@@ -10,6 +10,73 @@
 
 [Rust]: https://www.rust-lang.org/
 [markosamuli.rust]: https://github.com/markosamuli/ansible-rust
+
+### Fixed
+
+* Use `bash` executable instead of `sh` with Ansible on WSL environments to
+  get around Windows directory white spaces on the PATH. Fixes issues with
+  `zzet.rbenv` role no longer using bash for executing shell commands.
+* Fix `update-roles.py` script not working if using master as version in
+  `requirements.yml` file.
+
+### Changed
+
+#### Ansible
+
+* Require minimum Ansible version 2.7
+* Install Ansible 2.8 as the default version
+* Check that we're not using broken Ansible v2.8.6
+
+#### Setup script
+
+* Rework on the setup script for improved Ansible installation when using
+  `pyenv` or `virtualenv` or calling Ansible with any non-system paths.
+* Support for installing Ansible in a local virtualenv from PyPI.
+* Allow setting the default Ansible version with `MACHINE_ANSIBLE_VERSION`
+  environment variable.
+* Added support for uninstalling existing Ansible installations.
+* Added new long command line options in the setup script.
+
+#### Makefile
+
+* Self-documented Makefile and `make help` command.
+* Added `setup` command for running `setup` script with the default options.
+* Added `install-ansible` Makefile command that doesn't enable or disable PyPI
+  and doesn't reinstall existing Ansible installations.
+* Renamed `roles` Makefile command to `install-roles` and removed `-f` argument.
+* Renamed `update` Makefile command to `update-roles`.
+* Added `clean-roles` Makefile command for running `clean_roles.py` script.
+* Added `latest-roles` Makefile command to update, clean and install required
+  Ansible roles to their latest versions.
+
+#### Google Cloud SDK
+
+* Upgraded [markosamuli.gcloud] from v2.1.1 to v2.1.2
+* Cloud SDK release 271.0.0
+* Option for preferring `python3` over `python2` during install
+
+#### AWS tools
+
+* Upgraded [markosamuli.aws_tools] from v1.0.1 to v2.1.0
+
+[markosamuli.aws_tools]: https://github.com/markosamuli/ansible-aws-tools
+
+#### Python scripts
+
+* Moved Python business logic and shared functionality from the Python scripts
+  into a local `machine` Python package.
+
+#### Development and coding style improvements
+
+* Minimum `pre-commit` version 1.20
+* Removed `autopep8` in favour of using `yapf` for formatting Python code
+* Added `pylint` pre-commit hooks for linting Python code
+* Move development requirements into `requirements.dev.txt` file
+* Use more strict `yamllint` rules and format files according
+
+#### Travis
+
+* Do not run builds with Xcode 10.2.1 on macOS 10.14.
 
 ## [2.0.0] - 2019-11-20
 
