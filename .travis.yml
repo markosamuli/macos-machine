@@ -22,14 +22,6 @@ matrix:
       os: osx
       osx_image: xcode10.1
       env: UNINSTALL_HOMEBREW=NO
-    - name: "macOS 10.14 (Mojave) with Xcode 10.2.1 (uninstall Homebrew)"
-      os: osx
-      osx_image: xcode10.2
-      env: UNINSTALL_HOMEBREW=YES
-    - name: "macOS 10.14 (Mojave) with Xcode 10.2.1"
-      os: osx
-      osx_image: xcode10.2
-      env: UNINSTALL_HOMEBREW=NO
     - name: "macOS 10.14 (Mojave) with Xcode 11.0 (uninstall Homebrew)"
       os: osx
       osx_image: xcode11
