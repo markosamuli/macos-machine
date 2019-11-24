@@ -5,7 +5,7 @@
 # https://pre-commit.com/
 ---
 
-minimum_pre_commit_version: 1.16.1
+minimum_pre_commit_version: "1.20"
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks.git
