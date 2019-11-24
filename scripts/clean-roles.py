@@ -96,7 +96,7 @@ def main():
                          required_role['version'])
 
             if os.path.isdir(role_path):
-                print('Remove outdated %s', installed_role['name'])
+                print('Remove outdated %s' % installed_role['name'])
                 logging.info("remove role %s in %s", installed_role['name'],
                              role_path)
                 shutil.rmtree(role_path)
