@@ -23,6 +23,10 @@ repos:
       - id: check-yaml
       - id: pretty-format-json
         args: ['--autofix', '--indent=2', '--no-sort-keys']
+        exclude: ^\.vscode/.*\.json$
+      - id: pretty-format-json
+        args: ['--autofix', '--indent=4', '--no-sort-keys']
+        files: ^\.vscode/.*\.json$
       - id: check-ast
       - id: requirements-txt-fixer
 
