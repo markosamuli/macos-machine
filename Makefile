@@ -116,6 +116,10 @@ install-ansible:  ## install Ansible without roles or running playbooks
 install-roles:  ## install Ansible roles
 	@./setup --no-run-playbook
 
+.PHONY: list-tags
+list-tags:  # list Ansible tags
+	@./setup --no-run-playbook --no-install-roles -l
+
 .PHONY: clean-roles
 clean-roles: setup-requirements  ## remove outdated Ansible roles
 	@./scripts/clean_roles.py
