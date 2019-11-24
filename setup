@@ -3,9 +3,12 @@
 # Setup script for https://github.com/markosamuli/linux-machine and
 # https://github.com/markosamuli/macos-machine Ansible playbooks.
 #
+# 2019-11-24:
+# - Fix Ansible version checking on macOS
+#
 # 2019-11-22:
 # - Rework on the setup script for improved Ansible installation when using
-#   pyenv or virtualenv or calling Ansible with any non-system paths.
+#   pyenv or virtualenv or calling Ansible with any non-system paths
 # - Use bash executable instead of sh with Ansible on WSL environments
 #
 # 2019-11-21:
@@ -145,41 +148,37 @@ get_ansible_version() {
 
 # Check installed Ansible version meets the requirements
 check_installed_ansible_version() {
-    if is_true "${print_versions}"; then
-        local installed_version
-        installed_version=$(get_ansible_version)
-        echo "*** Ansible version ${installed_version} installed"
-    fi
-    if ! is_required_ansible_version_installed ${required_ansible_version}; then
-        error "Ansible ${required_ansible_version} required"
+    local required="${required_ansible_version}"
+    local installed
+    installed="$(get_ansible_version)"
+    # Fail if we don't get a version number
+    if [ -z "${installed}" ]; then
+        error "Ansible not installed"
         exit 1
     fi
-}
-
-# Check we're not using broken Ansible versions
-check_broken_ansible_versions() {
-    local installed_version
-    installed_version=$(get_ansible_version)
+    # Print installed Ansible version
+    if is_true "${print_versions}"; then
+        echo "*** Ansible version ${installed} installed"
+    fi
+    # Check that the installed major and minor version match the require version
+    if ! compare_ansible_version "${required}" "${installed}"; then
+        error "Ansible ${required} required"
+        exit 1
+    fi
     # Check that we're not using Ansible v2.8.6
-    if [ "${installed_version}" == "2.8.6" ]; then
+    if [ "${installed}" == "2.8.6" ]; then
         error "Ansible v2.8.6 is not supported, try upgrading to Ansible v2.8.7"
         return 1
     fi
 }
 
-# Check Ansible version matches the required version
-is_required_ansible_version_installed() {
+# Check Ansible major and minor version matches the required version
+compare_ansible_version() {
     local IFS=.
     # shellcheck disable=SC2206
     local required=($1)
-    local installed
-    local installed_ansible_version
-    installed_ansible_version=$(get_ansible_version)
-    if [ -z "$installed_ansible_version" ]; then
-        return 1
-    fi
     # shellcheck disable=SC2206
-    installed=($installed_ansible_version)
+    local installed=($2)
     # shellcheck disable=SC2004
     if ((${installed[0]} < ${required[0]})); then
         return 1
@@ -1379,9 +1378,6 @@ print_installed_versions
 
 # Check installed Ansible version meets the requirements
 check_installed_ansible_version
-
-# Check we don't have broken versions installed
-check_broken_ansible_versions
 
 # Update Ansible role versions in requirements.yml
 update_ansible_roles
