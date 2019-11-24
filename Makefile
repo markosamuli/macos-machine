@@ -74,6 +74,15 @@ endif
 travis-lint: setup-pre-commit
 	@pre-commit run -a travis-lint -v
 
+.PHONY: setup-ansible
+install-ansible:  ## install Ansible without roles or running playbooks
+	@./setup \
+		--install-ansible \
+		--no-run-playbook \
+		--no-install-roles \
+		--print-versions \
+		--verbose
+
 .PHONY: install-roles
 install-roles:  ## install Ansible roles
 	@./setup --no-run-playbook
