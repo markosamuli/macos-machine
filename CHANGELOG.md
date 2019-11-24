@@ -219,4 +219,6 @@ manually enabled:
 
 Initial version on macOS High Sierra.
 
+[2.1.0]: https://github.com/markosamuli/macos-machine/releases/tag/v2.1.0
+[2.0.0]: https://github.com/markosamuli/macos-machine/releases/tag/v2.0.0
 [1.0.0]: https://github.com/markosamuli/macos-machine/releases/tag/v1.0.0
