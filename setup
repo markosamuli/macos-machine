@@ -761,7 +761,7 @@ update_ansible_roles() {
     }
 
     echo "*** Updating Ansible roles..."
-    ./scripts/update-roles.py || {
+    ./scripts/update_roles.py || {
         error "Failed to update Ansible roles"
         exit 1
     }

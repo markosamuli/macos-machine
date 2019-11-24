@@ -64,11 +64,11 @@ endif
 
 .PHONY: setup-requirements
 setup-requirements: setup-pyenv-virtualenv  ## setup requirements for running the scripts
-	@pip install -r requirements.txt
+	@pip install -q -r requirements.txt
 
 .PHONY: setup-dev-requirements
 setup-dev-requirements: setup-pyenv-virtualenv  ## setup development requirements
-	@pip install -r requirements.dev.txt
+	@pip install -q -r requirements.dev.txt
 
 PRE_COMMIT_INSTALLED = $(shell pre-commit --version 2>&1 | head -1 | grep -q 'pre-commit 1' && echo true)
 
@@ -91,6 +91,14 @@ ifndef SHFMT
 endif
 	@pre-commit run -a -v
 
+.PHONY: python-lint
+python-lint: setup-pre-commit  ## lint and format Python files
+	@pre-commit run -a check-ast -v
+	@pre-commit run -a requirements-txt-fixer -v
+	@pre-commit run -a yapf -v
+	@pre-commit run -a flake8 -v
+	@pre-commit run -a pylint -v
+
 .PHONY: travis-lint
 travis-lint: setup-pre-commit  ## lint .travis.yml file
 	@pre-commit run -a travis-lint -v
@@ -110,11 +118,11 @@ install-roles:  ## install Ansible roles
 
 .PHONY: clean-roles
 clean-roles: setup-requirements  ## remove outdated Ansible roles
-	@./scripts/clean-roles.py
+	@./scripts/clean_roles.py
 
 .PHONY: update-roles
 update-roles: setup-requirements  ## update Ansible roles in the requirements.yml file
-	@./scripts/update-roles.py
+	@./scripts/update_roles.py
 
 .PHONY: latest-roles
 latest-roles: update-roles clean-roles install-roles  # update Ansible roles and install new versions

@@ -30,12 +30,6 @@ repos:
       - id: check-ast
       - id: requirements-txt-fixer
 
-  - repo: https://github.com/pre-commit/mirrors-autopep8.git
-    rev: v1.4.4
-    hooks:
-      - id: autopep8
-        exclude: ^playbooks/library/luarocks\.py$
-
   - repo: https://github.com/pre-commit/mirrors-yapf.git
     rev: v0.28.0
     hooks:
@@ -46,6 +40,13 @@ repos:
     rev: v2.2.3
     hooks:
       - id: flake8
+        exclude: ^playbooks/library/luarocks\.py$
+
+  - repo: https://github.com/pre-commit/mirrors-pylint.git
+    rev: v2.4.4
+    hooks:
+      - id: pylint
+        args: ['--disable=duplicate-code']
         exclude: ^playbooks/library/luarocks\.py$
 
   - repo: https://github.com/adrienverge/yamllint.git

@@ -47,6 +47,7 @@
         "playbook",
         "playbooks",
         "pyenv",
+        "pylint",
         "rbenv",
         "recurse",
         "reloadconfiguration",

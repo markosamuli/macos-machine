@@ -17,3 +17,6 @@ machine.yaml
 
 # Development
 .python-version
+
+# Python
+__pycache__
