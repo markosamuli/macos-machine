@@ -45,12 +45,16 @@ endif
 setup-requirements: setup-pyenv-virtualenv
 	@pip install -r requirements.txt
 
+.PHONY: setup-dev-requirements
+setup-dev-requirements: setup-pyenv-virtualenv
+	@pip install -r requirements.dev.txt
+
 PRE_COMMIT_INSTALLED = $(shell pre-commit --version 2>&1 | head -1 | grep -q 'pre-commit 1' && echo true)
 
 .PHONY: setup-pre-commit
 setup-pre-commit:
 ifneq ($(PRE_COMMIT_INSTALLED),true)
-	@$(MAKE) setup-requirements
+	@$(MAKE) setup-dev-requirements
 endif
 
 .PHONY: update
