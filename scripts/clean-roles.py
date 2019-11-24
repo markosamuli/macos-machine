@@ -7,6 +7,9 @@ import logging
 
 META_INSTALL = os.path.join('meta', '.galaxy_install_info')
 
+if 'DEBUG' in os.environ:
+    logging.basicConfig(level=logging.DEBUG)
+
 
 def list_required_roles():
     """Return Ansible roles from the requirements.yml file"""
@@ -74,27 +77,34 @@ def main():
             if installed_role['git']:
                 logging.debug('role %s in %s is a Git repository',
                               installed_role['name'], role_path)
-                continue
+                break
 
             if not installed_role['version']:
                 logging.debug(
                     'role %s installed %s != required %s'.
                     installed_role['name'], '(unknown version)',
                     required_role['version'])
-                continue
+                break
 
             if required_role['version'] == installed_role['version']:
                 logging.debug('role %s installed %s', installed_role['name'],
                               installed_role['version'])
-                continue
+                break
 
             logging.info('role %s installed %s != required %s',
                          installed_role['name'], installed_role['version'],
                          required_role['version'])
 
             if os.path.isdir(role_path):
-                logging.info("remove role in %s", role_path)
+                print('Remove outdated %s', installed_role['name'])
+                logging.info("remove role %s in %s", installed_role['name'],
+                             role_path)
                 shutil.rmtree(role_path)
+            else:
+                logging.warning("Role %s not found in %s",
+                                installed_role['name'], role_path)
+
+            break
 
         if not installed:
             logging.debug('role %s not installed', required_role['name'])
