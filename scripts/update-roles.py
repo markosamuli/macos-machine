@@ -4,10 +4,14 @@ import yaml
 import json
 import os
 import sys
+import logging
+
+if 'DEBUG' in os.environ:
+    logging.basicConfig(level=logging.DEBUG)
 
 try:
     from StringIO import StringIO
-except ModuleNotFoundError:
+except ImportError:
     from io import StringIO
 
 try:
@@ -41,18 +45,64 @@ def get_latest_version(repository):
         url = github_request_url(api)
         response_body = urlopen(url).read()
         release = json.loads(response_body)
+        logging.debug('Latest release for %s found: %s', repository,
+                      release['tag_name'])
         return release['tag_name']
     except HTTPError as e:
         if e.code == 404:
+            logging.debug('Latest release for %s not found', repository)
             # No releases, get latest tag name
             api = "/repos/{repository}/tags".format(repository=repository)
             url = github_request_url(api)
             response_body = urlopen(url).read()
             tags = json.loads(response_body)
-            return tags[0]['name']
-        else:
-            print(repository)
-            raise e
+            if len(tags) > 0:
+                return tags[0]['name']
+            logging.warning('No tags found for %s', repository)
+            return None
+
+        if e.code == 403:
+            logging.warning('HTTP 403 when reading tags for %s', repository)
+            return None
+
+        print(repository)
+        raise e
+
+
+def get_updated_version(role):
+
+    if role['version'] in ['master', 'develop']:
+        logging.info('Role %s version is %s branch, not updating version',
+                     role['name'], role['version'])
+        return role
+
+    repository = None
+    if role['name'] == 'zzet.rbenv':
+        repository = 'zzet/ansible-rbenv-role'
+    elif 'src' in role:
+        repository = role['src'].replace('https://github.com/', '')
+    else:
+        (galaxy_user, galaxy_role) = role['name'].split('.')
+        if galaxy_user == 'markosamuli':
+            repository = '{github_user}/{github_repo}'.format(
+                github_user=galaxy_user,
+                github_repo='ansible-%s' % galaxy_role)
+
+    if not repository:
+        logging.warning('Could not find repository for role %s', role['name'])
+        return role
+
+    latest_version = get_latest_version(repository)
+    if not latest_version:
+        logging.warning('Could not get latest version for role %s',
+                        role['name'])
+        return role
+
+    if latest_version == role['version']:
+        return role
+
+    role['version'] = latest_version
+    return role
 
 
 def update_roles(roles):
@@ -61,34 +111,16 @@ def update_roles(roles):
     updated_roles = []
 
     for role in roles:
-
-        repository = None
-
-        if role['name'] == 'zzet.rbenv':
-            repository = 'zzet/ansible-rbenv-role'
-        elif 'src' in role:
-            repository = role['src'].replace('https://github.com/', '')
+        updated_role = get_updated_version(role)
+        if updated_role and updated_role['version'] != role['version']:
+            print("update {role}: {version} -> {latest_version}".format(
+                role=role['name'],
+                version=role['version'],
+                latest_version=updated_role['version']))
+            roles_updated += 1
+            updated_roles.append(updated_role)
         else:
-            (galaxy_user, galaxy_role) = role['name'].split('.')
-            if galaxy_user == 'markosamuli':
-                repository = '{github_user}/{github_repo}'.format(
-                    github_user=galaxy_user,
-                    github_repo='ansible-%s' % galaxy_role)
-
-        if repository:
-            latest_version = get_latest_version(repository)
-            if latest_version != role['version']:
-                print("update {role}: {version} -> {latest_version}".format(
-                    role=role['name'],
-                    version=role['version'],
-                    latest_version=latest_version))
-                role['version'] = latest_version
-                roles_updated += 1
-        else:
-            print('Could not find repository for role {role_name}'.format(
-                role_name=role['name']))
-
-        updated_roles.append(role)
+            updated_roles.append(role)
 
     if roles_updated > 0:
         if len(roles) > len(updated_roles):
