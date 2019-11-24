@@ -4,5 +4,5 @@
   hosts: all
   tags: python
   roles:
-  - role: markosamuli.pyenv
-    tags: pyenv
+    - role: markosamuli.pyenv
+      tags: pyenv

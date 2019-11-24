@@ -2,8 +2,8 @@
 
 - name: Node version management
   hosts: all
-  roles:
-  - role: markosamuli.nvm
-    tags:
+  tags:
     - nvm
     - frontend
+  roles:
+    - role: markosamuli.nvm

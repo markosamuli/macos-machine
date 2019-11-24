@@ -2,6 +2,6 @@
 
 - name: AWS
   hosts: all
+  tags: aws
   roles:
-  - role: markosamuli.aws_tools
-    tags: aws
+    - role: markosamuli.aws_tools

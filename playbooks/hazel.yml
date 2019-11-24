@@ -10,7 +10,7 @@
       stat:
         path: ~/Library/PreferencePanes/Hazel.prefPane
       register: hazel_st
-      changed_when: False
+      changed_when: false
 
     - name: Install Hazel
       homebrew_cask:

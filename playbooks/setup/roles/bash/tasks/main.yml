@@ -4,7 +4,7 @@
   stat:
     path: "{{ bash_home }}/.bash_profile"
   register: bash_profile_st
-  changed_when: False
+  changed_when: false
 
 - name: Create empty ~/.bash_profile file
   file:
@@ -16,7 +16,7 @@
   stat:
     path: "{{ bash_home }}/.bashrc"
   register: bashrc_st
-  changed_when: False
+  changed_when: false
 
 - name: Create empty ~/.bashrc file
   file:
@@ -27,9 +27,9 @@
 - name: Check whether ~/.bashrc is loaded from ~/.bash_profile
   command: grep -Fxq "source ~/.bashrc" {{ bash_home }}/.bash_profile
   register: check_bashrc
-  ignore_errors: yes
-  failed_when: no
-  changed_when: no
+  ignore_errors: true
+  failed_when: false
+  changed_when: false
 
 - name: Load ~/.bashrc from ~/.bash_profile
   blockinfile:

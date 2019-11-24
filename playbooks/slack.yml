@@ -8,7 +8,7 @@
       stat:
         path: /Applications/Slack.app
       register: slack_st
-      changed_when: False
+      changed_when: false
 
     - name: Install Slack
       homebrew_cask:

@@ -2,10 +2,10 @@
 
 - name: Git
   hosts: all
-  tasks:
-  - name: Installing Git
-    package:
-      name: git
-    tags:
+  tags:
     - git
     - frontend
+  tasks:
+    - name: Installing Git
+      package:
+        name: git

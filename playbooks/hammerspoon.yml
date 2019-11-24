@@ -10,7 +10,7 @@
       stat:
         path: /Applications/Hammerspoon.app
       register: hammerspoon_st
-      changed_when: False
+      changed_when: false
 
     - name: Install Hammerspoon
       homebrew_cask:
@@ -28,7 +28,7 @@
         # yamllint disable-line rule:line-length
         src: https://github.com/Hammerspoon/Spoons/raw/master/Spoons/ReloadConfiguration.spoon.zip
         dest: ~/.hammerspoon/Spoons
-        remote_src: yes
+        remote_src: true
         creates: ~/.hammerspoon/Spoons/ReloadConfiguration.spoon
 
     - name: Get ReloadConfiguration.spoon/init.lua checksum
