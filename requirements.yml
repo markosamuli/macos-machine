@@ -25,6 +25,9 @@
 - name: markosamuli.pyenv
   src: https://github.com/markosamuli/ansible-pyenv
   version: v2.1.1
+- name: markosamuli.rust
+  src: https://github.com/markosamuli/ansible-rust
+  version: master
 - name: markosamuli.vagrant
   src: https://github.com/markosamuli/ansible-vagrant
   version: v1.0.0

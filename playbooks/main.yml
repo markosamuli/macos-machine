@@ -42,6 +42,9 @@
 - import_playbook: ruby.yml
   when: install_ruby | bool
 
+- import_playbook: rust.yml
+  when: install_rust | bool
+
 - import_playbook: vagrant.yml
   when: install_vagrant | bool
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased changes] - 2019-11-20
+
+### Added
+
+#### Rust
+
+* Install [Rust] programming language with [markosamuli.rust]
+
+[Rust]: https://www.rust-lang.org/
+[markosamuli.rust]: https://github.com/markosamuli/ansible-rust
+
 ## [2.0.0] - 2019-11-20
 
 Release with macOS Mojave support.

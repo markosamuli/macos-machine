@@ -335,6 +335,32 @@ rock using the custom [luarocks module].
 [luacheck]: https://github.com/mpeterv/luacheck
 [luarocks module]: playbooks/library/luarocks.py
 
+### Rust
+
+Install [Rust] programming language:
+
+```yaml
+install_rust: true
+```
+
+To avoid modifying path during install:
+
+```yaml
+rust_modify_path: false
+```
+
+Run Rust playbook:
+
+```bash
+make rust
+```
+
+To uninstall Rust, run:
+
+```bash
+rustup self uninstall
+```
+
 ### Git
 
 Latest version of [Git] will be installed from Homebrew.
