@@ -5,6 +5,7 @@ import json
 import os
 import sys
 import logging
+import copy
 
 if 'DEBUG' in os.environ:
     logging.basicConfig(level=logging.DEBUG)
@@ -63,7 +64,7 @@ def get_latest_version(repository):
 
         if e.code == 403:
             logging.warning('HTTP 403 when reading tags for %s', repository)
-            return None
+            raise e
 
         print(repository)
         raise e
@@ -101,8 +102,9 @@ def get_updated_version(role):
     if latest_version == role['version']:
         return role
 
-    role['version'] = latest_version
-    return role
+    updated_role = copy.copy(role)
+    updated_role['version'] = latest_version
+    return updated_role
 
 
 def update_roles(roles):
