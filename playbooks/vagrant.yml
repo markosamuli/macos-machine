@@ -4,4 +4,4 @@
   hosts: all
   tags: vagrant
   roles:
-  - role: markosamuli.vagrant
+    - role: markosamuli.vagrant

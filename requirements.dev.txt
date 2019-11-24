@@ -1,0 +1,2 @@
+pre-commit==1.20.0
+virtualenv==16.3.0

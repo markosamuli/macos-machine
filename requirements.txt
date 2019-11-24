@@ -1,2 +1,1 @@
 PyYAML<6,>=5.1
-pre-commit==1.20.0

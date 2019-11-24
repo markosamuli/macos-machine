@@ -12,5 +12,11 @@ playbooks/roles/*
 # Local configuration
 machine.yaml
 
+# Local development
+.venv
+
 # Development
 .python-version
+
+# Python
+__pycache__

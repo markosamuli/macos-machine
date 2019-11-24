@@ -3,5 +3,5 @@
 - name: Google Cloud
   hosts: all
   roles:
-  - role: markosamuli.gcloud
-    tags: gcloud
+    - role: markosamuli.gcloud
+      tags: gcloud

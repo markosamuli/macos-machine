@@ -8,7 +8,7 @@
       stat:
         path: /Applications/Google Drive File Stream.app
       register: gdfs_st
-      changed_when: False
+      changed_when: false
 
     - name: Install Google Drive File Stream
       homebrew_cask:

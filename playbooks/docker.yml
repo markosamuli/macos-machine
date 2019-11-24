@@ -4,7 +4,6 @@
   hosts: all
   tags: docker
   tasks:
-
-  - name: Install Docker for Mac
-    homebrew_cask:
-      name: docker
+    - name: Install Docker for Mac
+      homebrew_cask:
+        name: docker

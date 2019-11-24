@@ -5,7 +5,7 @@
 # https://pre-commit.com/
 ---
 
-minimum_pre_commit_version: 1.16.1
+minimum_pre_commit_version: "1.20"
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks.git
@@ -23,13 +23,12 @@ repos:
       - id: check-yaml
       - id: pretty-format-json
         args: ['--autofix', '--indent=2', '--no-sort-keys']
+        exclude: ^\.vscode/.*\.json$
+      - id: pretty-format-json
+        args: ['--autofix', '--indent=4', '--no-sort-keys']
+        files: ^\.vscode/.*\.json$
       - id: check-ast
-
-  - repo: https://github.com/pre-commit/mirrors-autopep8.git
-    rev: v1.4.4
-    hooks:
-      - id: autopep8
-        exclude: ^playbooks/library/luarocks\.py$
+      - id: requirements-txt-fixer
 
   - repo: https://github.com/pre-commit/mirrors-yapf.git
     rev: v0.28.0
@@ -41,6 +40,13 @@ repos:
     rev: v2.2.3
     hooks:
       - id: flake8
+        exclude: ^playbooks/library/luarocks\.py$
+
+  - repo: https://github.com/pre-commit/mirrors-pylint.git
+    rev: v2.4.4
+    hooks:
+      - id: pylint
+        args: ['--disable=duplicate-code']
         exclude: ^playbooks/library/luarocks\.py$
 
   - repo: https://github.com/adrienverge/yamllint.git
@@ -65,6 +71,7 @@ repos:
     rev: '0.6.0'
     hooks:
       - id: bashate
+        args: ['-i', 'E006']
 
   - repo: https://github.com/igorshubovych/markdownlint-cli.git
     rev: v0.19.0

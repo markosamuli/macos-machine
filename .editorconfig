@@ -1,24 +1,45 @@
+# EditorConfig: https://editorconfig.org
 root = true
 
+# Unix-style newlines with a newline ending every file
 [*]
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
 charset = utf-8
 
-[{setup,update-roles,install.sh}]
+# Shell scripts
+[{*.sh,setup}]
 indent_style = space
 indent_size = 4
 
+# Markdown files
 [*.md]
 indent_style = space
 indent_size = 2
 max_line_length = 80
 
+# YAML files
 [{*.yml,*.yaml,.ansible-lint,.yamllint}]
 indent_style = space
 indent_size = 2
 
+# JSON files
 [*.json]
 indent_style = space
 indent_size = 2
+
+# VS Code config files
+[.vscode/*.json]
+indent_style = space
+indent_size = 4
+
+# Makefile
+[Makefile]
+indent_style = tab
+indent_size = 2
+
+# Python scripts
+[*.py]
+indent_style = space
+indent_size = 4
