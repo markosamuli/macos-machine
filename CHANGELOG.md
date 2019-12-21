@@ -1,5 +1,23 @@
 # Changelog
 
+## [Unreleased] - 2019-12-21
+
+### Added
+
+- Install [Terminus][terminus]
+- Added [recommended extensions][recommended-extensions] for the project VScode
+  workspace
+
+[terminus]: https://eugeny.github.io/terminus/
+[recommended-extensions]:
+  https://code.visualstudio.com/docs/editor/extension-gallery#_workspace-recommended-extensions
+
+### Changed
+
+- Format JS, JSON, Markdown and YAML files with [Prettier][prettier]
+
+[prettier]: https://prettier.io/
+
 ## [2.1.0] - 2019-11-24
 
 ### Added
@@ -220,6 +238,7 @@ manually enabled:
 
 Initial version on macOS High Sierra.
 
+[unreleased]: https://github.com/markosamuli/macos-machine/tree/develop
 [2.1.0]: https://github.com/markosamuli/macos-machine/releases/tag/v2.1.0
 [2.0.0]: https://github.com/markosamuli/macos-machine/releases/tag/v2.0.0
 [1.0.0]: https://github.com/markosamuli/macos-machine/releases/tag/v1.0.0
