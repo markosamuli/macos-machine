@@ -23,6 +23,20 @@ repos:
       - id: check-ast
       - id: requirements-txt-fixer
 
+  # Format JSON, Markdown and YAML files with Prettier.
+  - repo: https://github.com/prettier/prettier
+    rev: "1.19.1"
+    hooks:
+      - id: prettier
+        name: Format JSON, Markdown and YAML files
+        files: "\\.(\
+          json\
+          |md|markdown|mdown|mkdn\
+          |yaml|yml\
+          )$"
+        # Do not run on Git push
+        stages: [commit]
+
   - repo: https://github.com/pre-commit/mirrors-yapf.git
     rev: v0.28.0
     hooks:
@@ -41,20 +55,6 @@ repos:
       - id: pylint
         args: ["--disable=duplicate-code"]
         exclude: ^playbooks/library/luarocks\.py$
-
-  # Format JSON, Markdown and YAML files with Prettier.
-  - repo: https://github.com/prettier/prettier
-    rev: "1.19.1"
-    hooks:
-      - id: prettier
-        name: Format JSON, Markdown and YAML files
-        files: "\\.(\
-          json\
-          |md|markdown|mdown|mkdn\
-          |yaml|yml\
-          )$"
-        # Do not run on Git push
-        stages: [commit]
 
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.18.0

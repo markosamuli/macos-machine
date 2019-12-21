@@ -3,8 +3,8 @@
   set_fact:
     user_home_fix_permissions: true
   when: >-
-    ansible_env.USER_HOME_FIX_PERMISSIONS is defined
-    and ansible_env.USER_HOME_FIX_PERMISSIONS
+    ansible_env.USER_HOME_FIX_PERMISSIONS is defined and
+    ansible_env.USER_HOME_FIX_PERMISSIONS
 
 - name: Fix insecure permissions in user home directory
   include_tasks: fix_permissions.yml

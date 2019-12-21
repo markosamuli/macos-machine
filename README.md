@@ -46,15 +46,15 @@ cd macos-machine
 
 ## Local options
 
-You can pass custom variables to the Ansible playbook and roles by creating
-a [`machine.yaml`][machine.yaml] file to customise your configuration.
+You can pass custom variables to the Ansible playbook and roles by creating a
+[`machine.yaml`][machine.yaml] file to customise your configuration.
 
 ```bash
 cp machine.yaml.example machine.yaml
 ```
 
-The `setup` script will detect if this file exists and passes it to the
-Ansible Playbook with `--extra-vars`.
+The `setup` script will detect if this file exists and passes it to the Ansible
+Playbook with `--extra-vars`.
 
 [machine.yaml]: machine.yaml
 
@@ -74,13 +74,13 @@ already found on the system.
 
 [iTerm2][iterm2] terminal will be installed on all environments.
 
-To install [Google Drive File Stream]:
+To install [Google Drive File Stream][gdfs]:
 
 ```yaml
 install_gdfs: true
 ```
 
-To install [Slack] desktop application:
+To install [Slack][slack] desktop application:
 
 ```yaml
 install_slack: true
@@ -88,7 +88,7 @@ install_slack: true
 
 [iterm2]: https://www.iterm2.com/
 [slack]: https://slack.com/downloads/osx
-[google drive file stream]: https://support.google.com/drive/answer/7329379?hl=en
+[gdfs]: https://support.google.com/drive/answer/7329379?hl=en
 
 ### Shell
 
@@ -102,7 +102,8 @@ Latest version of [Zsh][zsh] will be installed from Homebrew.
 - [GNU sed][sed] as `gsed` command
 - [GNU tar][tar] as `gtar` command
 - [jq] command-line JSON processor
-- [The Silver Searcher][ag] (`ag` command) code searching utility similar to `ack`
+- [The Silver Searcher][ag] (`ag` command) code searching utility similar to
+  `ack`
 - [htop] process viewer for console
 - [ShellCheck][shellcheck] static analysis tool for shell scripts
 - [shfmt] formatter for shell scripts
@@ -147,14 +148,15 @@ install_hammerspoon: true
 
 Latest [Vim][vim] package will be installed from Homebrew.
 
-To install [MacVim][macvim] instead of Vim, update `machine.yaml` with the following
-configuration:
+To install [MacVim][macvim] instead of Vim, update `machine.yaml` with the
+following configuration:
 
 ```yaml
 install_macvim: true
 ```
 
-To install [JetBrains Toolbox][jetbrains] to install and manage JetBrains applications:
+To install [JetBrains Toolbox][jetbrains] to install and manage JetBrains
+applications:
 
 ```yaml
 install_jetbrains_toolbox: true
@@ -167,15 +169,15 @@ install_jetbrains_toolbox: true
 
 ### asdf version manager
 
-You can install [asdf] version manager by adding the following
-option to your [`machine.yaml`][machine.yaml]:
+You can install [asdf] version manager by adding the following option to your
+[`machine.yaml`][machine.yaml]:
 
 ```yaml
 install_asdf: true
 ```
 
-To configure [asdf plugins][asdf-plugins] and package versions to install, add them
-into your [`machine.yaml`][machine.yaml] configuration.
+To configure [asdf plugins][asdf-plugins] and package versions to install, add
+them into your [`machine.yaml`][machine.yaml] configuration.
 
 ```yaml
 asdf_plugins:
@@ -183,9 +185,8 @@ asdf_plugins:
   - name: concourse
 ```
 
-Note that some of the playbooks remove conflicting asdf plugins and
-versions if a respective tool is installed using another package
-or version manager.
+Note that some of the playbooks remove conflicting asdf plugins and versions if
+a respective tool is installed using another package or version manager.
 
 [asdf]: https://asdf-vm.com
 [asdf-plugins]: https://asdf-vm.com/#/plugins-all
@@ -204,16 +205,16 @@ Run Python playbook:
 make python
 ```
 
-You can disable installation by adding the following option to
-your [`machine.yaml`][machine.yaml]:
+You can disable installation by adding the following option to your
+[`machine.yaml`][machine.yaml]:
 
 ```yaml
 install_python: false
 ```
 
 The [markosamuli.pyenv] role will modify your `.bashrc` and `.zshrc` files
-during the setup. If you want to disable this, edit `machine.yaml` file
-and disable the following configuration option.
+during the setup. If you want to disable this, edit `machine.yaml` file and
+disable the following configuration option.
 
 ```yaml
 pyenv_init_shell: false
@@ -273,8 +274,8 @@ fi
 
 ### Node.js
 
-- [Node Version Manager][nvm]
-- [Node.js][nodejs] LTS installed with NMV
+- [Node Version Manager][nvm] (NVM)
+- [Node.js][nodejs] LTS installed with NVM
 
 Run Node.js playbook:
 
@@ -282,8 +283,8 @@ Run Node.js playbook:
 make node
 ```
 
-You can disable installation by adding the following option to
-your [`machine.yaml`][machine.yaml]:
+You can disable installation by adding the following option to your
+[`machine.yaml`][machine.yaml]:
 
 ```yaml
 install_nodejs: false
@@ -294,8 +295,8 @@ install_nodejs: false
 
 ### Go
 
-[Go programming language][golang] installed using [markosamuli.golang]
-Ansible role.
+[Go programming language][golang] installed using [markosamuli.golang] Ansible
+role.
 
 Run Go playbook:
 
@@ -303,8 +304,8 @@ Run Go playbook:
 make golang
 ```
 
-You can disable installation by adding the following option to
-your [`machine.yaml`][machine.yaml]:
+You can disable installation by adding the following option to your
+[`machine.yaml`][machine.yaml]:
 
 ```yaml
 install_golang: false
@@ -314,8 +315,8 @@ install_golang: false
 
 ### Lua
 
-You can install [Lua][lua] programming language by adding the following
-option to your [`machine.yaml`][machine.yaml] file:
+You can install [Lua][lua] programming language by adding the following option
+to your [`machine.yaml`][machine.yaml] file:
 
 ```yaml
 install_lua: true
@@ -383,7 +384,7 @@ install_vagrant: true
 
 ### Docker
 
-[Docker for Mac] will be installed by default.
+[Docker for Mac][docker] will be installed by default.
 
 Run Docker playbook:
 
@@ -397,11 +398,11 @@ To disable installation, add:
 install_docker: false
 ```
 
-[docker for mac]: https://docs.docker.com/docker-for-mac/
+[docker]: https://docs.docker.com/docker-for-mac/
 
 ### Certbot
 
-Install [Certbot] with:
+Install [Certbot][certbot] with:
 
 ```yaml
 install_certbot: true
@@ -411,8 +412,8 @@ install_certbot: true
 
 ### Nmap
 
-Install [Nmap][nmap] utility for network discovery
-and security auditing by adding:
+Install [Nmap][nmap] utility for network discovery and security auditing by
+adding:
 
 ```yaml
 install_nmap: true
@@ -435,8 +436,8 @@ install_packer: true
 Install [tfenv] version manager for [Terraform][terraform] and install the
 latest version.
 
-Any previous conflicting installations using [asdf] or
-[markosamuli.terraform] role are removed.
+Any previous conflicting installations using [asdf] or [markosamuli.terraform]
+role are removed.
 
 Run Terraform playbook:
 
@@ -455,8 +456,8 @@ install_terraform: false
 
 ### Digital Ocean
 
-Install [doctl] using Homebrew package manager by adding the following
-option to your [`machine.yaml`][machine.yaml]:
+Install [doctl] using Homebrew package manager by adding the following option to
+your [`machine.yaml`][machine.yaml]:
 
 ```yaml
 install_doctl: true
@@ -469,8 +470,8 @@ This will uninstall any conflicting asdf plugins and versions.
 ### Amazon Web Services
 
 - [AWS CLI](https://aws.amazon.com/cli/)
-- [aws-shell](https://github.com/awslabs/aws-shell) - interactive shell for
-  AWS CLI
+- [aws-shell](https://github.com/awslabs/aws-shell) - interactive shell for AWS
+  CLI
 - [AWS Vault](https://github.com/99designs/aws-vault) - a vault for securely
   storing and accessing AWS credentials in development environments
 - [cli53](https://github.com/barnybug/cli53) - command line tool for Amazon
@@ -482,8 +483,8 @@ Run AWS playbook:
 make gcloud
 ```
 
-You can disable installation by adding the following option to
-your [`machine.yaml`][machine.yaml]:
+You can disable installation by adding the following option to your
+[`machine.yaml`][machine.yaml]:
 
 ```yaml
 install_aws: false
@@ -491,9 +492,8 @@ install_aws: false
 
 ### Google Cloud Platform
 
-[Google Cloud SDK][cloud-sdk] installed from the archive file under user
-home directory. You shouldn't try to install a global version
-with these playbooks.
+[Google Cloud SDK][cloud-sdk] installed from the archive file under user home
+directory. You shouldn't try to install a global version with these playbooks.
 
 Run Google Cloud SDK playbook:
 
@@ -501,24 +501,24 @@ Run Google Cloud SDK playbook:
 make gcloud
 ```
 
-Default install path is in `~/google-cloud-sdk`, but you can
-install it to another location, for example if you prefer
-`~/opt/google-cloud-sdk` add the following option:
+Default install path is in `~/google-cloud-sdk`, but you can install it to
+another location, for example if you prefer `~/opt/google-cloud-sdk` add the
+following option:
 
 ```yaml
 gcloud_install_path: ~/opt
 ```
 
-The [markosamuli.gcloud] role will modify your `.bashrc` and `.zshrc` files.
-To disable this and manage the configuration yourself, disable the following
+The [markosamuli.gcloud] role will modify your `.bashrc` and `.zshrc` files. To
+disable this and manage the configuration yourself, disable the following
 configuration option in the [`machine.yaml`][machine.yaml] file:
 
 ```yaml
 gcloud_setup_shell: false
 ```
 
-You can disable installation by adding the following option to
-your [`machine.yaml`][machine.yaml]:
+You can disable installation by adding the following option to your
+[`machine.yaml`][machine.yaml]:
 
 ```yaml
 install_gcloud: false
