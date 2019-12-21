@@ -4,7 +4,6 @@
 # pre-commit hook configuration
 # https://pre-commit.com/
 ---
-
 minimum_pre_commit_version: "1.20"
 
 repos:
@@ -16,16 +15,16 @@ repos:
       - id: check-case-conflict
       - id: check-merge-conflict
       - id: trailing-whitespace
-        args: ['--markdown-linebreak-ext=md']
+        args: ["--markdown-linebreak-ext=md"]
       - id: end-of-file-fixer
       - id: mixed-line-ending
-        args: ['--fix=lf']
+        args: ["--fix=lf"]
       - id: check-yaml
       - id: pretty-format-json
-        args: ['--autofix', '--indent=2', '--no-sort-keys']
+        args: ["--autofix", "--indent=2", "--no-sort-keys"]
         exclude: ^\.vscode/.*\.json$
       - id: pretty-format-json
-        args: ['--autofix', '--indent=4', '--no-sort-keys']
+        args: ["--autofix", "--indent=4", "--no-sort-keys"]
         files: ^\.vscode/.*\.json$
       - id: check-ast
       - id: requirements-txt-fixer
@@ -46,7 +45,7 @@ repos:
     rev: v2.4.4
     hooks:
       - id: pylint
-        args: ['--disable=duplicate-code']
+        args: ["--disable=duplicate-code"]
         exclude: ^playbooks/library/luarocks\.py$
 
   - repo: https://github.com/adrienverge/yamllint.git
@@ -65,13 +64,13 @@ repos:
     hooks:
       - id: shellcheck
       - id: shfmt
-        args: ['-l', '-i', '4', '-ci', '-w']
+        args: ["-l", "-i", "4", "-ci", "-w"]
 
   - repo: https://github.com/openstack-dev/bashate.git
-    rev: '0.6.0'
+    rev: "0.6.0"
     hooks:
       - id: bashate
-        args: ['-i', 'E006']
+        args: ["-i", "E006"]
 
   - repo: https://github.com/igorshubovych/markdownlint-cli.git
     rev: v0.19.0
@@ -83,7 +82,7 @@ repos:
     hooks:
       - id: commitlint
         stages: [commit-msg]
-        additional_dependencies: ['@commitlint/config-conventional']
+        additional_dependencies: ["@commitlint/config-conventional"]
 
   - repo: local
     hooks:
@@ -91,4 +90,4 @@ repos:
         name: Lint .travis.yml
         entry: scripts/travis-lint.sh
         language: script
-        files: '^.travis.yml$'
+        files: "^.travis.yml$"
