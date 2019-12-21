@@ -21,3 +21,6 @@ machine.yaml
 
 # Python
 __pycache__
+
+# Prettier config files in any directory
+!.prettierrc.yaml

@@ -20,9 +20,6 @@ repos:
       - id: mixed-line-ending
         args: ["--fix=lf"]
       - id: check-yaml
-      - id: pretty-format-json
-        args: ["--autofix", "--indent=4", "--no-sort-keys"]
-        files: ^\.vscode/.*\.json$
       - id: check-ast
       - id: requirements-txt-fixer
 
@@ -31,7 +28,6 @@ repos:
     rev: "1.19.1"
     hooks:
       - id: prettier
-        exclude: ^\.vscode/.*\.json$
         # Do not run on Git push
         stages: [commit]
 
