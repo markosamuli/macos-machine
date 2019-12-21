@@ -72,7 +72,8 @@ already found on the system.
 
 ### Desktop applications
 
-[iTerm2][iterm2] terminal will be installed on all environments.
+[iTerm2][iterm2] and [Terminus][terminus] terminal applications will be
+installed on all environments.
 
 To install [Google Drive File Stream][gdfs]:
 
@@ -86,6 +87,7 @@ To install [Slack][slack] desktop application:
 install_slack: true
 ```
 
+[terminus]: https://eugeny.github.io/terminus/
 [iterm2]: https://www.iterm2.com/
 [slack]: https://slack.com/downloads/osx
 [gdfs]: https://support.google.com/drive/answer/7329379?hl=en
