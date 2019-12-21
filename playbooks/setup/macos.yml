@@ -1,5 +1,4 @@
 ---
-
 - name: Setup variables and check requirements
   hosts: all
   tags:

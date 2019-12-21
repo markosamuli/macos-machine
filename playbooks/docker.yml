@@ -1,5 +1,4 @@
 ---
-
 - name: Docker
   hosts: all
   tags: docker

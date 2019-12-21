@@ -1,5 +1,4 @@
 ---
-
 - name: Fix insecure permissions in user home directory
   hosts: all
   become: false

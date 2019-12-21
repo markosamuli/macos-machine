@@ -1,5 +1,4 @@
 ---
-
 # Fix permissions in user home directory
 user_home_fix_permissions: false
 

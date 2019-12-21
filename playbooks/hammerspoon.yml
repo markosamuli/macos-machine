@@ -1,11 +1,9 @@
 ---
-
 - name: Hammerspoon
   hosts: all
   tags:
     - hammerspoon
   tasks:
-
     - name: Check if Hammerspoon has been installed
       stat:
         path: /Applications/Hammerspoon.app
@@ -21,7 +19,7 @@
       file:
         path: ~/.hammerspoon/Spoons
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Download ReloadConfiguration.spoon
       unarchive:
@@ -40,4 +38,6 @@
     - name: Check ReloadConfiguration.spoon/init.lua checksum
       assert:
         # yamllint disable-line rule:line-length
-        that: "rc_spoon_st.stat.checksum == 'fa06f125578ad79e4b669814dfe0fb24a6c8b1fb'"
+        that:
+          "rc_spoon_st.stat.checksum ==
+          'fa06f125578ad79e4b669814dfe0fb24a6c8b1fb'"

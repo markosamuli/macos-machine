@@ -1,5 +1,4 @@
 ---
-
 - name: asdf version manager
   hosts: all
   tags: asdf

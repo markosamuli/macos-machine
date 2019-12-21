@@ -1,5 +1,4 @@
 ---
-
 - name: Vagrant
   hosts: all
   tags: vagrant

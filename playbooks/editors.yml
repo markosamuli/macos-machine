@@ -1,10 +1,8 @@
 ---
-
 - name: Editors
   hosts: all
   tags: editors
   tasks:
-
     - name: Install Visual Studio Code
       homebrew_cask:
         name: visual-studio-code

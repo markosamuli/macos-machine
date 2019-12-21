@@ -1,7 +1,6 @@
 # -*- mode: yaml -*-
 # vim:ts=2:sw=2:ai:si:syntax=yaml
 ---
-
 # Do not fix permissions
 user_home_fix_permissions: false
 

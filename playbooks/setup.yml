@@ -1,5 +1,4 @@
 ---
-
 - import_playbook: setup/ansible.yml
 
 - import_playbook: setup/macos.yml

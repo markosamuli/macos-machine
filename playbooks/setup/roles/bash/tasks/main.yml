@@ -1,5 +1,4 @@
 ---
-
 - name: Check if ~/.bash_profile exists
   stat:
     path: "{{ bash_home }}/.bash_profile"

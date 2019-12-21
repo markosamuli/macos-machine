@@ -1,5 +1,4 @@
 ---
-
 - name: AWS
   hosts: all
   tags: aws

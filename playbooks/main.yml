@@ -1,5 +1,4 @@
 ---
-
 - import_playbook: setup.yml
 
 - import_playbook: zsh.yml

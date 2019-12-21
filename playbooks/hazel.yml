@@ -1,11 +1,9 @@
 ---
-
 - name: Hazel
   hosts: all
   tags:
     - hazel
   tasks:
-
     - name: Check if Hazel has been installed
       stat:
         path: ~/Library/PreferencePanes/Hazel.prefPane

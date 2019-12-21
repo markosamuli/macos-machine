@@ -1,5 +1,4 @@
 ---
-
 - name: Node version management
   hosts: all
   tags:
