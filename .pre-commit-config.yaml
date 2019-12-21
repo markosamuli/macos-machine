@@ -21,13 +21,19 @@ repos:
         args: ["--fix=lf"]
       - id: check-yaml
       - id: pretty-format-json
-        args: ["--autofix", "--indent=2", "--no-sort-keys"]
-        exclude: ^\.vscode/.*\.json$
-      - id: pretty-format-json
         args: ["--autofix", "--indent=4", "--no-sort-keys"]
         files: ^\.vscode/.*\.json$
       - id: check-ast
       - id: requirements-txt-fixer
+
+  # Format JS, JSON, Markdown and YAML files with Prettier.
+  - repo: https://github.com/prettier/prettier
+    rev: "1.19.1"
+    hooks:
+      - id: prettier
+        exclude: ^\.vscode/.*\.json$
+        # Do not run on Git push
+        stages: [commit]
 
   - repo: https://github.com/pre-commit/mirrors-yapf.git
     rev: v0.28.0
