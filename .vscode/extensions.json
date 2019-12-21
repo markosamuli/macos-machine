@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "esbenp.prettier-vscode",
+        "redhat.vscode-yaml",
+        "timonwong.shellcheck",
+        "vscoss.vscode-ansible",
+        "ms-python.python",
+        "davidanson.vscode-markdownlint"
+    ]
+}
