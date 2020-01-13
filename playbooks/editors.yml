@@ -5,10 +5,18 @@
   tags: editors
   tasks:
 
+    - name: Check if Visual Studio Code has been installed
+      stat:
+        path: "/Applications/Visual Studio Code.app"
+      register: vscode_st
+      changed_when: false
+      tags: vscode
+
     - name: Install Visual Studio Code
       homebrew_cask:
         name: visual-studio-code
       tags: vscode
+      when: not vscode_st.stat.exists
 
     - name: Vim
       when: not install_macvim | bool
