@@ -4,7 +4,6 @@
 # Travis CI configuration
 # https://docs.travis-ci.com/
 ---
-
 # Run tests against pull requests and main branches only
 if: |
   type = pull_request OR \
@@ -32,14 +31,12 @@ matrix:
       env: UNINSTALL_HOMEBREW=NO
 
 before_install:
-
   # The default Git on macOS doesn't support protocol version 2 that's enabled
   # on Travis
   - >
     if [[ "${UNINSTALL_HOMEBREW}" == "YES" ]]; then
       git config --global protocol.version 1
     fi
-
 
   # yamllint disable rule:line-length
 

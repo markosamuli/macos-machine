@@ -3,7 +3,6 @@
 #
 # Ansible Galaxy roles to install
 ---
-
 - name: markosamuli.asdf
   src: https://github.com/markosamuli/ansible-asdf
   version: v1.1.0
