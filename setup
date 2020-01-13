@@ -30,9 +30,9 @@
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 # Commands
-run_playbook=1        # Run playbook as default command
-syntax_check=0        # Run command to check syntax
-list_tags=0           # Run command to list tags
+run_playbook=1 # Run playbook as default command
+syntax_check=0 # Run command to check syntax
+list_tags=0    # Run command to list tags
 
 # Setup options
 check_os_upgrades=1   # Check for OS upgrades
@@ -43,11 +43,11 @@ update_roles=0        # Update Ansible roles to the latest versions
 print_versions=0      # Print Python and Ansible versions
 
 # System properties
-is_macos=""        # macOS
-is_linux=""        # Linux
-is_ubuntu=""       # Ubuntu
-is_pengwin=""      # Pengwin
-is_wsl=""          # Windows Subsystem for Linux
+is_macos=""   # macOS
+is_linux=""   # Linux
+is_ubuntu=""  # Ubuntu
+is_pengwin="" # Pengwin
+is_wsl=""     # Windows Subsystem for Linux
 
 # macOS specific setup options
 install_homebrew=1 # Install Homebrew
@@ -1292,7 +1292,7 @@ while [[ $# -gt 0 ]]; do
             print_versions=1
             shift
             ;;
-        *) # unknown option
+        *)                     # unknown option
             POSITIONAL+=("$1") # save it in an array for later
             shift              # past argument
             ;;
