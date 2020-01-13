@@ -1,5 +1,4 @@
 ---
-
 - name: Google Drive File Stream
   hosts: all
   tags: gdfs

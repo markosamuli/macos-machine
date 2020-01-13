@@ -1,10 +1,8 @@
 ---
-
 - name: Digital Ocean
   hosts: all
   tags: doctl
   tasks:
-
     - name: Remove doctl asdf plugin
       file:
         path: "{{ ansible_env.HOME }}/.asdf/plugins/doctl"

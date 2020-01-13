@@ -1,5 +1,4 @@
 ---
-
 - name: Git
   hosts: all
   tags:

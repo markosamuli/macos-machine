@@ -1,10 +1,8 @@
 ---
-
 - name: Remove conflicting Packer installations
   hosts: all
   tags: packer
   tasks:
-
     - name: Check if Packer is installed with asdf
       stat:
         path: "{{ ansible_env.HOME }}/.asdf/installs/packer"

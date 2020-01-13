@@ -1,5 +1,4 @@
 ---
-
 - name: Find directories to fix in user home
   stat:
     path: "{{ item }}"

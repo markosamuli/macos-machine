@@ -1,5 +1,4 @@
 ---
-
 - name: Install nmap
   hosts: all
   tags: nmap

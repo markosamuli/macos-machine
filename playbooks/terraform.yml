@@ -1,10 +1,8 @@
 ---
-
 - name: Remove conflicting Terraform installations
   hosts: all
   tags: terraform
   tasks:
-
     - name: Remove /usr/bin/terraform binary
       file:
         path: /usr/bin/terraform

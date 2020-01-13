@@ -1,5 +1,4 @@
 ---
-
 - name: Configuration for rbenv
   hosts: all
   tags:

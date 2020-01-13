@@ -1,11 +1,9 @@
 ---
-
 - name: Tools
   hosts: all
   tags:
     - tools
   tasks:
-
     - name: Install wget
       package:
         name: wget

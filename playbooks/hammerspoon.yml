@@ -1,11 +1,9 @@
 ---
-
 - name: Hammerspoon
   hosts: all
   tags:
     - hammerspoon
   tasks:
-
     - name: Check if Hammerspoon has been installed
       stat:
         path: /Applications/Hammerspoon.app
@@ -21,7 +19,7 @@
       file:
         path: ~/.hammerspoon/Spoons
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Download ReloadConfiguration.spoon
       unarchive:

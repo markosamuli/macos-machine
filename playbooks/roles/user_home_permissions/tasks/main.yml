@@ -1,5 +1,4 @@
 ---
-
 - name: Enable if USER_HOME_FIX_PERMISSIONS is defined
   set_fact:
     user_home_fix_permissions: true

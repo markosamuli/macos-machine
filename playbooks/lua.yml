@@ -1,10 +1,8 @@
 ---
-
 - name: Lua programming language
   hosts: all
   tags: lua
   tasks:
-
     - name: Install Lua
       package:
         name: lua

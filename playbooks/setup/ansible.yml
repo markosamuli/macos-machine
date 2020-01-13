@@ -1,5 +1,4 @@
 ---
-
 - name: Check Ansible version
   hosts: all
   tags:
