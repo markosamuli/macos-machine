@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.1.1] - 2020-01-13
+
+### Fixed
+
+- Add check that VS Code isn't already installed by [@ilyatulvio]
+
+[@ilyatulvio]: https://github.com/ilyatulvio
+
+### Changed
+
+- Format YAML, JSON and Markdown files with [Prettier][prettier] in the
+  pre-commit hooks.
+
+[prettier]: https://prettier.io/
+
 ## [2.1.0] - 2019-11-24
 
 ### Added
@@ -221,6 +236,7 @@ manually enabled:
 
 Initial version on macOS High Sierra.
 
+[2.1.1]: https://github.com/markosamuli/macos-machine/releases/tag/v2.1.1
 [2.1.0]: https://github.com/markosamuli/macos-machine/releases/tag/v2.1.0
 [2.0.0]: https://github.com/markosamuli/macos-machine/releases/tag/v2.0.0
 [1.0.0]: https://github.com/markosamuli/macos-machine/releases/tag/v1.0.0
