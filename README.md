@@ -1,9 +1,9 @@
 # Development macOS Setup
 
-| Branch  | Status |
-|---------|--------|
-| master  | [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=master)](https://travis-ci.org/markosamuli/macos-machine)
-| develop | [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=develop)](https://travis-ci.org/markosamuli/macos-machine)
+| Branch  | Status                                                                                                                                 |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| master  | [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=master)](https://travis-ci.org/markosamuli/macos-machine)  |
+| develop | [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=develop)](https://travis-ci.org/markosamuli/macos-machine) |
 
 This is a collection of Ansible roles and tasks to setup a new developer machine
 on macOS.
@@ -72,7 +72,7 @@ already found on the system.
 
 ### Desktop applications
 
-[iTerm2] terminal will be installed on all environments.
+[iTerm2][iterm2] terminal will be installed on all environments.
 
 To install [Google Drive File Stream]:
 
@@ -86,25 +86,25 @@ To install [Slack] desktop application:
 install_slack: true
 ```
 
-[iTerm2]: https://www.iterm2.com/
-[Slack]: https://slack.com/downloads/osx
-[Google Drive File Stream]: https://support.google.com/drive/answer/7329379?hl=en
+[iterm2]: https://www.iterm2.com/
+[slack]: https://slack.com/downloads/osx
+[google drive file stream]: https://support.google.com/drive/answer/7329379?hl=en
 
 ### Shell
 
-Latest version of [Zsh] will be installed from Homebrew.
+Latest version of [Zsh][zsh] will be installed from Homebrew.
 
-[Zsh]: https://www.zsh.org/
+[zsh]: https://www.zsh.org/
 
 ### Command line tools
 
-- [GNU Wget]
-- [GNU sed] as `gsed` command
-- [GNU tar] as `gtar` command
+- [GNU Wget][wget]
+- [GNU sed][sed] as `gsed` command
+- [GNU tar][tar] as `gtar` command
 - [jq] command-line JSON processor
-- [The Silver Searcher] (`ag` command) code searching utility similar to `ack`
+- [The Silver Searcher][ag] (`ag` command) code searching utility similar to `ack`
 - [htop] process viewer for console
-- [ShellCheck] static analysis tool for shell scripts
+- [ShellCheck][shellcheck] static analysis tool for shell scripts
 - [shfmt] formatter for shell scripts
 - [asciinema] for recording terminal session
 
@@ -114,56 +114,56 @@ Run tools playbook:
 make tools
 ```
 
-[GNU Wget]: https://www.gnu.org/software/wget/
-[GNU sed]: https://www.gnu.org/software/sed/
-[GNU tar]: https://www.gnu.org/software/tar/
+[wget]: https://www.gnu.org/software/wget/
+[sed]: https://www.gnu.org/software/sed/
+[tar]: https://www.gnu.org/software/tar/
 [jq]: https://stedolan.github.io/jq/
 [htop]: https://hisham.hm/htop/
-[The Silver Searcher]: https://github.com/ggreer/the_silver_searcher
+[ag]: https://github.com/ggreer/the_silver_searcher
 [shellcheck]: https://github.com/koalaman/shellcheck
 [shfmt]: https://github.com/mvdan/sh
 [asciinema]: https://asciinema.org/
 
 ### macOS customization and automation
 
-To install [Hazel] automation tool:
+To install [Hazel][hazel] automation tool:
 
 ```yaml
 install_hazel: true
 ```
 
-To install [Hammerspoon] automation tool:
+To install [Hammerspoon][hammerspoon] automation tool:
 
 ```yaml
 install_hammerspoon: true
 ```
 
-[Hazel]: https://www.noodlesoft.com/
-[Hammerspoon]: https://www.hammerspoon.org/
+[hazel]: https://www.noodlesoft.com/
+[hammerspoon]: https://www.hammerspoon.org/
 
 ### Editors
 
-[Visual Studio Code] will be installed on all environments.
+[Visual Studio Code][vscode] will be installed on all environments.
 
-Latest [Vim] package will be installed from Homebrew.
+Latest [Vim][vim] package will be installed from Homebrew.
 
-To install [MacVim] instead of Vim, update `machine.yaml` with the following
+To install [MacVim][macvim] instead of Vim, update `machine.yaml` with the following
 configuration:
 
 ```yaml
 install_macvim: true
 ```
 
-To install [JetBrains Toolbox] to install and manage JetBrains applications:
+To install [JetBrains Toolbox][jetbrains] to install and manage JetBrains applications:
 
 ```yaml
 install_jetbrains_toolbox: true
 ```
 
-[Visual Studio Code]: https://code.visualstudio.com/
-[Vim]: https://www.vim.org/
-[MacVim]: https://github.com/macvim-dev/macvim
-[JetBrains Toolbox]: https://www.jetbrains.com/toolbox-app/
+[vscode]: https://code.visualstudio.com/
+[vim]: https://www.vim.org/
+[macvim]: https://github.com/macvim-dev/macvim
+[jetbrains]: https://www.jetbrains.com/toolbox-app/
 
 ### asdf version manager
 
@@ -174,7 +174,7 @@ option to your [`machine.yaml`][machine.yaml]:
 install_asdf: true
 ```
 
-To configure [asdf plugins] and package versions to install, add them
+To configure [asdf plugins][asdf-plugins] and package versions to install, add them
 into your [`machine.yaml`][machine.yaml] configuration.
 
 ```yaml
@@ -188,7 +188,7 @@ versions if a respective tool is installed using another package
 or version manager.
 
 [asdf]: https://asdf-vm.com
-[asdf plugins]: https://asdf-vm.com/#/plugins-all
+[asdf-plugins]: https://asdf-vm.com/#/plugins-all
 
 ### Python
 
@@ -196,7 +196,7 @@ Use [pyenv] to install and manage Python versions for the current user:
 
 - [pyenv]
 - [pyenv-virtualenv]
-- [Python] v2.7 and v3.7 installed with pyenv
+- [Python][python] v2.7 and v3.7 installed with pyenv
 
 Run Python playbook:
 
@@ -219,7 +219,7 @@ and disable the following configuration option.
 pyenv_init_shell: false
 ```
 
-[Python]: https://www.python.org/
+[python]: https://www.python.org/
 [pyenv]: https://github.com/pyenv/pyenv
 [pyenv-virtualenv]: https://github.com/pyenv/pyenv-virtualenv
 
@@ -234,7 +234,7 @@ install_ruby: true
 This will install:
 
 - [rbenv] using [zzet.rbenv] role
-- [Ruby] version 2.6.3 with rbenv
+- [Ruby][ruby] version 2.6.3 with rbenv
 
 Run Ruby playbook:
 
@@ -269,12 +269,12 @@ fi
 
 [zzet.rbenv]: https://github.com/zzet/ansible-rbenv-role
 [rbenv]: https://github.com/rbenv/rbenv
-[Ruby]: https://www.ruby-lang.org/en/
+[ruby]: https://www.ruby-lang.org/en/
 
 ### Node.js
 
-- [Node Version Manager] (NVM)
-- [Node.js] LTS installed with NMV
+- [Node Version Manager][nvm]
+- [Node.js][nodejs] LTS installed with NMV
 
 Run Node.js playbook:
 
@@ -289,12 +289,12 @@ your [`machine.yaml`][machine.yaml]:
 install_nodejs: false
 ```
 
-[Node Version Manager]: https://github.com/creationix/nvm
-[Node.js]: https://nodejs.org/en/
+[nvm]: https://github.com/creationix/nvm
+[nodejs]: https://nodejs.org/en/
 
 ### Go
 
-[Go programming language] installed using [markosamuli.golang]
+[Go programming language][golang] installed using [markosamuli.golang]
 Ansible role.
 
 Run Go playbook:
@@ -310,11 +310,11 @@ your [`machine.yaml`][machine.yaml]:
 install_golang: false
 ```
 
-[Go programming language]: https://golang.org/
+[golang]: https://golang.org/
 
 ### Lua
 
-You can install [Lua] programming language by adding the following
+You can install [Lua][lua] programming language by adding the following
 option to your [`machine.yaml`][machine.yaml] file:
 
 ```yaml
@@ -327,17 +327,17 @@ Run Lua playbook:
 make lua
 ```
 
-This will also install [LuaRocks] package manager and [luacheck]
-rock using the custom [luarocks module].
+This will also install [LuaRocks][luarocks] package manager and [luacheck]
+rock using the custom [luarocks module][luarocks.py].
 
-[Lua]: https://www.lua.org/
-[LuaRocks]: https://luarocks.org/
+[lua]: https://www.lua.org/
+[luarocks]: https://luarocks.org/
 [luacheck]: https://github.com/mpeterv/luacheck
-[luarocks module]: playbooks/library/luarocks.py
+[luarocks.py]: playbooks/library/luarocks.py
 
 ### Rust
 
-Install [Rust] programming language:
+Install [Rust][rust] programming language:
 
 ```yaml
 install_rust: true
@@ -361,23 +361,25 @@ To uninstall Rust, run:
 rustup self uninstall
 ```
 
+[rust]: https://www.rust-lang.org/
+
 ### Git
 
-Latest version of [Git] will be installed from Homebrew.
+Latest version of [Git][git] will be installed from Homebrew.
 
-[Git]: https://git-scm.com/
+[git]: https://git-scm.com/
 
 ### Vagrant and VirtualBox
 
-[Vagrant] and [VirtualBox] are no longer installed by default, but you can
-enable them by adding:
+[Vagrant][vagrant] and [VirtualBox][virtualbox] are no longer installed by
+default, but you can enable them by adding:
 
 ```yaml
 install_vagrant: true
 ```
 
-[Vagrant]: https://www.vagrantup.com/
-[VirtualBox]: https://www.virtualbox.org/
+[vagrant]: https://www.vagrantup.com/
+[virtualbox]: https://www.virtualbox.org/
 
 ### Docker
 
@@ -395,7 +397,7 @@ To disable installation, add:
 install_docker: false
 ```
 
-[Docker for Mac]: https://docs.docker.com/docker-for-mac/
+[docker for mac]: https://docs.docker.com/docker-for-mac/
 
 ### Certbot
 
@@ -405,32 +407,33 @@ Install [Certbot] with:
 install_certbot: true
 ```
 
-[Certbot]: https://certbot.eff.org
+[certbot]: https://certbot.eff.org
 
 ### Nmap
 
-Install [Nmap](https://nmap.org/) utility for network discovery
+Install [Nmap][nmap] utility for network discovery
 and security auditing by adding:
 
 ```yaml
 install_nmap: true
 ```
 
-[Nmap]: https://nmap.org/
+[nmap]: https://nmap.org/
 
 ### Packer
 
-To install [Packer] add:
+To install [Packer][packer] add:
 
 ```yaml
 install_packer: true
 ```
 
-[Packer]: https://packer.io/
+[packer]: https://packer.io/
 
 ### Terraform
 
-Install [tfenv] version manager for [Terraform] and install the latest version.
+Install [tfenv] version manager for [Terraform][terraform] and install the
+latest version.
 
 Any previous conflicting installations using [asdf] or
 [markosamuli.terraform] role are removed.
@@ -441,13 +444,13 @@ Run Terraform playbook:
 make terraform
 ```
 
-Disable [Terraform] installation with:
+Disable [Terraform][terraform] installation with:
 
 ```yaml
 install_terraform: false
 ```
 
-[Terraform]: https://www.terraform.io/
+[terraform]: https://www.terraform.io/
 [tfenv]: https://github.com/tfutils/tfenv
 
 ### Digital Ocean
@@ -488,7 +491,7 @@ install_aws: false
 
 ### Google Cloud Platform
 
-[Google Cloud SDK] installed from the archive file under user
+[Google Cloud SDK][cloud-sdk] installed from the archive file under user
 home directory. You shouldn't try to install a global version
 with these playbooks.
 
@@ -521,7 +524,7 @@ your [`machine.yaml`][machine.yaml]:
 install_gcloud: false
 ```
 
-[Google Cloud SDK]: https://cloud.google.com/sdk/
+[cloud-sdk]: https://cloud.google.com/sdk/
 
 ## Changes to existing configuration
 
@@ -548,17 +551,17 @@ To update roles to the latest release versions:
 make update
 ```
 
-| Role | Build status |
-|------|--------------|
-| [markosamuli.asdf] | [![Build Status](https://travis-ci.org/markosamuli/ansible-asdf.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-asdf) |
+| Role                    | Build status                                                                                                                                  |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| [markosamuli.asdf]      | [![Build Status](https://travis-ci.org/markosamuli/ansible-asdf.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-asdf)           |
 | [markosamuli.aws_tools] | [![Build Status](https://travis-ci.org/markosamuli/ansible-aws-tools.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-aws-tools) |
-| [markosamuli.gcloud] | [![Build Status](https://travis-ci.org/markosamuli/ansible-gcloud.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-gcloud) |
-| [markosamuli.golang] | [![Build Status](https://travis-ci.org/markosamuli/ansible-golang.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-golang) |
-| [markosamuli.nvm] | [![Build Status](https://travis-ci.org/markosamuli/ansible-nvm.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-nvm) |
-| [markosamuli.packer] | [![Build Status](https://travis-ci.org/markosamuli/ansible-packer.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-packer) |
-| [markosamuli.pyenv] | [![Build Status](https://travis-ci.org/markosamuli/ansible-pyenv.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-pyenv) |
+| [markosamuli.gcloud]    | [![Build Status](https://travis-ci.org/markosamuli/ansible-gcloud.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-gcloud)       |
+| [markosamuli.golang]    | [![Build Status](https://travis-ci.org/markosamuli/ansible-golang.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-golang)       |
+| [markosamuli.nvm]       | [![Build Status](https://travis-ci.org/markosamuli/ansible-nvm.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-nvm)             |
+| [markosamuli.packer]    | [![Build Status](https://travis-ci.org/markosamuli/ansible-packer.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-packer)       |
+| [markosamuli.pyenv]     | [![Build Status](https://travis-ci.org/markosamuli/ansible-pyenv.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-pyenv)         |
 | [markosamuli.terraform] | [![Build Status](https://travis-ci.org/markosamuli/ansible-terraform.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-terraform) |
-| [markosamuli.vagrant] | [![Build Status](https://travis-ci.org/markosamuli/ansible-vagrant.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-vagrant) |
+| [markosamuli.vagrant]   | [![Build Status](https://travis-ci.org/markosamuli/ansible-vagrant.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-vagrant)     |
 
 [markosamuli.asdf]: https://github.com/markosamuli/ansible-asdf
 [markosamuli.aws_tools]: https://github.com/markosamuli/ansible-aws-tools
@@ -596,7 +599,7 @@ make lint
 ## References
 
 This is based on my previous setup [markosamuli/machine] that was forked off
-from  [caarlos0/machine] to suit my needs.
+from [caarlos0/machine] to suit my needs.
 
 [markosamuli/machine]: https://github.com/markosamuli/machine
 [caarlos0/machine]: https://github.com/caarlos0/machine
