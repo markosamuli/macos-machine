@@ -10,6 +10,7 @@
         path: "/Applications/Visual Studio Code.app"
       register: vscode_st
       changed_when: false
+      tags: vscode
 
     - name: Install Visual Studio Code
       homebrew_cask:
