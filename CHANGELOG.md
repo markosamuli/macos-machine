@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased] - 2020-01-13
+## [Unreleased] - 2020-01-18
 
 ### Added
 
@@ -10,6 +10,12 @@
 
 [terminus]: https://eugeny.github.io/terminus/
 [recommended-extensions]: https://code.visualstudio.com/docs/editor/extension-gallery#_workspace-recommended-extensions
+
+### Changed
+
+- Use `travis-lint` pre-commit hook from [markosamuli/pre-commit-travis-lint]
+
+[markosamuli/pre-commit-travis-lint]: https://github.com/markosamuli/pre-commit-travis-lint
 
 ## [2.1.1] - 2020-01-13
 

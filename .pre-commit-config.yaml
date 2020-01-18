@@ -86,6 +86,11 @@ repos:
     hooks:
       - id: markdownlint
 
+  - repo: https://github.com/markosamuli/pre-commit-travis-lint
+    rev: v1.8.8
+    hooks:
+      - id: travis-lint
+
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook.git
     rev: v2.1.0
     hooks:
@@ -93,11 +98,3 @@ repos:
         stages: [commit-msg]
         additional_dependencies: ["@commitlint/config-conventional"]
         verbose: false
-
-  - repo: local
-    hooks:
-      - id: travis-lint
-        name: Lint .travis.yml
-        entry: scripts/travis-lint.sh
-        language: script
-        files: "^.travis.yml$"
