@@ -8,7 +8,7 @@ playbooks/roles/*
 # IDEs
 .vscode/*
 !.vscode/cSpell.json
-!.prettierrc.yaml
+!.vscode/extensions.json
 
 # Local configuration
 machine.yaml
@@ -21,3 +21,6 @@ machine.yaml
 
 # Python
 __pycache__
+
+# Prettier config files in any directory
+!.prettierrc.yaml

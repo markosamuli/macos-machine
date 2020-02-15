@@ -89,19 +89,19 @@ endif
 ifndef SHFMT
 	$(error "shfmt not found, try: 'brew install shfmt'")
 endif
-	@pre-commit run -a -v
+	@pre-commit run -a
 
 .PHONY: python-lint
 python-lint: setup-pre-commit  ## lint and format Python files
-	@pre-commit run -a check-ast -v
-	@pre-commit run -a requirements-txt-fixer -v
-	@pre-commit run -a yapf -v
-	@pre-commit run -a flake8 -v
-	@pre-commit run -a pylint -v
+	@pre-commit run -a check-ast
+	@pre-commit run -a requirements-txt-fixer
+	@pre-commit run -a yapf
+	@pre-commit run -a flake8
+	@pre-commit run -a pylint
 
 .PHONY: travis-lint
 travis-lint: setup-pre-commit  ## lint .travis.yml file
-	@pre-commit run -a travis-lint -v
+	@pre-commit run -a travis-lint
 
 .PHONY: setup-ansible
 install-ansible:  ## install Ansible without roles or running playbooks

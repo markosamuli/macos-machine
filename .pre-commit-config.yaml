@@ -23,6 +23,20 @@ repos:
       - id: check-ast
       - id: requirements-txt-fixer
 
+  # Format JSON, Markdown and YAML files with Prettier.
+  - repo: https://github.com/prettier/prettier
+    rev: "1.19.1"
+    hooks:
+      - id: prettier
+        name: Format JSON, Markdown and YAML files
+        files: "\\.(\
+          json\
+          |md|markdown|mdown|mkdn\
+          |yaml|yml\
+          )$"
+        # Do not run on Git push
+        stages: [commit]
+
   - repo: https://github.com/pre-commit/mirrors-yapf.git
     rev: v0.28.0
     hooks:
@@ -41,20 +55,6 @@ repos:
       - id: pylint
         args: ["--disable=duplicate-code"]
         exclude: ^playbooks/library/luarocks\.py$
-
-  # Format JSON, Markdown and YAML files with Prettier.
-  - repo: https://github.com/prettier/prettier
-    rev: "1.19.1"
-    hooks:
-      - id: prettier
-        name: Format JSON, Markdown and YAML files
-        files: "\\.(\
-          json\
-          |md|markdown|mdown|mkdn\
-          |yaml|yml\
-          )$"
-        # Do not run on Git push
-        stages: [commit]
 
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.18.0
@@ -79,11 +79,17 @@ repos:
     hooks:
       - id: bashate
         args: ["-i", "E006"]
+        verbose: false
 
   - repo: https://github.com/igorshubovych/markdownlint-cli.git
     rev: v0.19.0
     hooks:
       - id: markdownlint
+
+  - repo: https://github.com/markosamuli/pre-commit-travis-lint
+    rev: v1.8.8
+    hooks:
+      - id: travis-lint
 
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook.git
     rev: v2.1.0
@@ -91,11 +97,4 @@ repos:
       - id: commitlint
         stages: [commit-msg]
         additional_dependencies: ["@commitlint/config-conventional"]
-
-  - repo: local
-    hooks:
-      - id: travis-lint
-        name: Lint .travis.yml
-        entry: scripts/travis-lint.sh
-        language: script
-        files: "^.travis.yml$"
+        verbose: false

@@ -11,3 +11,4 @@ singleQuote: false
 useTabs: false
 trailingComma: none
 endOfLine: lf
+proseWrap: preserve

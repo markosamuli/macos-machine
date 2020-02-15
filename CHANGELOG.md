@@ -1,5 +1,22 @@
 # Changelog
 
+## [Unreleased] - 2020-01-18
+
+### Added
+
+- Install [Terminus][terminus]
+- Added [recommended extensions][recommended-extensions] for the project VScode
+  workspace
+
+[terminus]: https://eugeny.github.io/terminus/
+[recommended-extensions]: https://code.visualstudio.com/docs/editor/extension-gallery#_workspace-recommended-extensions
+
+### Changed
+
+- Use `travis-lint` pre-commit hook from [markosamuli/pre-commit-travis-lint]
+
+[markosamuli/pre-commit-travis-lint]: https://github.com/markosamuli/pre-commit-travis-lint
+
 ## [2.1.1] - 2020-01-13
 
 ### Fixed
@@ -89,7 +106,7 @@
 - Move development requirements into `requirements.dev.txt` file
 - Use more strict `yamllint` rules and format files according
 
-#### Travis
+#### Travis
 
 - Do not run builds with Xcode 10.2.1 on macOS 10.14.
 
@@ -236,6 +253,7 @@ manually enabled:
 
 Initial version on macOS High Sierra.
 
+[unreleased]: https://github.com/markosamuli/macos-machine/tree/develop
 [2.1.1]: https://github.com/markosamuli/macos-machine/releases/tag/v2.1.1
 [2.1.0]: https://github.com/markosamuli/macos-machine/releases/tag/v2.1.0
 [2.0.0]: https://github.com/markosamuli/macos-machine/releases/tag/v2.0.0
