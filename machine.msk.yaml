@@ -1,0 +1,43 @@
+# -*- mode: yaml -*-
+# vim:ts=2:sw=2:ai:si:syntax=yaml
+#
+# Example configuration to customise local settings
+---
+# Install Hammerspoon automation tool
+install_hammerspoon: true
+
+# Configure shell rc files
+nvm_shell_init: false
+
+# Do not configure pyenv shell when using existing dotfiles
+pyenv_init_shell: false
+
+# Do not set up Cloud SDK shell when using existing dotfiles
+gcloud_setup_shell: false
+
+# Install Lua programming language
+install_lua: true
+
+# Do not configure Go shell when using existing dotfiles
+golang_init_shell: false
+
+# Install JetBrains Toolbox
+install_jetbrains_toolbox: true
+
+# Install Digital Ocean CLI
+install_doctl: true
+
+# Install Rust programming language
+install_rust: true
+
+# Do not modify path during rust-init
+rust_modify_path: false
+
+# Install asdf-vm
+install_asdf: true
+
+# Do not configure asdf shell when using existing dotfiles
+asdf_init_shell: false
+
+# Install Ruby and rbenv
+install_ruby: true
