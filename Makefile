@@ -185,18 +185,23 @@ playbooks/roles/zzet.rbenv:
 playbooks/roles/markosamuli.%:
 	@./setup --no-run-playbook
 
+###
+# Git hooks
+###
+
 PRE_COMMIT_HOOKS = .git/hooks/pre-commit
 PRE_PUSH_HOOKS = .git/hooks/pre-push
 COMMIT_MSG_HOOKS = .git/hooks/commit-msg
+GIT_HOOKS = $(PRE_COMMIT_HOOKS) $(PRE_PUSH_HOOKS) $(COMMIT_MSG_HOOKS)
 
 .PHONY: install-git-hooks
-install-git-hooks: $(PRE_COMMIT_HOOKS) $(PRE_PUSH_HOOKS) $(COMMIT_MSG_HOOKS)  ## install Git hooks
+install-git-hooks: $(GIT_HOOKS) ## install Git hooks
 
-$(PRE_COMMIT_HOOKS): setup-pre-commit  ## install pre-commit hooks
+$(PRE_COMMIT_HOOKS): setup-pre-commit
 	@pre-commit install --install-hooks
 
-$(PRE_PUSH_HOOKS): setup-pre-commit  ## install pre-push hooks
+$(PRE_PUSH_HOOKS): setup-pre-commit
 	@pre-commit install --install-hooks -t pre-push
 
-$(COMMIT_MSG_HOOKS): setup-pre-commit  ## install commit-msg hooks
+$(COMMIT_MSG_HOOKS): setup-pre-commit
 	@pre-commit install --install-hooks -t commit-msg
