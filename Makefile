@@ -4,9 +4,7 @@
 # https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 
 # Get paths to required commands
-TRAVIS = $(shell command -v travis 2>/dev/null)
-SHELLCHECK = $(shell command -v shellcheck 2>/dev/null)
-SHFMT = $(shell command -v shfmt 2>/dev/null)
+
 
 .PHONY: default
 default: help
@@ -19,89 +17,119 @@ help:  ## print this help
 setup:  ## run setup with default options
 	@./setup
 
-# Get paths to pyenv and Python commmands
+# Get operating system name
+UNAME_S := $(shell uname -s)
+
+###
+# Python, pyenv and virtualenv
+###
+
 PYENV_BIN = $(shell command -v pyenv 2>/dev/null)
-PYTHON_BIN = $(shell command -v python 2>/dev/null)
 
-# Python version to use for the virtualenv
-PYTHON_VERSION = $(shell pyenv install --list | sed 's/ //g' | grep "^3\.7\.[0-9]*$$" | sort -r | head -1)
-PYTHON_VERSION_PATH = $(HOME)/.pyenv/versions/$(PYTHON_VERSION)
-
-# Virtualenv name will be generated from the repository name
-PYENV_VIRTUALENV = $(shell basename "$(shell pwd)")
-PYENV_VIRTUALENV_PATH = $(HOME)/.pyenv/versions/$(PYENV_VIRTUALENV)
-
-# Get local pyenv version
-PYENV_LOCAL = $(shell pyenv local 2>/dev/null)
+.PHONY: setup-pyenv
+setup-pyenv:
+ifeq ($(PYENV_BIN),)
+	@$(MAKE) python
+endif
 
 .PHONY: setup-pyenv-virtualenv
-setup-pyenv-virtualenv:  ## setup virtualenv with pyenv for development
-ifeq ($(PYENV_BIN),)
-	@echo "pyenv is not installed"
-	@exit 1
-endif
-ifeq ($(PYENV_LOCAL),)
-# Local version is not defined
-# 1. Install Python if missing
-# 2. Create virtualenv if missing
-# 3. Set local virtualenv
-ifeq (,$(wildcard $(PYTHON_VERSION_PATH)))
-	@echo "Install Python $(PYTHON_VERSION)"
-	@pyenv install $(PYTHON_VERSION)
-endif
-ifeq (,$(wildcard $(PYENV_VIRTUALENV_PATH)))
-	@echo "Creating virtualenv '$(PYENV_VIRTUALENV)' with pyenv using Python $(PYTHON_VERSION)"
-	@pyenv virtualenv $(PYTHON_VERSION) $(PYENV_VIRTUALENV)
-endif
-	@echo "Using existing virtualenv '$(PYENV_VIRTUALENV)'"
-	@pyenv local $(PYENV_VIRTUALENV)
-else
-# Local version is set
-ifneq ($(PYENV_LOCAL),$(PYENV_VIRTUALENV))
-	@echo "WARNING: pyenv local version should be $(PYENV_VIRTUALENV), found $(PYENV_LOCAL)"
-endif
-endif
+setup-pyenv-virtualenv: setup-pyenv
+	@./scripts/create_virtualenv.sh
 
 .PHONY: setup-requirements
-setup-requirements: setup-pyenv-virtualenv  ## setup requirements for running the scripts
+setup-requirements: setup-pyenv-virtualenv
 	@pip install -q -r requirements.txt
 
 .PHONY: setup-dev-requirements
-setup-dev-requirements: setup-pyenv-virtualenv  ## setup development requirements
+setup-dev-requirements: setup-pyenv-virtualenv
 	@pip install -q -r requirements.dev.txt
+
+###
+# Homebrew
+###
+
+BREW_BIN = $(shell command -v brew 2>/dev/null)
+
+.PHONY: setup-homebrew
+setup-homebrew:
+ifeq ($(BREW_BIN),)
+	@$(MAKE) homebrew
+endif
+
+###
+# pre-commit
+###
 
 PRE_COMMIT_INSTALLED = $(shell pre-commit --version 2>&1 | head -1 | grep -q 'pre-commit 1' && echo true)
 
 .PHONY: setup-pre-commit
-setup-pre-commit:  ## setup pre-commit if not installed
+setup-pre-commit:
 ifneq ($(PRE_COMMIT_INSTALLED),true)
 	@$(MAKE) setup-dev-requirements
 endif
 
-.PHONY: lint
-lint: pre-commit  ## lint source code
+###
+# Go
+###
 
-.PHONY: pre-commit
-pre-commit: setup-pre-commit  ## run pre-commit hooks on all files
-ifndef SHELLCHECK
-	$(error "shellcheck not found, try: 'brew install shellcheck'")
+GO_BIN = $(shell command -v go 2>/dev/null)
+
+.PHONY: setup-golang
+setup-golang:
+ifeq ($(GO_BIN),)
+	@$(MAKE) golang
 endif
-ifndef SHFMT
-	$(error "shfmt not found, try: 'brew install shfmt'")
+
+###
+# shfmt
+###
+
+SHFMT_BIN = $(shell command -v shfmt 2>/dev/null)
+
+.PHONY: setup-shfmt
+setup-shfmt: setup-golang
+ifeq ($(SHFMT_BIN),)
+	GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt
 endif
+
+###
+# shellcheck
+###
+
+SHELLCHECK_BIN = $(shell command -v shellcheck 2>/dev/null)
+
+.PHONY: setup-shellcheck
+setup-shellcheck:
+ifeq ($(SHELLCHECK_BIN),)
+	@./setup -q -t shellcheck
+endif
+
+###
+# Linting and formatting
+###
+
+.PHONY: lint
+lint: setup-pre-commit setup-shfmt setup-shellcheck  ## run pre-commit hooks on all files
 	@pre-commit run -a
 
+.PHONY: python-format
+python-format: setup-pre-commit  ## format Python files
+	@-pre-commit run -a requirements-txt-fixer
+	@-pre-commit run -a yapf
+
 .PHONY: python-lint
-python-lint: setup-pre-commit  ## lint and format Python files
+python-lint: setup-pre-commit setup-dev-requirements python-format  ## lint and format Python files
 	@pre-commit run -a check-ast
-	@pre-commit run -a requirements-txt-fixer
-	@pre-commit run -a yapf
 	@pre-commit run -a flake8
 	@pre-commit run -a pylint
 
 .PHONY: travis-lint
 travis-lint: setup-pre-commit  ## lint .travis.yml file
 	@pre-commit run -a travis-lint
+
+###
+# Ansible setup
+###
 
 .PHONY: setup-ansible
 install-ansible:  ## install Ansible without roles or running playbooks
@@ -131,6 +159,10 @@ update-roles: setup-requirements  ## update Ansible roles in the requirements.ym
 .PHONY: latest-roles
 latest-roles: update-roles clean-roles install-roles  # update Ansible roles and install new versions
 
+###
+# Playbooks
+###
+
 .PHONY: aws
 aws:  ## install AWS tools
 	@./setup -q -t aws
@@ -146,6 +178,15 @@ gcloud: playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
 .PHONY: golang
 golang: playbooks/roles/markosamuli.golang  ## install Go programming language
 	@./setup -q -t golang
+
+.PHONY: homebrew
+homebrew: ## install Homebrew
+ifeq ($(UNAME_S),Linux)
+	@./setup -q -t linuxbrew
+endif
+ifeq ($(UNAME_S),Darwin)
+	@./setup --no-install-ansible --no-run-playbook --no-install-roles
+endif
 
 .PHONY: lua
 lua: ## install Lua programming language
@@ -171,6 +212,10 @@ ruby: playbooks/roles/zzet.rbenv  ## install Ruby with rbenv
 rust: ## install Rust programming language
 	@./setup -q -t rust
 
+.PHONY: shellcheck
+shellcheck: ## install shellcheck
+	@./setup -q -t shellcheck
+
 .PHONY: terraform
 terraform: ## install Terraform
 	@./setup -q -t terraform
@@ -178,6 +223,10 @@ terraform: ## install Terraform
 .PHONY: tools
 tools:  ## install tools
 	@./setup -q -t tools
+
+###
+# Ansible roles
+###
 
 playbooks/roles/zzet.rbenv:
 	@./setup --no-run-playbook

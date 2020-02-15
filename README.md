@@ -1,5 +1,7 @@
 # Development macOS Setup
 
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+
 | Branch  | Status                                                                                                                                 |
 | ------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | master  | [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=master)](https://travis-ci.org/markosamuli/macos-machine)  |

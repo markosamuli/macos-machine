@@ -1280,6 +1280,10 @@ while [[ $# -gt 0 ]]; do
             run_playbook=0
             shift
             ;;
+        --no-install-ansible)
+            install_ansible=0
+            shift
+            ;;
         --no-install-roles)
             install_roles=0
             shift
