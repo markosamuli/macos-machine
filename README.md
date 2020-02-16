@@ -1,5 +1,7 @@
 # Development macOS Setup
 
+[![GitHub release](https://img.shields.io/github/release/markosamuli/macos-machine.svg)](https://github.com/markosamuli/macos-machine/releases)
+[![License](https://img.shields.io/github/license/markosamuli/macos-machine.svg)](https://github.com/markosamuli/macos-machine/blob/master/LICENSE)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 | Branch  | Status                                                                                                                                 |
