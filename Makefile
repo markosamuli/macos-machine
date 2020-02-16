@@ -14,6 +14,12 @@ help:  ## print this help
 setup:  ## run setup with default options
 	@./setup
 
+.PHONY: clean
+clean:  ## delete local development dependencies
+	-rm -rf playbooks/roles/markosamuli.*
+	-rm -rf playbooks/roles/zzet.rbenv
+	@./scripts/delete_virtualenv.sh
+
 # Get operating system name
 UNAME_S := $(shell uname -s)
 
