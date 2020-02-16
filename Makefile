@@ -179,26 +179,36 @@ latest-roles: update-roles clean-roles install-roles  # update Ansible roles and
 
 .PHONY: aws
 aws:  ## install AWS tools
+	@./scripts/configure.py install_aws true
 	@./setup -q -t aws
 
 .PHONY: docker
 docker:  ## install Docker
+	@./scripts/configure.py install_docker true
 	@./setup -q -t docker
+
+.PHONY: editors
+editors:  ## install IDEs and code editors
+	@./setup -q -t editors
 
 .PHONY: gcloud
 gcloud: playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
+	@./scripts/configure.py install_gcloud true
 	@./setup -q -t gcloud
 
 .PHONY: golang
 golang: playbooks/roles/markosamuli.golang  ## install Go programming language
+	@./scripts/configure.py install_golang true
 	@./setup -q -t golang
 
 .PHONY: lua
 lua: ## install Lua programming language
+	@./scripts/configure.py install_lua true
 	@./setup -q -t lua
 
 .PHONY: node
 node: playbooks/roles/markosamuli.nvm  ## install Node.js with NVM
+	@./scripts/configure.py install_nodejs true
 	@./setup -q -t node,nvm
 
 .PHONY: permissions
@@ -207,14 +217,17 @@ permissions:  ## fix permissions in user home directory
 
 .PHONY: python
 python: playbooks/roles/markosamuli.pyenv  ## install Python with pyenv
+	@./scripts/configure.py install_python true
 	@./setup -q -t python,pyenv
 
 .PHONY: ruby
 ruby: playbooks/roles/zzet.rbenv  ## install Ruby with rbenv
+	@./scripts/configure.py install_ruby true
 	@./setup -q -t ruby,rbenv
 
 .PHONY: rust
-rust: ## install Rust programming language
+rust: playbooks/roles/markosamuli.rust  ## install Rust programming language
+	@./scripts/configure.py install_rust true
 	@./setup -q -t rust
 
 .PHONY: shellcheck
@@ -223,11 +236,17 @@ shellcheck: ## install shellcheck
 
 .PHONY: terraform
 terraform: ## install Terraform
+	@./scripts/configure.py install_terraform true
 	@./setup -q -t terraform
 
 .PHONY: tools
 tools:  ## install tools
 	@./setup -q -t tools
+
+.PHONY: zsh
+zsh:  ## install zsh
+	@./scripts/configure.py install_zsh true
+	@./setup -q -t zsh
 
 ###
 # Ansible roles
