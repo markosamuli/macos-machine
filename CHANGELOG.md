@@ -1,10 +1,13 @@
 # Changelog
 
-## [Unreleased] - 2020-01-18
+## [Unreleased] - 2020-02-16
 
 ### Breaking changes
 
+- The setup script and Ansible playbooks will require [Ansible 2.8][ansible28]
 - Use [markosamuli.pyenv] v3.0.0 and remove Python 2.7 support
+
+[ansible28]: https://docs.ansible.com/ansible/2.8/index.html
 
 ### Added
 

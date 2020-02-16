@@ -69,8 +69,8 @@ already found on the system.
 
 - Xcode Command Line Tools
 - [Homebrew](https://brew.sh/)
-- [Ansible](https://www.ansible.com/) v2.7 installed with Homebrew
-- [Python](https://www.python.org/) v3.7 installed with Homebrew
+- [Ansible](https://www.ansible.com/) installed with Homebrew
+- [Python](https://www.python.org/) installed with Homebrew
 
 ### Desktop applications
 
