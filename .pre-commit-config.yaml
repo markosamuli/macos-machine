@@ -53,11 +53,16 @@ repos:
       - id: flake8
         exclude: ^playbooks/library/luarocks\.py$
 
-  - repo: https://github.com/pre-commit/mirrors-pylint.git
-    rev: v2.4.4
+  # Validate Python code with pylint using local environment
+  # to avoid 'import-error' issues.
+  - repo: local
     hooks:
       - id: pylint
-        args: ["--disable=duplicate-code"]
+        name: Lint Python files with pylint
+        entry: python -m pylint
+        types: [python]
+        language: system
+        require_serial: false
         exclude: ^playbooks/library/luarocks\.py$
 
   - repo: https://github.com/adrienverge/yamllint.git

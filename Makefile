@@ -3,9 +3,6 @@
 # Self-documented help from:
 # https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 
-# Get paths to required commands
-
-
 .PHONY: default
 default: help
 
@@ -105,11 +102,23 @@ ifeq ($(SHELLCHECK_BIN),)
 endif
 
 ###
+# pylint
+###
+
+PYLINT_INSTALLED = $(shell pylint --version 2>&1 | head -1 | grep -q 'pylint 2' && echo true)
+
+.PHONY: setup-pylint
+setup-pylint:
+ifneq ($(PYLINT_INSTALLED),true)
+	@$(MAKE) setup-dev-requirements
+endif
+
+###
 # Linting and formatting
 ###
 
 .PHONY: lint
-lint: setup-pre-commit setup-shfmt setup-shellcheck  ## run pre-commit hooks on all files
+lint: setup-pre-commit setup-shfmt setup-shellcheck setup-pylint  ## run pre-commit hooks on all files
 	@pre-commit run -a
 
 .PHONY: python-format
@@ -118,7 +127,7 @@ python-format: setup-pre-commit  ## format Python files
 	@-pre-commit run -a yapf
 
 .PHONY: python-lint
-python-lint: setup-pre-commit setup-dev-requirements python-format  ## lint and format Python files
+python-lint: setup-pre-commit setup-pylint python-format  ## lint and format Python files
 	@pre-commit run -a check-ast
 	@pre-commit run -a flake8
 	@pre-commit run -a pylint
