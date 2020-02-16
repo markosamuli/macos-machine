@@ -23,23 +23,6 @@ install_python: true
 # Install Go programming language
 install_golang: true
 
-# GOPATH relative to user home directory
-golang_path: "go"
-
-# Enable Go modules
-golang_modules: true
-
-# Install Go packages
-golang_packages:
-  - name: github.com/kisielk/errcheck
-  - name: github.com/TrueFurby/go-callvis
-  - name: github.com/uudashr/gopkgs/cmd/gopkgs
-  - name: golang.org/x/lint
-  - name: golang.org/x/tools/cmd/goimports
-  - name: golang.org/x/tools/cmd/stringer
-  - name: golang.org/x/tools/cmd/guru
-  - name: honnef.co/go/tools/cmd/staticcheck
-
 # Install Hazel automation tool
 install_hazel: false
 
