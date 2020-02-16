@@ -2,6 +2,10 @@
 
 ## [Unreleased] - 2020-01-18
 
+### Breaking changes
+
+- Use [markosamuli.pyenv] v3.0.0 and remove Python 2.7 support
+
 ### Added
 
 - Install [Terminus][terminus]

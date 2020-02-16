@@ -201,7 +201,7 @@ Use [pyenv] to install and manage Python versions for the current user:
 
 - [pyenv]
 - [pyenv-virtualenv]
-- [Python][python] v2.7 and v3.7 installed with pyenv
+- [Python][python] v3.7 installed with pyenv
 
 Run Python playbook:
 

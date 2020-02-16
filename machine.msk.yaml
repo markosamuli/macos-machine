@@ -41,3 +41,6 @@ asdf_init_shell: false
 
 # Install Ruby and rbenv
 install_ruby: true
+
+# Default Python version
+pyenv_global: 3.7.6
