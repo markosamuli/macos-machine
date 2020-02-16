@@ -18,7 +18,7 @@ META_INSTALL = os.path.join('meta', '.galaxy_install_info')
 
 
 def remove_outdated_roles(roles_path):
-    """Remove any outdates Ansible roles"""
+    """Remove any outdated Ansible roles"""
 
     removed_roles = []
     required_roles = list_required_roles()

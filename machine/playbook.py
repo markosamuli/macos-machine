@@ -3,7 +3,7 @@
 from collections import OrderedDict
 import os.path
 import sys
-import yaml  # pylint: disable=import-error
+import yaml
 
 
 def get_tags_from_playbook(playbook_file):
