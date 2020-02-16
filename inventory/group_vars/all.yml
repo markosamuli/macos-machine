@@ -23,6 +23,23 @@ install_python: true
 # Install Go programming language
 install_golang: true
 
+# GOPATH relative to user home directory
+golang_path: "go"
+
+# Enable Go modules
+golang_modules: true
+
+# Install Go packages
+golang_packages:
+  - name: github.com/kisielk/errcheck
+  - name: github.com/TrueFurby/go-callvis
+  - name: github.com/uudashr/gopkgs/cmd/gopkgs
+  - name: golang.org/x/lint
+  - name: golang.org/x/tools/cmd/goimports
+  - name: golang.org/x/tools/cmd/stringer
+  - name: golang.org/x/tools/cmd/guru
+  - name: honnef.co/go/tools/cmd/staticcheck
+
 # Install Hazel automation tool
 install_hazel: false
 
@@ -53,21 +70,6 @@ install_terraform: true
 # Install Packer
 install_packer: false
 
-# Install Certbot
-install_certbot: false
-
-# Install nmap
-install_nmap: false
-
-# Install MacVim instead of Vim
-install_macvim: false
-
-# Install JetBrains Toolbox
-install_jetbrains_toolbox: false
-
-# Install Digital Ocean CLI
-install_doctl: false
-
 # Install Ruby and rbenv
 install_ruby: false
 
@@ -82,19 +84,17 @@ rbenv:
 # Install Rust programming language
 install_rust: false
 
-# GOPATH relative to user home directory
-golang_path: "go"
+# Install Certbot
+install_certbot: false
 
-# Enable Go modules
-golang_modules: true
+# Install nmap
+install_nmap: false
 
-# Install Go packages
-golang_packages:
-  - name: github.com/kisielk/errcheck
-  - name: github.com/TrueFurby/go-callvis
-  - name: github.com/uudashr/gopkgs/cmd/gopkgs
-  - name: golang.org/x/lint
-  - name: golang.org/x/tools/cmd/goimports
-  - name: golang.org/x/tools/cmd/stringer
-  - name: golang.org/x/tools/cmd/guru
-  - name: honnef.co/go/tools/cmd/staticcheck
+# Install MacVim instead of Vim
+install_macvim: false
+
+# Install JetBrains Toolbox
+install_jetbrains_toolbox: false
+
+# Install Digital Ocean CLI
+install_doctl: false
