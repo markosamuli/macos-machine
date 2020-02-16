@@ -56,7 +56,7 @@ if [ -z "${PYENV_LOCAL}" ]; then
     }
 
     # Upgrade pip
-    pyenv exec pip install --upgrade pip
+    pyenv exec pip install -q --upgrade pip
 
     # Get local pyenv version
     PYENV_LOCAL=$(pyenv local 2>/dev/null)
