@@ -21,6 +21,7 @@
 ### Changed
 
 - Use `travis-lint` pre-commit hook from [markosamuli/pre-commit-travis-lint]
+- Install Node.js v12 as default version with NVM
 
 [markosamuli/pre-commit-travis-lint]: https://github.com/markosamuli/pre-commit-travis-lint
 

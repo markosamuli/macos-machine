@@ -12,26 +12,17 @@ rust_modify_path: false
 # Install Hammerspoon automation tool
 install_hammerspoon: true
 
-# Install Lua programming language
+# Install Ruby with rbenv so I can use travis gem
+install_ruby: true
+
+# Install Lua as my dotfiles have Lua code
 install_lua: true
-
-# Install JetBrains Toolbox
-install_jetbrains_toolbox: true
-
-# Install Digital Ocean CLI
-install_doctl: true
 
 # Install Rust programming language
 install_rust: true
 
-# Install asdf-vm
-install_asdf: true
-
-# Install Ruby and rbenv
-install_ruby: true
-
-# Install Python
-install_python: true
+# Install JetBrains Toolbox
+install_jetbrains_toolbox: true
 
 # Default Python version
 pyenv_global: 3.7.6
