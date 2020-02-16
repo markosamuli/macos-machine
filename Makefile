@@ -50,7 +50,12 @@ BREW_BIN = $(shell command -v brew 2>/dev/null)
 .PHONY: setup-homebrew
 setup-homebrew:
 ifeq ($(BREW_BIN),)
-	@$(MAKE) homebrew
+ifeq ($(UNAME_S),Linux)
+	@$(MAKE) linuxbrew
+endif
+ifeq ($(UNAME_S),Darwin)
+	@./setup --no-install-ansible --no-run-playbook --no-install-roles
+endif
 endif
 
 ###
@@ -187,15 +192,6 @@ gcloud: playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
 .PHONY: golang
 golang: playbooks/roles/markosamuli.golang  ## install Go programming language
 	@./setup -q -t golang
-
-.PHONY: homebrew
-homebrew: ## install Homebrew
-ifeq ($(UNAME_S),Linux)
-	@./setup -q -t linuxbrew
-endif
-ifeq ($(UNAME_S),Darwin)
-	@./setup --no-install-ansible --no-run-playbook --no-install-roles
-endif
 
 .PHONY: lua
 lua: ## install Lua programming language
