@@ -1,0 +1,3 @@
+[flake8]
+exclude =
+    playbooks/library/luarocks.py
