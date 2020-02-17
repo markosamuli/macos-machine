@@ -14,6 +14,10 @@ help:  ## print this help
 setup:  ## run setup with default options
 	@./setup
 
+.PHONY: update
+update: setup-ansible ## update Ansible roles
+	@./setup --no-install-ansible --update-roles --no-run-playbook
+
 .PHONY: clean
 clean:  ## delete local development dependencies
 	-rm -rf playbooks/roles/markosamuli.*
@@ -197,7 +201,7 @@ init: setup-ansible setup-requirements
 ###
 
 .PHONY: aws
-aws: init ## install AWS tools
+aws: init playbooks/roles/markosamuli.aws_tools  ## install AWS tools
 	@./scripts/configure.py install_aws true
 	@./setup -q -t aws
 
@@ -211,7 +215,7 @@ editors: init ## install IDEs and code editors
 	@./setup -q -t editors
 
 .PHONY: gcloud
-gcloud: init  playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
+gcloud: init playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
 	@./scripts/configure.py install_gcloud true
 	@./setup -q -t gcloud
 
@@ -263,7 +267,7 @@ tools: init ## install tools
 	@./setup -q -t tools
 
 .PHONY: zsh
-zsh: init  ## install zsh
+zsh: init ## install zsh
 	@./scripts/configure.py install_zsh true
 	@./setup -q -t zsh
 
