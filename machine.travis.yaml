@@ -48,9 +48,6 @@ asdf_plugins:
   - name: helm
     versions:
       - "2.14.0"
-  - name: concourse
-    versions:
-      - "5.2.0"
   - name: packer
     versions:
       - "1.4.1"
