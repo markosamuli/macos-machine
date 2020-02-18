@@ -61,6 +61,19 @@ before_install:
   - rm -rf /Users/travis/.nvm
   - rm -rf /etc/profile.d/travis-nvm.sh
 
+  # Remove Go versions installed with Gimme
+  - >
+    if [[ -d "/home/travis/.gimme" ]]; then
+      rm -rf /home/travis/.gimme
+    fi
+
+  # Unset GOROOT and GIMME_ENV variables
+  - unset GOROOT
+  - unset GIMME_ENV
+
+  # Remove Gimme installed Go version from the PATH
+  - export PATH=$(echo "${PATH}" | sed 's~/home/travis/.gimme/versions/\([^/]*\)/bin:~~')
+
 script:
   # Use Travis test configuration
   - cp machine.travis.yaml machine.yaml
