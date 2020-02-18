@@ -4,10 +4,10 @@
 [![License](https://img.shields.io/github/license/markosamuli/macos-machine.svg)](https://github.com/markosamuli/macos-machine/blob/master/LICENSE)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
-| Branch  | Status                                                                                                                                 |
-| ------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| master  | [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=master)](https://travis-ci.org/markosamuli/macos-machine)  |
-| develop | [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=develop)](https://travis-ci.org/markosamuli/macos-machine) |
+| Branch  | Build Status                              | Coding Style                |
+| ------- | ----------------------------------------- | --------------------------- |
+| master  | [![Build Status][travis-master]][travis]  | ![Coding Style][cs-master]  |
+| develop | [![Build Status][travis-develop]][travis] | ![Coding Style][cs-develop] |
 
 This is a collection of Ansible roles and tasks to setup a new developer machine
 on macOS.
@@ -15,6 +15,11 @@ on macOS.
 Read my [Machine Setup Guide][machine-setup-guide] for instructions.
 
 [machine-setup-guide]: https://machine.msk.io/
+[travis]: https://travis-ci.org/markosamuli/macos-machine/branches
+[travis-master]: https://travis-ci.org/markosamuli/macos-machine.svg?branch=master
+[travis-develop]: https://travis-ci.org/markosamuli/macos-machine.svg?branch=develop
+[cs-master]: https://github.com/markosamuli/macos-machine/workflows/Test/badge.svg?branch=master
+[cs-develop]: https://github.com/markosamuli/macos-machine/workflows/Test/badge.svg?branch=develop
 
 ## Requirements
 
