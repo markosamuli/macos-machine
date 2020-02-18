@@ -40,6 +40,18 @@ install_asdf: true
 # Install doctl with Homebrew
 install_doctl: true
 
+# Install Rust programming language
+install_rust: true
+
+# Install Ruby and rbenv
+install_ruby: true
+
+# Install Python
+install_python: true
+
+# Install Go programming language
+install_golang: true
+
 # Install asdf plugins
 asdf_plugins:
   - name: kubectl
