@@ -232,9 +232,9 @@ install_homebrew() {
         return 0
     fi
     local url="https://raw.githubusercontent.com"
-    url="${url}/Homebrew/install/master/install"
+    url="${url}/Homebrew/install/master/install.sh"
     echo "*** Installing Homebrew..."
-    ruby -e "$(curl -fsSL ${url})" ||
+    /bin/bash -c "$(curl -fsSL ${url})" ||
         {
             error "Failed to install Homebrew"
             exit 1
