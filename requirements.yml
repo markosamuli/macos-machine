@@ -18,7 +18,7 @@
   src: https://github.com/markosamuli/ansible-packer
   version: v1.0.0
 - name: markosamuli.pyenv
-  version: v3.0.0
+  version: v3.0.1
 - name: markosamuli.rust
   src: https://github.com/markosamuli/ansible-rust
   version: master
