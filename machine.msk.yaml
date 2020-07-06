@@ -37,7 +37,7 @@ install_python: true
 install_golang: true
 
 # Default Python version
-pyenv_global: 3.7.6 system
+pyenv_global: 3.7.7 system
 
 # Use Node.js v12.x as the default version
 nvm_default_node_version: lts/erbium
