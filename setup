@@ -56,6 +56,7 @@ is_wsl=""     # Windows Subsystem for Linux
 
 # macOS specific setup options
 install_homebrew=1 # Install Homebrew
+install_xcode=1    # Install Xcode
 
 # Environment configuration
 deploy_env="local"
@@ -204,8 +205,10 @@ install_linux_dependencies() {
 
 # Install dependencies on macOS
 install_macos_dependencies() {
+    if is_true "${install_xcode}"; then
+        install_xcode
+    fi
     if is_true "${install_homebrew}"; then
-        install_xcode_cli
         install_homebrew
     fi
     if is_true "${install_ansible}"; then
@@ -214,16 +217,21 @@ install_macos_dependencies() {
 }
 
 # Install Xcode Command Line Tools
-install_xcode_cli() {
-    if command -v gcc >/dev/null; then
-        return 0
-    fi
+install_xcode() {
     echo "*** Installing Xcode Command Line Tools..."
     xcode-select --install ||
         {
             error "Failed to install Xcode Command Line Tools"
             exit 1
         }
+    echo "Follow instructions on the dialog to complete the installation."
+    echo "Press [CTRL+C] to stop."
+    printf "Waiting for install to complete"
+    while is_true "${install_xcode}"; do
+        printf "."
+        sleep 5
+        configure_xcode
+    done
 }
 
 # Install Homebrew
@@ -1034,18 +1042,44 @@ configure_linux() {
     ansible_become=1
     # Disable Homebrew installation source on Linux
     ansible_homebrew_enabled=false
-    # Do not install Homebrew on Linux
+    # Do not install Xcode or Homebrew on Linux
     install_homebrew=0
+    install_xcode=0
     # Use bash on WSL to avoid issues with spaces on the PATH
     if is_true "${is_wsl}"; then
         ansible_executable=$(command -v /bin/bash 2>/dev/null)
     fi
 }
 
+# Check for known issues with macOS upgrade
+configure_xcode() {
+    if ! is_true "${is_macos}"; then
+        return
+    fi
+    if ! command -v gcc >/dev/null; then
+        echo "*** GCC doesn't exist, install Xcode..."
+        install_xcode=1
+        return
+    fi
+    if ! command -v make >/dev/null; then
+        echo "*** GNU make not found, install Xcode..."
+        install_xcode=1
+        return
+    fi
+    if ! make --version >/dev/null; then
+        echo "*** GNU make is not working, install Xcode..."
+        install_xcode=1
+        return
+    fi
+    install_xcode=0
+}
+
+
 # Configure options
 configure_options() {
     if is_true "${is_macos}"; then
         configure_macos
+        configure_xcode
     elif is_true "${is_linux}"; then
         configure_linux
     else
