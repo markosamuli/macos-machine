@@ -3,16 +3,38 @@
 # Self-documented help from:
 # https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 
-.PHONY: default
-default: help
+###
+# Makefile configuration
+###
 
-.PHONY: help
-help:  ## print this help
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+.DEFAULT_GOAL := help
+
+###
+# Define environment variables in the beginning of the file
+###
+
+PRE_COMMIT_BIN = $(shell pre-commit --version 2>&1 | head -1 | grep -q 'pre-commit [12]\.' && command -v pre-commit)
+
+###
+# Define local variables after environment variables
+###
+
+# Paths to supported Git hooks
+pre_commit_hooks = .git/hooks/pre-commit
+pre_push_hooks 	 = .git/hooks/pre-push
+commit_msg_hooks = .git/hooks/commit-msg
+git_hooks = $(pre_commit_hooks) $(pre_push_hooks) $(commit_msg_hooks)
+
+###
+# Setup
+###
 
 .PHONY: setup
 setup:  ## run setup with default options
 	@./setup
+
+.PHONY: setup-development
+setup-development: init setup-git-hooks ## setup requirements for local development
 
 .PHONY: update
 update: setup-ansible ## update Ansible roles
@@ -69,16 +91,26 @@ endif
 endif
 
 ###
-# pre-commit
+# Setup: pre-commit and Git hooks
 ###
-
-PRE_COMMIT_INSTALLED = $(shell pre-commit --version 2>&1 | head -1 | grep -q 'pre-commit 1' && echo true)
 
 .PHONY: setup-pre-commit
 setup-pre-commit:
-ifneq ($(PRE_COMMIT_INSTALLED),true)
-	@$(MAKE) setup-dev-requirements
+ifeq ($(PRE_COMMIT_BIN),)
+	$(MAKE) setup-dev-requirements
 endif
+
+.PHONY: setup-git-hooks
+setup-git-hooks: $(git_hooks)
+
+$(pre_commit_hooks): | setup-pre-commit
+	pre-commit install --install-hooks
+
+$(pre_push_hooks): | setup-pre-commit
+	pre-commit install --install-hooks -t pre-push
+
+$(commit_msg_hooks): | setup-pre-commit
+	pre-commit install --install-hooks -t commit-msg
 
 ###
 # Go
@@ -289,22 +321,9 @@ playbooks/roles/markosamuli.%:
 	@./setup --no-run-playbook
 
 ###
-# Git hooks
+# This Makefile uses self-documenting help commands
 ###
 
-PRE_COMMIT_HOOKS = .git/hooks/pre-commit
-PRE_PUSH_HOOKS = .git/hooks/pre-push
-COMMIT_MSG_HOOKS = .git/hooks/commit-msg
-GIT_HOOKS = $(PRE_COMMIT_HOOKS) $(PRE_PUSH_HOOKS) $(COMMIT_MSG_HOOKS)
-
-.PHONY: install-git-hooks
-install-git-hooks: $(GIT_HOOKS) ## install Git hooks
-
-$(PRE_COMMIT_HOOKS): setup-pre-commit
-	@pre-commit install --install-hooks
-
-$(PRE_PUSH_HOOKS): setup-pre-commit
-	@pre-commit install --install-hooks -t pre-push
-
-$(COMMIT_MSG_HOOKS): setup-pre-commit
-	@pre-commit install --install-hooks -t commit-msg
+.PHONY: help
+help:  ## print this help
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort -d | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

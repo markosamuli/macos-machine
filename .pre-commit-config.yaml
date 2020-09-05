@@ -4,7 +4,7 @@
 # pre-commit hook configuration
 # https://pre-commit.com/
 ---
-minimum_pre_commit_version: "1.20"
+minimum_pre_commit_version: "2.7.0"
 
 default_language_version:
   python: python3
