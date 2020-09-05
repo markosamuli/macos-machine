@@ -551,16 +551,22 @@ backup copies of them before running the script.
 The following external Ansible roles are installed and used. See
 [requirements.yml] file for the installed versions.
 
-To install roles and forcibly update any existing ones:
+To install roles:
 
 ```bash
-make roles
+make install-roles
 ```
 
 To update roles to the latest release versions:
 
 ```bash
-make update
+make update-roles
+```
+
+To remove any outdated roles:
+
+```bash
+make clean-roles
 ```
 
 | Role                    | Build status                                                                                                                                  |
