@@ -148,6 +148,16 @@ ifeq ($(PYLINT_BIN),)
 endif
 
 ###
+# Setup: Ansible roles
+###
+
+playbooks/roles/zzet.rbenv:
+	./setup --no-run-playbook
+
+playbooks/roles/markosamuli.%:
+	./setup --no-run-playbook
+
+###
 # Linting and formatting
 ###
 
@@ -293,16 +303,6 @@ zsh: setup ## install zsh
 
 .PHONY: go
 go: golang
-
-###
-# Ansible roles
-###
-
-playbooks/roles/zzet.rbenv:
-	./setup --no-run-playbook
-
-playbooks/roles/markosamuli.%:
-	./setup --no-run-playbook
 
 ###
 # Clean
