@@ -43,11 +43,10 @@ git_hooks = $(pre_commit_hooks) $(pre_push_hooks) $(commit_msg_hooks)
 ###
 
 .PHONY: setup
-setup:  ## run setup with default options
-	./setup
+setup: setup-ansible setup-requirements ## setup requirements for running playbooks
 
 .PHONY: setup-development
-setup-development: init setup-git-hooks ## setup requirements for local development
+setup-development: setup setup-git-hooks ## setup requirements for local development
 
 .PHONY: update
 update: setup-ansible ## update Ansible roles
@@ -216,52 +215,49 @@ update-roles: setup-requirements  ## update Ansible roles in the requirements.ym
 latest-roles: update-roles clean-roles install-roles  # update Ansible roles and install new versions
 
 ###
-# Initialise requirements for running playbooks
-###
-
-.PHONY: init
-init: setup-ansible setup-requirements
-
-###
 # Playbooks
 ###
 
+.PHONY: install
+install:  ## install everything with default options
+	./setup
+
 .PHONY: aws
-aws: init playbooks/roles/markosamuli.aws_tools  ## install AWS tools
+aws: setup playbooks/roles/markosamuli.aws_tools  ## install AWS tools
 	./scripts/configure.py install_aws true
 	./setup -q -t aws
 
 .PHONY: docker
-docker: init ## install Docker
+docker: setup ## install Docker
 	./scripts/configure.py install_docker true
 	./setup -q -t docker
 
 .PHONY: editors
-editors: init ## install IDEs and code editors
+editors: setup ## install IDEs and code editors
 	./setup -q -t editors
 
 .PHONY: gcloud
-gcloud: init playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
+gcloud: setup playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
 	./scripts/configure.py install_gcloud true
 	./setup -q -t gcloud
 
 .PHONY: golang
-golang: init playbooks/roles/markosamuli.golang  ## install Go programming language
+golang: setup playbooks/roles/markosamuli.golang  ## install Go programming language
 	./scripts/configure.py install_golang true
 	./setup -q -t golang
 
 .PHONY: lua
-lua: init ## install Lua programming language
+lua: setup ## install Lua programming language
 	./scripts/configure.py install_lua true
 	./setup -q -t lua
 
 .PHONY: node
-node: init playbooks/roles/markosamuli.nvm ## install Node.js with NVM
+node: setup playbooks/roles/markosamuli.nvm ## install Node.js with NVM
 	./scripts/configure.py install_nodejs true
 	./setup -q -t node,nvm
 
 .PHONY: permissions
-permissions: init ## fix permissions in user home directory
+permissions: setup ## fix permissions in user home directory
 	USER_HOME_FIX_PERMISSIONS=true ./setup -q -t permissions
 
 # Do not create virtualenv if Python is not installed yet
@@ -270,30 +266,30 @@ python: setup-ansible playbooks/roles/markosamuli.pyenv ## install Python with p
 	./setup -q -t python,pyenv
 
 .PHONY: ruby
-ruby: init playbooks/roles/zzet.rbenv ## install Ruby with rbenv
+ruby: setup playbooks/roles/zzet.rbenv ## install Ruby with rbenv
 	./scripts/configure.py install_ruby true
 	./setup -q -t ruby,rbenv
 
 .PHONY: rust
-rust: init playbooks/roles/markosamuli.rust ## install Rust programming language
+rust: setup playbooks/roles/markosamuli.rust ## install Rust programming language
 	./scripts/configure.py install_rust true
 	./setup -q -t rust
 
 .PHONY: shellcheck
-shellcheck: init ## install shellcheck
+shellcheck: setup ## install shellcheck
 	./setup -q -t shellcheck
 
 .PHONY: terraform
-terraform: init ## install Terraform
+terraform: setup ## install Terraform
 	./scripts/configure.py install_terraform true
 	./setup -q -t terraform
 
 .PHONY: tools
-tools: init ## install tools
+tools: setup ## install tools
 	./setup -q -t tools
 
 .PHONY: zsh
-zsh: init ## install zsh
+zsh: setup ## install zsh
 	./scripts/configure.py install_zsh true
 	./setup -q -t zsh
 
