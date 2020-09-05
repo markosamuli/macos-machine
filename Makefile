@@ -19,7 +19,14 @@ endif
 # Define environment variables in the beginning of the file
 ###
 
+UNAME_S  := $(shell uname -s)
+BREW_BIN = $(shell command -v brew 2>/dev/null)
+GO_BIN = $(shell command -v go 2>/dev/null)
+PYENV_BIN = $(shell command -v pyenv 2>/dev/null)
 PRE_COMMIT_BIN = $(shell pre-commit --version 2>&1 | head -1 | grep -q 'pre-commit [12]\.' && command -v pre-commit)
+PYLINT_BIN = $(shell pylint --version 2>&1 | head -1 | grep -q 'pylint 2' && command -v pylint)
+SHELLCHECK_BIN = $(shell command -v shellcheck 2>/dev/null)
+SHFMT_BIN = $(shell command -v shfmt 2>/dev/null)
 
 ###
 # Define local variables after environment variables
@@ -52,14 +59,9 @@ clean:  ## delete local development dependencies
 	-rm -rf playbooks/roles/zzet.rbenv
 	./scripts/delete_virtualenv.sh
 
-# Get operating system name
-UNAME_S := $(shell uname -s)
-
 ###
-# Python, pyenv and virtualenv
+# Setup: Python, pyenv and virtualenv
 ###
-
-PYENV_BIN = $(shell command -v pyenv 2>/dev/null)
 
 .PHONY: setup-pyenv
 setup-pyenv:
@@ -80,10 +82,8 @@ setup-dev-requirements: setup-pyenv-virtualenv
 	pip install -q -r requirements.dev.txt
 
 ###
-# Homebrew
+# Setup: Homebrew
 ###
-
-BREW_BIN = $(shell command -v brew 2>/dev/null)
 
 .PHONY: setup-homebrew
 setup-homebrew:
@@ -119,10 +119,8 @@ $(commit_msg_hooks): | setup-pre-commit
 	pre-commit install --install-hooks -t commit-msg
 
 ###
-# Go
+# Setup: Go
 ###
-
-GO_BIN = $(shell command -v go 2>/dev/null)
 
 .PHONY: setup-golang
 setup-golang:
@@ -131,10 +129,14 @@ ifeq ($(GO_BIN),)
 endif
 
 ###
-# shfmt
+# Setup: Shellcheck and shfmt
 ###
 
-SHFMT_BIN = $(shell command -v shfmt 2>/dev/null)
+.PHONY: setup-shellcheck
+setup-shellcheck:
+ifeq ($(SHELLCHECK_BIN),)
+	./setup -q -t shellcheck
+endif
 
 .PHONY: setup-shfmt
 setup-shfmt: setup-golang
@@ -143,26 +145,12 @@ ifeq ($(SHFMT_BIN),)
 endif
 
 ###
-# shellcheck
+# Setup: pylint
 ###
-
-SHELLCHECK_BIN = $(shell command -v shellcheck 2>/dev/null)
-
-.PHONY: setup-shellcheck
-setup-shellcheck:
-ifeq ($(SHELLCHECK_BIN),)
-	./setup -q -t shellcheck
-endif
-
-###
-# pylint
-###
-
-PYLINT_INSTALLED = $(shell pylint --version 2>&1 | head -1 | grep -q 'pylint 2' && echo true)
 
 .PHONY: setup-pylint
 setup-pylint:
-ifneq ($(PYLINT_INSTALLED),true)
+ifeq ($(PYLINT_BIN),)
 	$(MAKE) setup-dev-requirements
 endif
 
