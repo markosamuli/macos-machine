@@ -161,23 +161,23 @@ playbooks/roles/markosamuli.%:
 lint: setup-pre-commit setup-shfmt setup-shellcheck setup-pylint  ## run pre-commit hooks on all files
 	pre-commit run -a
 
-.PHONY: python-format
-python-format: setup-pre-commit  ## format Python files
+.PHONY: format-python
+format-python:setup-pre-commit  ## format Python files
 	-pre-commit run -a requirements-txt-fixer
 	-pre-commit run -a yapf
 
-.PHONY: python-lint
-python-lint: setup-pre-commit setup-pylint python-format  ## lint and format Python files
+.PHONY: lint-python
+lint-python: setup-pre-commit setup-pylint format-python  ## lint and format Python files
 	pre-commit run -a check-ast
 	pre-commit run -a flake8
 	pre-commit run -a pylint
 
-.PHONY: travis-lint
-travis-lint: setup-pre-commit  ## lint .travis.yml file
+.PHONY: lint-travis
+lint-travis: setup-pre-commit  ## lint .travis.yml file
 	pre-commit run -a travis-lint
 
 ###
-# Ansible setup
+# Setup: Ansible
 ###
 
 ANSIBLE_INSTALLED = $(shell ansible --version 2>&1 | head -1 | grep -q 'ansible 2' && echo true)
