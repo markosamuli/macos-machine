@@ -245,6 +245,8 @@ gcloud: setup playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
 	./scripts/configure.py install_gcloud true
 	./setup -q -t gcloud
 
+.PHONY: go
+go: golang
 .PHONY: golang
 golang: setup playbooks/roles/markosamuli.golang  ## install Go programming language
 	./scripts/configure.py install_golang true
@@ -296,13 +298,6 @@ tools: setup ## install tools
 zsh: setup ## install zsh
 	./scripts/configure.py install_zsh true
 	./setup -q -t zsh
-
-###
-# Aliases for the playbooks
-###
-
-.PHONY: go
-go: golang
 
 ###
 # Clean
