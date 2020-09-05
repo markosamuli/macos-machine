@@ -48,10 +48,6 @@ setup: setup-ansible setup-requirements ## setup requirements for running playbo
 .PHONY: setup-development
 setup-development: setup setup-git-hooks ## setup requirements for local development
 
-.PHONY: update
-update: setup-ansible ## update Ansible roles
-	./setup --no-install-ansible --update-roles --no-run-playbook
-
 ###
 # Setup: Python, pyenv and virtualenv
 ###
@@ -212,8 +208,8 @@ clean-roles: setup-requirements  ## remove outdated Ansible roles
 	./scripts/clean_roles.py
 
 .PHONY: update-roles
-update-roles: setup-requirements  ## update Ansible roles in the requirements.yml file
-	./scripts/update_roles.py
+update-roles: setup-ansible ## update Ansible roles in the requirements.yml file
+	./setup --no-install-ansible --update-roles --no-run-playbook
 
 .PHONY: latest-roles
 latest-roles: update-roles clean-roles install-roles  # update Ansible roles and install new versions
