@@ -52,12 +52,6 @@ setup-development: setup setup-git-hooks ## setup requirements for local develop
 update: setup-ansible ## update Ansible roles
 	./setup --no-install-ansible --update-roles --no-run-playbook
 
-.PHONY: clean
-clean:  ## delete local development dependencies
-	-rm -rf playbooks/roles/markosamuli.*
-	-rm -rf playbooks/roles/zzet.rbenv
-	./scripts/delete_virtualenv.sh
-
 ###
 # Setup: Python, pyenv and virtualenv
 ###
@@ -309,6 +303,16 @@ playbooks/roles/zzet.rbenv:
 
 playbooks/roles/markosamuli.%:
 	./setup --no-run-playbook
+
+###
+# Clean
+###
+
+.PHONY: clean
+clean:  ## delete local development dependencies
+	-rm -rf playbooks/roles/markosamuli.*
+	-rm -rf playbooks/roles/zzet.rbenv
+	./scripts/delete_virtualenv.sh
 
 ###
 # This Makefile uses self-documenting help commands
