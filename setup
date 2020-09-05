@@ -1074,7 +1074,6 @@ configure_xcode() {
     install_xcode=0
 }
 
-
 # Configure options
 configure_options() {
     if is_true "${is_macos}"; then
