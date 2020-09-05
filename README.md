@@ -124,7 +124,7 @@ Latest version of [Zsh][zsh] will be installed from Homebrew.
 Run tools playbook:
 
 ```bash
-make tools
+make install-tools
 ```
 
 [wget]: https://www.gnu.org/software/wget/
@@ -214,7 +214,7 @@ Use [pyenv] to install and manage Python versions for the current user:
 Run Python playbook:
 
 ```bash
-make python
+make install-python
 ```
 
 You can disable installation by adding the following option to your
@@ -252,7 +252,7 @@ This will install:
 Run Ruby playbook:
 
 ```bash
-make ruby
+make install-ruby
 ```
 
 To change the installed rubies and default version, add the following to your
@@ -292,7 +292,7 @@ fi
 Run Node.js playbook:
 
 ```bash
-make node
+make install-node
 ```
 
 You can disable installation by adding the following option to your
@@ -313,7 +313,7 @@ role.
 Run Go playbook:
 
 ```bash
-make golang
+make install-golang
 ```
 
 You can disable installation by adding the following option to your
@@ -337,7 +337,7 @@ install_lua: true
 Run Lua playbook:
 
 ```bash
-make lua
+make install-lua
 ```
 
 This will also install [LuaRocks][luarocks] package manager and [luacheck]
@@ -365,7 +365,7 @@ rust_modify_path: false
 Run Rust playbook:
 
 ```bash
-make rust
+make install-rust
 ```
 
 To uninstall Rust, run:
@@ -401,7 +401,7 @@ install_vagrant: true
 Run Docker playbook:
 
 ```bash
-make docker
+make install-docker
 ```
 
 To disable installation, add:
@@ -454,7 +454,7 @@ role are removed.
 Run Terraform playbook:
 
 ```bash
-make terraform
+make install-terraform
 ```
 
 Disable [Terraform][terraform] installation with:
@@ -492,7 +492,7 @@ This will uninstall any conflicting asdf plugins and versions.
 Run AWS playbook:
 
 ```bash
-make gcloud
+make install-aws
 ```
 
 You can disable installation by adding the following option to your
@@ -510,7 +510,7 @@ directory. You shouldn't try to install a global version with these playbooks.
 Run Google Cloud SDK playbook:
 
 ```bash
-make gcloud
+make install-gcloud
 ```
 
 Default install path is in `~/google-cloud-sdk`, but you can install it to

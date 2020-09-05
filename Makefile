@@ -219,7 +219,18 @@ update-roles: setup-requirements  ## update Ansible roles in the requirements.ym
 latest-roles: update-roles clean-roles install-roles  # update Ansible roles and install new versions
 
 ###
-# Playbooks
+# Tools
+###
+
+.PHONY: permissions
+permissions: fix-permissions
+
+.PHONY: fix-permissions
+fix-permissions: setup ## fix permissions in user home directory
+	USER_HOME_FIX_PERMISSIONS=true ./setup -q -t permissions
+
+###
+# Configure system with the playbooks
 ###
 
 .PHONY: install
@@ -227,75 +238,114 @@ install:  ## install everything with default options
 	./setup
 
 .PHONY: aws
-aws: setup playbooks/roles/markosamuli.aws_tools  ## install AWS tools
+aws: install-aws
+
+.PHONY: install-aws
+install-aws: setup playbooks/roles/markosamuli.aws_tools  ## install AWS tools
 	./scripts/configure.py install_aws true
 	./setup -q -t aws
 
 .PHONY: docker
-docker: setup ## install Docker
+docker: install-docker
+
+.PHONY: install-docker
+install-docker: setup ## install Docker
 	./scripts/configure.py install_docker true
 	./setup -q -t docker
 
 .PHONY: editors
-editors: setup ## install IDEs and code editors
+editors: install-editors
+
+.PHONY: install-editors
+install-editors: setup ## install IDEs and code editors
 	./setup -q -t editors
 
 .PHONY: gcloud
-gcloud: setup playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
+gcloud: install-gcloud
+
+.PHONY: install-gcloud
+install-gcloud: setup playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
 	./scripts/configure.py install_gcloud true
 	./setup -q -t gcloud
 
 .PHONY: go
-go: golang
+go: install-golang
+
 .PHONY: golang
-golang: setup playbooks/roles/markosamuli.golang  ## install Go programming language
+golang: install-golang
+
+.PHONY: install-golang
+install-golang: setup playbooks/roles/markosamuli.golang  ## install Go programming language
 	./scripts/configure.py install_golang true
 	./setup -q -t golang
 
 .PHONY: lua
-lua: setup ## install Lua programming language
+lua: install-lua
+
+.PHONY: install-lua
+install-lua: setup ## install Lua programming language
 	./scripts/configure.py install_lua true
 	./setup -q -t lua
 
 .PHONY: node
-node: setup playbooks/roles/markosamuli.nvm ## install Node.js with NVM
+node: install-node
+
+.PHONY: install-node
+install-node: setup playbooks/roles/markosamuli.nvm ## install Node.js with NVM
 	./scripts/configure.py install_nodejs true
 	./setup -q -t node,nvm
 
-.PHONY: permissions
-permissions: setup ## fix permissions in user home directory
-	USER_HOME_FIX_PERMISSIONS=true ./setup -q -t permissions
+.PHONY: python
+python: install-python
 
 # Do not create virtualenv if Python is not installed yet
-.PHONY: python
-python: setup-ansible playbooks/roles/markosamuli.pyenv ## install Python with pyenv
+.PHONY: install-python
+install-python: setup-ansible playbooks/roles/markosamuli.pyenv ## install Python with pyenv
 	./setup -q -t python,pyenv
 
 .PHONY: ruby
-ruby: setup playbooks/roles/zzet.rbenv ## install Ruby with rbenv
+ruby: install-ruby
+
+.PHONY: install-ruby
+install-ruby: setup playbooks/roles/zzet.rbenv ## install Ruby with rbenv
 	./scripts/configure.py install_ruby true
 	./setup -q -t ruby,rbenv
 
 .PHONY: rust
-rust: setup playbooks/roles/markosamuli.rust ## install Rust programming language
+rust: install-rust
+
+.PHONY: install-rust
+install-rust: setup playbooks/roles/markosamuli.rust ## install Rust programming language
 	./scripts/configure.py install_rust true
 	./setup -q -t rust
 
 .PHONY: shellcheck
-shellcheck: setup ## install shellcheck
+shellcheck: install-shellcheck
+
+.PHONY: install-shellcheck
+install-shellcheck: setup ## install shellcheck
 	./setup -q -t shellcheck
 
 .PHONY: terraform
-terraform: setup ## install Terraform
+terraform: install-terraform
+
+.PHONY: install-terraform
+install-terraform: setup ## install Terraform
 	./scripts/configure.py install_terraform true
 	./setup -q -t terraform
 
 .PHONY: tools
-tools: setup ## install tools
+tools: install-tools
+
+.PHONY: install-tools
+install-tools: setup ## install tools
 	./setup -q -t tools
 
 .PHONY: zsh
-zsh: setup ## install zsh
+zsh: install-zsh
+
+.PHONY: install-zsh
+install-zsh: setup ## install zsh
 	./scripts/configure.py install_zsh true
 	./setup -q -t zsh
 
