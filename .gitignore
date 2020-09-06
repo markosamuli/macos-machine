@@ -28,3 +28,6 @@ __pycache__
 # Go modules
 go.mod
 go.sum
+
+# Ruby
+.ruby-version
