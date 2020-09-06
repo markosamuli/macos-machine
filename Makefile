@@ -166,7 +166,7 @@ lint: setup-pre-commit setup-shfmt setup-shellcheck setup-pylint  ## run pre-com
 .PHONY: format-python
 format-python: setup-pre-commit  ## format Python files
 	-pre-commit run -a requirements-txt-fixer
-	-pre-commit run -a yapf
+	-pre-commit run -a black
 
 .PHONY: lint-python
 lint-python: setup-pre-commit setup-pylint format-python  ## lint and format Python files
