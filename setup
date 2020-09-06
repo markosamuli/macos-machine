@@ -7,6 +7,22 @@
 # - Re-install Xcode Command Line Tools (CLT) after upgrade
 # - Wait for Xcode CLT installation to complete in the background
 #
+# 2020-08-31:
+# - Detect WSL1 / WSL2 version and pass it to the Ansible playbook
+# - Use 'auto' for detecting Python in Ubuntu 20.04 LTS
+# - Added debug() function that logs only if DEBUG environment variable is
+#   defined
+#
+# 2020-08-30:
+# - Use Ansible 2.9 as the default version
+# - Update APT cache before installing packages
+#
+# 2020-08-29:
+# - Fix issue with the script detecting pyenv when .python-version file exists
+#   even if pyenv was not installed on the system
+# - Do not install Ansible from PPA on Ubuntu 20.04 LTS
+# - Detect Linux distribution release name
+#
 # 2020-07-01:
 # - Use the new Bash Homebrew installer
 #
@@ -55,11 +71,13 @@ update_roles=0        # Update Ansible roles to the latest versions
 print_versions=0      # Print Python and Ansible versions
 
 # System properties
-is_macos=""   # macOS
-is_linux=""   # Linux
-is_ubuntu=""  # Ubuntu
-is_pengwin="" # Pengwin
-is_wsl=""     # Windows Subsystem for Linux
+is_macos=""        # macOS
+is_linux=""        # Linux
+is_ubuntu=""       # Ubuntu
+is_pengwin=""      # Pengwin
+is_wsl=""          # Windows Subsystem for Linux
+distrib_release="" # OS release codename
+wsl_version=""     # WSL1 / WSL2
 
 # macOS specific setup options
 install_homebrew=1 # Install Homebrew
@@ -89,7 +107,7 @@ ansible_virtualenv="${DIR}/.venv"
 required_ansible_version="2.8"
 
 # Ansible version to install
-ansible_version="${MACHINE_ANSIBLE_VERSION:-2.8}"
+ansible_version="${MACHINE_ANSIBLE_VERSION:-2.9}"
 
 # Ansible PPA to use
 ansible_ppa="ansible/ansible-${ansible_version}"
@@ -102,9 +120,15 @@ ansible_homebrew_enabled="${MACHINE_ANSIBLE_HOMEBREW}"
 ansible_virtualenv_enabled="${MACHINE_ANSIBLE_VIRTUALENV}"
 ansible_pyenv_enabled="${MACHINE_ANSIBLE_PYENV}"
 
-# Print error into STDERR
 error() {
     echo "$@" 1>&2
+}
+
+debug() {
+    if [ -z "${DEBUG}" ]; then
+        return 0
+    fi
+    echo "DEBUG: $*" 1>&2
 }
 
 # Print usage help
@@ -205,6 +229,7 @@ compare_ansible_version() {
 
 # Install dependencies on Linux
 install_linux_dependencies() {
+    debug "install Linux dependencies"
     if is_true "${install_ansible}"; then
         install_ansible
     fi
@@ -274,11 +299,15 @@ is_ansible_installed() {
     if is_ansible_homebrew_enabled; then
         # Fail if Ansible formula is not found
         if [ "$(brew --prefix ansible)" == "" ]; then
+            debug "brew --prefix ansible is empty"
             return 1
         fi
     fi
     # Fail if 'ansible --version' doesn't work
-    if [ -z "$(ansible_exec ansible --version 2>/dev/null)" ]; then
+    local version
+    version=$(ansible_exec ansible --version 2>/dev/null)
+    if [ -z "${version}" ]; then
+        debug "ansible --version is empty"
         return 1
     fi
 }
@@ -558,12 +587,14 @@ remove_ansible_installations() {
     remove_ansible_virtualenv
 
     # Find local pyenv version
-    local pyenv_version
-    if [ -n "${ansible_pyenv}" ]; then
-        pyenv_version="${ansible_pyenv}"
-    elif [ -e ".python-version" ]; then
-        # Check .python-version file even if PyPi install is disabled
-        pyenv_version=$(cat .python-version)
+    if command -v pyenv >/dev/null; then
+        local pyenv_version
+        if [ -n "${ansible_pyenv}" ]; then
+            pyenv_version="${ansible_pyenv}"
+        elif [ -e ".python-version" ]; then
+            # Check .python-version file even if PyPi install is disabled
+            pyenv_version=$(cat .python-version)
+        fi
     fi
 
     # Uninstall Ansible package from the pyenv environment
@@ -605,9 +636,6 @@ install_ansible_ppa_on_ubuntu() {
     sudo apt-add-repository -y "ppa:${ansible_ppa}"
 
     add_ansible_ppa_key
-
-    echo "*** Update APT cache..."
-    sudo apt-get update
 }
 
 # Remove all Ansible sources list files
@@ -625,7 +653,10 @@ remove_ansible_apt_sources_list() {
     done
     if [ "${update_apt_cache}" == "1" ]; then
         echo "*** Update APT cache..."
-        sudo apt-get update
+        sudo apt-get update || {
+            error "failed to update APT cache"
+            exit 1
+        }
     fi
 }
 
@@ -647,7 +678,11 @@ remove_ansible_virtualenv() {
 # Install Ansible with APT on Ubuntu
 install_ansible_with_apt_on_ubuntu() {
 
-    install_ansible_ppa_on_ubuntu
+    if [ "${distrib_release}" == "focal" ]; then
+        echo "*** Do not use PPA on Ubuntu 20.04 LTS"
+    else
+        install_ansible_ppa_on_ubuntu
+    fi
 
     if ! install_ansible_apt "${ansible_version}"; then
         error "Couldn't install Ansible ${ansible_version} from APT"
@@ -678,9 +713,6 @@ install_ansible_ppa_on_debian() {
     fi
 
     add_ansible_ppa_key
-
-    echo "*** Update APT cache..."
-    sudo apt-get update
 }
 
 # Install Ansible with APT on Debian
@@ -702,6 +734,12 @@ install_ansible_with_apt_on_debian() {
 install_ansible_apt() {
     local version=$1
 
+    echo "*** Update APT cache..."
+    sudo apt-get update || {
+        error "failed to update APT cache"
+        exit 1
+    }
+
     local candidate
     candidate=$(apt_install_candidate "ansible")
     if [ "${candidate}" == "2.8.6" ]; then
@@ -709,7 +747,7 @@ install_ansible_apt() {
         return 1
     fi
 
-    echo "*** Installing Ansible ${version}..."
+    echo "*** Installing Ansible ${version} from APT..."
     sudo apt-get install -y "ansible=${version}*" || {
         error "Failed to install ansible=${version}*"
         return 1
@@ -806,25 +844,38 @@ detect_os() {
 
 # Detect Windows Subsystem for Linux
 detect_wsl() {
-    if grep -q Microsoft /proc/version; then
-        echo "*** Windows Subsystem for Linux detected"
+    if [[ -d "/run/WSL" ]]; then
+        echo "*** Windows Subsystem for Linux (WSL2) detected"
         is_wsl=1
-    else
-        is_wsl=0
+        wsl_version='WSL2'
+        return
     fi
+    if grep -q Microsoft /proc/version; then
+        echo "*** Windows Subsystem for Linux (WSL1) detected"
+        is_wsl=1
+        wsl_version='WSL1'
+        return
+    fi
+    is_wsl=0
 }
 
 # Detect Ubuntu
 detect_ubuntu() {
-    if test -f /etc/lsb-release; then
-        if grep -q Ubuntu /etc/lsb-release; then
-            echo "*** Ubuntu detected"
-            is_ubuntu=1
-        else
-            is_ubuntu=0
-        fi
-    else
+    if ! test -f /etc/lsb-release; then
         is_ubuntu=0
+        return
+    fi
+    if ! grep -q Ubuntu /etc/lsb-release; then
+        is_ubuntu=0
+        return
+    fi
+    echo "*** Ubuntu detected"
+    is_ubuntu=1
+    local codename
+    codename=$(grep "DISTRIB_CODENAME=" /etc/lsb-release | cut -d= -f2)
+    if [ -n "${codename}" ]; then
+        # shellcheck disable=SC2034
+        distrib_release="${codename}"
     fi
 }
 
@@ -847,6 +898,10 @@ pyenv_exec() {
     local args=("$@")
     # The first argument is the pyenv version
     local pyenv_version="${args[0]}"
+    if ! command -v pyenv >/dev/null; then
+        error "pyenv not installed"
+        exit 1
+    fi
     # shellcheck disable=SC2068
     PYENV_VERSION="${pyenv_version}" pyenv exec "${args[@]:1}"
 }
@@ -898,22 +953,19 @@ ansible_exec() {
     fi
 
     if [ -n "${ansible_path}" ]; then
-        # Execute with the custom path
-        # echo "*** Execute with custom path ${ansible_path}" >&2
+        debug "execute with the custom path ${ansible_path}"
         # shellcheck disable=SC2068
         PATH="${ansible_path}:$PATH" ${args[@]}
     elif [ -n "${pyenv_version}" ]; then
-        # Execute in the local pyenv
-        # echo "*** Execute with pyenv ${pyenv_version}" >&2
+        debug "execute in the local pyenv ${pyenv_version}"
         # shellcheck disable=SC2068
         pyenv_exec "${pyenv_version}" "${args[@]}"
     elif [ -n "${virtualenv_path}" ]; then
-        # Execute in the local virtualenv
-        # echo "*** Execute with virtualenv ${virtualenv_path}" >&2
+        debug "execute in the local virtualenv ${virtualenv_path}"
         # shellcheck disable=SC2068
         virtualenv_exec "${virtualenv_path}" "${args[@]}"
     else
-        # echo "*** Execute with system PATH" >&2
+        debug "execute with system PATH"
         # shellcheck disable=SC2068
         ${args[@]}
     fi
@@ -938,6 +990,10 @@ run_ansible_playbook_opts() {
 
     local ansible_opts=()
 
+    if [ "${distrib_release}" == "focal" ]; then
+        ansible_opts+=("-e ansible_python_interpreter=auto")
+    fi
+
     if [ -e "${local_vars_file}" ]; then
         ansible_opts+=("--extra-vars @${local_vars_file}")
     fi
@@ -960,6 +1016,7 @@ run_ansible_playbook_opts() {
     if is_true "${is_linux}"; then
         if is_true "${is_wsl}"; then
             ansible_vars+=("\"is_wsl\":true")
+            ansible_vars+=("\"wsl_version\":${wsl_version}")
         else
             ansible_vars+=("\"is_wsl\":false")
         fi
