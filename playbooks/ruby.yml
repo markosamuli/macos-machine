@@ -9,6 +9,7 @@
       file:
         path: ~/.profile
         state: touch
+        mode: "0644"
     - name: Add rbenv initialization to ~/.profile
       blockinfile:
         block: |
