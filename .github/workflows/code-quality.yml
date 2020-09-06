@@ -1,5 +1,5 @@
 ---
-name: Test
+name: Code Quality
 
 # This workflow is triggered on pushes to the repository.
 # yamllint disable rule:truthy
