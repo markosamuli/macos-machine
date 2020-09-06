@@ -578,8 +578,9 @@ make clean-roles
 | [markosamuli.nvm]       | [![Build Status](https://travis-ci.org/markosamuli/ansible-nvm.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-nvm)             |
 | [markosamuli.packer]    | [![Build Status](https://travis-ci.org/markosamuli/ansible-packer.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-packer)       |
 | [markosamuli.pyenv]     | [![Build Status](https://travis-ci.org/markosamuli/ansible-pyenv.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-pyenv)         |
-| [markosamuli.terraform] | [![Build Status](https://travis-ci.org/markosamuli/ansible-terraform.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-terraform) |
+| [markosamuli.rust]      | [![Build Status](https://travis-ci.org/markosamuli/ansible-rust.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-rust)           |
 | [markosamuli.vagrant]   | [![Build Status](https://travis-ci.org/markosamuli/ansible-vagrant.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-vagrant)     |
+| [zzet.rbenv]            | [![Build Status](https://travis-ci.org/zzet/ansible-rbenv-role.png?branch=master)](https://travis-ci.org/zzet/ansible-rbenv-role)             |
 
 [markosamuli.asdf]: https://github.com/markosamuli/ansible-asdf
 [markosamuli.aws_tools]: https://github.com/markosamuli/ansible-aws-tools
@@ -590,6 +591,7 @@ make clean-roles
 [markosamuli.pyenv]: https://github.com/markosamuli/ansible-pyenv
 [markosamuli.terraform]: https://github.com/markosamuli/ansible-terraform
 [markosamuli.vagrant]: https://github.com/markosamuli/ansible-vagrant
+[zzet.rbenv]: https://github.com/zzet/rbenv
 [requirements.yml]: requirements.yml
 
 ## Development
