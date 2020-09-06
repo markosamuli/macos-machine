@@ -101,8 +101,8 @@ script:
   # Use Travis test configuration
   - cp machine.travis.yaml machine.yaml
 
-  # Install roles
-  - ./setup -n || travis_terminate 1
+  # Install Ansible and roles
+  - ./setup --upgrade-ansible --no-run-playbook || travis_terminate 1
 
   # Check syntax of the Ansible playbooks
   - ./setup -s || travis_terminate 1
