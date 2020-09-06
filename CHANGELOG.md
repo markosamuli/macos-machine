@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased] - 2020-02-16
+## [Unreleased][unreleased] - 2020-09-06
 
 ### Breaking changes
 
@@ -21,10 +21,25 @@
 
 ### Changed
 
-- Use `travis-lint` pre-commit hook from [markosamuli/pre-commit-travis-lint]
+#### Node.js
+
 - Install Node.js v12 as default version with NVM
 
-[markosamuli/pre-commit-travis-lint]: https://github.com/markosamuli/pre-commit-travis-lint
+#### Development
+
+These development tools are not required for setting up a system with my
+playbooks, but are required if making changes to the codebase to ensure
+consistent coding style.
+
+- Use [`pre-commit`][pre-commit] v2.7.0
+- Use [`flake8`][flake8] v3.8.3 to lint Python code
+- Use [`pylint`][pylint] v2.6.0 to lint Python code
+- Use [`ansible-lint`][ansible-lint] v4.3.3 to lint Ansible playbooks and roles
+- Format Python code with [`black`][black]
+
+### Removed
+
+- Removed `travis-lint` pre-commit hook as it's not installing on macOS Catalina
 
 ## [2.1.1] - 2020-01-13
 
