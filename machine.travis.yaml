@@ -43,8 +43,8 @@ install_doctl: true
 # Install Rust programming language
 install_rust: true
 
-# Install Ruby and rbenv
-install_ruby: true
+# Do not install Ruby and rbenv
+install_ruby: false
 
 # Install Python
 install_python: true
