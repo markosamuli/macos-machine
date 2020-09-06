@@ -42,7 +42,7 @@ repos:
         stages: [commit]
 
   - repo: https://github.com/pre-commit/mirrors-yapf.git
-    rev: v0.28.0
+    rev: v0.30.0
     hooks:
       - id: yapf
         exclude: ^playbooks/library/luarocks\.py$
