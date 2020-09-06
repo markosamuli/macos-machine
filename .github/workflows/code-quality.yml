@@ -30,19 +30,18 @@ jobs:
         with:
           ruby-version: "2.x"
 
-      - name: Set up Go 1.13.x
+      - name: Set up Go 1.15.x
         uses: actions/setup-go@v1
         with:
-          go-version: "1.13.x"
+          go-version: "1.15.x"
 
       - name: Fix Go directory permissions
         run: chmod -R o-rwx /opt/hostedtoolcache/go
 
       - name: Install Python packages
         run: |
-          python -m pip install --upgrade pip
-          pip install $(grep "^virtualenv" requirements.dev.txt)
-          pip install $(grep "^pre-commit" requirements.dev.txt)
+          python3 -m pip install --upgrade pip
+          pip3 install -r requirements.dev.txt
           pre-commit --version
 
       - name: Install Go packages
@@ -80,10 +79,10 @@ jobs:
 
   python:
     name: Python
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [ubuntu-latest]
         python-version: [3.7, 3.8]
     steps:
       - name: Checkout source code
@@ -100,8 +99,8 @@ jobs:
 
       - name: Install Python requirements
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.dev.txt
+          python3 -m pip install --upgrade pip
+          pip3 install -r requirements.dev.txt
           pre-commit --version
           pylint --version
           flake8 --version
