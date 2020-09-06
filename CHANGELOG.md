@@ -6,6 +6,7 @@
 
 - The setup script and Ansible playbooks will require [Ansible 2.8][ansible28]
 - Use [markosamuli.pyenv] v3.0.0 and remove Python 2.7 support
+- Scripts in the repository require Python 3.7 or newer
 
 [ansible28]: https://docs.ansible.com/ansible/2.8/index.html
 
