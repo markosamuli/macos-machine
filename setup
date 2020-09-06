@@ -3,6 +3,9 @@
 # Setup script for https://github.com/markosamuli/linux-machine and
 # https://github.com/markosamuli/macos-machine Ansible playbooks.
 #
+# 2020-09-06:
+# - Upgrade outdated Ansible Homebrew formula
+#
 # 2020-09-04:
 # - Re-install Xcode Command Line Tools (CLT) after upgrade
 # - Wait for Xcode CLT installation to complete in the background
@@ -69,6 +72,7 @@ install_ansible=1     # Install Ansible
 install_roles_force=0 # Force overwriting existing Ansible roles
 update_roles=0        # Update Ansible roles to the latest versions
 print_versions=0      # Print Python and Ansible versions
+upgrade_ansible=0     # Upgrade Ansible to the latest version
 
 # System properties
 is_macos=""        # macOS
@@ -166,6 +170,9 @@ show_help() {
   --no-install-roles
       Disable Ansible roles from being installed or updated
 
+  --upgrade-ansible
+      Upgrade outdated Ansible version (macOS with Homebrew only)
+
   --verbose
       Enable verbose Ansible output
 
@@ -246,6 +253,9 @@ install_macos_dependencies() {
     if is_true "${install_ansible}"; then
         install_ansible
     fi
+    if is_true "${upgrade_ansible}"; then
+        upgrade_ansible
+    fi
 }
 
 # Install Xcode Command Line Tools
@@ -291,6 +301,37 @@ install_ansible() {
         error "Your system is not supported"
         exit 1
     fi
+}
+
+# Upgrade existing Ansible installation to the latest version
+upgrade_ansible() {
+    if is_true "${is_macos}"; then
+        upgrade_ansible_on_macos
+    elif is_true "${is_linux}"; then
+        error "upgrading Ansible on Linux is not supported"
+    else
+        error "Your system is not supported"
+        exit 1
+    fi
+}
+
+# Is the installed Ansible version outdated
+is_ansible_outdated() {
+    if ! is_ansible_installed; then
+        debug "ansible not installed, not marking it as outdated"
+        return 1
+    fi
+    # Check Homebrew installation
+    if is_ansible_homebrew_enabled; then
+        local outdated
+        outdated=$(brew outdated -q ansible)
+        if [ -n "${outdated}" ]; then
+            debug "outdated Ansible Homebrew formula found"
+            return 0
+        fi
+    fi
+    # Not supporting Linux or PyPI version checking
+    return 1
 }
 
 # Is Ansible installed on the PATH or in the custom location
@@ -362,6 +403,37 @@ install_ansible_on_linux() {
 
     error "Failed to install Ansible"
     exit 1
+}
+
+# Upgrade exisging Ansible installation on macOS
+upgrade_ansible_on_macos() {
+    debug "upgrade Ansible on macOS"
+    if ! is_ansible_outdated; then
+        debug "outdated Ansible version not detected"
+        return 0
+    fi
+    if is_ansible_pypi_enabled; then
+        error "upgrading Ansible PyPI packages is not supported"
+        return 1
+    fi
+    if ! is_ansible_homebrew_enabled; then
+        error "upgrading Ansible on macOS requires Homebrew"
+        return 1
+    fi
+    if ! upgrade_ansible_with_homebrew; then
+        error "failed to upgrade Ansible"
+        return 1
+    fi
+}
+
+# Upgrade Ansible installed with Homebrew
+upgrade_ansible_with_homebrew() {
+    echo "*** Upgrading Ansible with Homebrew..."
+    brew upgrade ansible ||
+        {
+            error "Failed to upgrade Ansible with Homebrew"
+            exit 1
+        }
 }
 
 # Install Ansible on macOS
@@ -1388,6 +1460,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --no-install-roles)
             install_roles=0
+            shift
+            ;;
+        --upgrade-ansible)
+            upgrade_ansible=1
             shift
             ;;
         --update-roles)
