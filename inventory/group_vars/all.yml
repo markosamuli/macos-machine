@@ -60,9 +60,9 @@ install_ruby: false
 rbenv:
   env: user
   version: v1.1.2
-  default_ruby: 2.6.3
+  default_ruby: 2.7.1
   rubies:
-    - version: 2.6.3
+    - version: 2.7.1
 
 # Install Rust programming language
 install_rust: false
