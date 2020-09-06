@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Update Ansible roles in requirements.yml to their latest released version"""
 
 import sys

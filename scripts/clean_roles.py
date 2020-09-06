@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Remove Ansible roles that don't meet the current version as defined
 in requirements.yml file"""
 
