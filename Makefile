@@ -20,13 +20,15 @@ endif
 ###
 
 UNAME_S  := $(shell uname -s)
-BREW_BIN = $(shell command -v brew 2>/dev/null)
-GO_BIN = $(shell command -v go 2>/dev/null)
-PYENV_BIN = $(shell command -v pyenv 2>/dev/null)
+
+ANSIBLE_BIN    = $(shell ansible --version 2>&1 | head -1 | grep -q 'ansible 2' && command -v ansible)
+BREW_BIN       = $(shell command -v brew 2>/dev/null)
+GO_BIN         = $(shell command -v go 2>/dev/null)
+PYENV_BIN      = $(shell command -v pyenv 2>/dev/null)
 PRE_COMMIT_BIN = $(shell pre-commit --version 2>&1 | head -1 | grep -q 'pre-commit [12]\.' && command -v pre-commit)
-PYLINT_BIN = $(shell pylint --version 2>&1 | head -1 | grep -q 'pylint 2' && command -v pylint)
+PYLINT_BIN     = $(shell pylint --version 2>&1 | head -1 | grep -q 'pylint 2' && command -v pylint)
 SHELLCHECK_BIN = $(shell command -v shellcheck 2>/dev/null)
-SHFMT_BIN = $(shell command -v shfmt 2>/dev/null)
+SHFMT_BIN      = $(shell command -v shfmt 2>/dev/null)
 
 ###
 # Define local variables after environment variables
@@ -162,7 +164,7 @@ lint: setup-pre-commit setup-shfmt setup-shellcheck setup-pylint  ## run pre-com
 	pre-commit run -a
 
 .PHONY: format-python
-format-python:setup-pre-commit  ## format Python files
+format-python: setup-pre-commit  ## format Python files
 	-pre-commit run -a requirements-txt-fixer
 	-pre-commit run -a yapf
 
@@ -180,11 +182,9 @@ lint-travis: setup-pre-commit  ## lint .travis.yml file
 # Setup: Ansible
 ###
 
-ANSIBLE_INSTALLED = $(shell ansible --version 2>&1 | head -1 | grep -q 'ansible 2' && echo true)
-
 .PHONY: setup-ansible
 setup-ansible:
-ifneq ($(ANSIBLE_INSTALLED),true)
+ifeq ($(ANSIBLE_BIN),)
 	$(MAKE) install-ansible
 endif
 
