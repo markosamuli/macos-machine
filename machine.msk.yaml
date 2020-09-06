@@ -27,8 +27,8 @@ install_rust: true
 # Do not install asdf-vm
 install_asdf: false
 
-# Install Ruby and rbenv
-install_ruby: true
+# Do not install Ruby and rbenv
+install_ruby: false
 
 # Install Python
 install_python: true
