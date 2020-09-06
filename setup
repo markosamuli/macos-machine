@@ -5,6 +5,7 @@
 #
 # 2020-09-06:
 # - Upgrade outdated Ansible Homebrew formula
+# - Detect installed Ansible Homebrew path correctly during install
 #
 # 2020-09-04:
 # - Re-install Xcode Command Line Tools (CLT) after upgrade
@@ -343,6 +344,7 @@ is_ansible_installed() {
             debug "brew --prefix ansible is empty"
             return 1
         fi
+        debug "ansible Homebrew formula found"
     fi
     # Fail if 'ansible --version' doesn't work
     local version
@@ -408,10 +410,14 @@ install_ansible_on_linux() {
 # Upgrade exisging Ansible installation on macOS
 upgrade_ansible_on_macos() {
     debug "upgrade Ansible on macOS"
+
+    configure_ansible_on_macos
+
     if ! is_ansible_outdated; then
         debug "outdated Ansible version not detected"
         return 0
     fi
+
     if is_ansible_pypi_enabled; then
         error "upgrading Ansible PyPI packages is not supported"
         return 1
@@ -436,27 +442,39 @@ upgrade_ansible_with_homebrew() {
         }
 }
 
+# Configure Ansible on macOS
+configure_ansible_on_macos() {
+    debug "configure Ansible on macOS"
+    # Enable Homebrew installation as the default option if neither Homebrew or
+    # PyPI installation option have been set or if PyPI has been disabled.
+    if [ -z "${ansible_homebrew_enabled}" ]; then
+        if [ -z "${ansible_pypi_enabled}" ]; then
+            debug "PyPI installation is not enabled"
+            ansible_homebrew_enabled=true
+        elif is_ansible_pypi_disabled; then
+            debug "PyPI installation is disabled"
+            ansible_homebrew_enabled=true
+        fi
+    fi
+}
+
 # Install Ansible on macOS
 install_ansible_on_macos() {
 
+    debug "install Ansible on macOS"
+
+    configure_ansible_on_macos
+
     if is_ansible_installed; then
+        debug "existing Ansible version found, not installing..."
         return 0
     fi
 
     echo "Install Ansible on macOS..."
 
-    # Enable Homebrew installation as the default option if neither Homebrew or
-    # PyPI installation option have been set or if PyPI has been disabled.
-    if [ -z "${ansible_homebrew_enabled}" ]; then
-        if [ -z "${ansible_pypi_enabled}" ]; then
-            ansible_homebrew_enabled=true
-        elif is_ansible_pypi_disabled; then
-            ansible_homebrew_enabled=true
-        fi
-    fi
-
     # Install Ansible from Homebrew
     if is_ansible_homebrew_enabled; then
+        debug "install Ansible from Homebrew"
         if is_true "${is_macos}"; then
             if install_ansible_with_homebrew; then
                 return 0
@@ -1001,10 +1019,13 @@ ansible_exec() {
 
     # Get Homebrew Ansible installation prefix
     if is_ansible_homebrew_enabled; then
+        debug "ansible_exec: Ansible Homebrew enabled"
         local prefix
         prefix="$(brew --prefix ansible)"
+        debug "ansible_exec: Ansible prefix: ${prefix}"
         if [ -n "${prefix}" ] && [ -d "${prefix}/bin" ]; then
             ansible_path="${prefix}/bin"
+            debug "ansible_exec: use Ansible from Homebrew"
         fi
     fi
 
