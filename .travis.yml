@@ -66,7 +66,7 @@ before_install:
   # Uninstall existing Homebrew installation
   - >
     if [[ "${UNINSTALL_HOMEBREW}" == "YES" ]]; then
-      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)" -- --force
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh)" -- --force
     fi
 
   # yamllint enable rule:line-length
