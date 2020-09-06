@@ -24,8 +24,8 @@ install_doctl: true
 # Install Rust programming language
 install_rust: true
 
-# Install asdf-vm
-install_asdf: true
+# Do not install asdf-vm
+install_asdf: false
 
 # Install Ruby and rbenv
 install_ruby: true
