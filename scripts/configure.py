@@ -14,12 +14,16 @@ try:
 except ValueError:  # Already removed
     pass
 
+# pylint: disable=import-error
 # pylint: disable=wrong-import-position
 from machine import settings  # noqa: E402
+
 # pylint: disable=unused-import
 import machine.config  # noqa: E402,F401
+
 # pylint: enable=unused-import
 # pylint: enable=wrong-import-position
+# pylint: enable=import-error
 
 
 def display_usage(command):
@@ -51,7 +55,7 @@ def update_option(name, new_value):
             print("%s: %s" % (name, value))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) == 3:
         update_option(sys.argv[1], sys.argv[2])
     elif len(sys.argv) == 2:

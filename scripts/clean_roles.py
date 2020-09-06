@@ -17,8 +17,10 @@ except ValueError:  # Already removed
 
 # pylint: disable=wrong-import-position
 from machine.roles import remove_outdated_roles  # noqa: E402
+
 # pylint: disable=unused-import
 import machine.config  # noqa: E402,F401
+
 # pylint: enable=unused-import
 # pylint: enable=wrong-import-position
 
@@ -30,8 +32,8 @@ def clean_roles():
 
     removed_roles = remove_outdated_roles(MACHINE_ROLES_PATH)
     for removed_role in removed_roles:
-        print('Removed outdated role %s' % removed_role['name'])
+        print("Removed outdated role %s" % removed_role["name"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     clean_roles()

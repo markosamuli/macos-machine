@@ -18,8 +18,10 @@ except ValueError:  # Already removed
 from machine.roles import get_updated_role  # noqa: E402
 from machine.roles import list_required_roles  # noqa: E402
 from machine.roles import update_required_roles  # noqa: E402
+
 # pylint: disable=unused-import
 import machine.config  # noqa: E402,F401
+
 # pylint: enable=unused-import
 # pylint: enable=wrong-import-position
 
@@ -34,11 +36,14 @@ def update_roles():
 
     for role in roles:
         updated_role = get_updated_role(role)
-        if updated_role and updated_role['version'] != role['version']:
-            print("update {role}: {version} -> {latest_version}".format(
-                role=role['name'],
-                version=role['version'],
-                latest_version=updated_role['version']))
+        if updated_role and updated_role["version"] != role["version"]:
+            print(
+                "update {role}: {version} -> {latest_version}".format(
+                    role=role["name"],
+                    version=role["version"],
+                    latest_version=updated_role["version"],
+                )
+            )
             roles_updated += 1
             updated_roles.append(updated_role)
         else:
@@ -46,11 +51,11 @@ def update_roles():
 
     if roles_updated > 0:
         if len(roles) > len(updated_roles):
-            print('update failed: roles missing from updated roles list')
+            print("update failed: roles missing from updated roles list")
             sys.exit(1)
 
         update_required_roles(updated_roles)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     update_roles()
