@@ -29,7 +29,7 @@ repos:
 
   # Format JSON, Markdown and YAML files with Prettier.
   - repo: https://github.com/prettier/prettier
-    rev: "1.19.1"
+    rev: "2.1.1"
     hooks:
       - id: prettier
         name: Format JSON, Markdown and YAML files
