@@ -95,10 +95,10 @@ repos:
     hooks:
       - id: markdownlint
 
-  - repo: https://github.com/markosamuli/pre-commit-travis-lint
-    rev: v1.8.8
-    hooks:
-      - id: travis-lint
+  # - repo: https://github.com/markosamuli/pre-commit-travis-lint
+  #   rev: v1.8.8
+  #   hooks:
+  #     - id: travis-lint
 
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook.git
     rev: v2.1.0
