@@ -9,35 +9,44 @@ aws_tools_init_shell: false
 asdf_init_shell: false
 rust_modify_path: false
 
-# Install Hammerspoon automation tool
-install_hammerspoon: true
+# Do not install asdf-vm
+install_asdf: false
 
-# Install Lua programming language
-install_lua: true
+# Install Certbot
+install_certbot: true
 
-# Install JetBrains Toolbox
-install_jetbrains_toolbox: true
+# Install Docker
+install_docker: true
 
 # Install Digital Ocean CLI
 install_doctl: true
 
-# Install Rust programming language
-install_rust: true
+# Install Go programming language
+install_golang: true
 
-# Do not install asdf-vm
-install_asdf: false
+# Install Hammerspoon automation tool
+install_hammerspoon: true
 
-# Do not install Ruby and rbenv
-install_ruby: false
+# Install JetBrains Toolbox
+install_jetbrains_toolbox: true
+
+# Install Lua programming language
+install_lua: true
+
+# Install nmap
+install_nmap: true
+
+# Install Packer
+install_packer: false
 
 # Install Python
 install_python: true
 
-# Install Go programming language
-install_golang: true
+# Do not install Ruby and rbenv
+install_ruby: false
 
-# Install Docker
-install_docker: true
+# Install Rust programming language
+install_rust: true
 
 # Default Python version
 pyenv_global: "{{ pyenv_python38_version }}"
