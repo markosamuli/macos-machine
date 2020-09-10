@@ -31,7 +31,7 @@
 #### Golang
 
 - Install Go version 1.13
-- Upgrade [`markosamuli.golang`][markosamuli.golang] from v1.2.1 to v2.0.0
+- Upgrade [`markosamuli.golang`][markosamuli.golang] from v1.2.1 to v2.0.1
 
 #### Python
 
