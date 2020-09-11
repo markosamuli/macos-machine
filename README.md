@@ -24,8 +24,8 @@ Read my [Machine Setup Guide][machine-setup-guide] for instructions.
 
 ## Requirements
 
-- Mac running macOS 10.13 (High Sierra) or later
-- Xcode 10.1 or later installed
+- Mac running macOS 10.14 (Mojave) or later
+- Xcode 11 or later installed
 - Git installed
 
 This setup has only been tested on the macOS Sierra and not against existing

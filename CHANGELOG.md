@@ -10,6 +10,7 @@
 - Remove Python 2.7 support
 - Running `make setup` will only install dependencies
 - Running `make install` will run the playbooks
+- Drop support for High Sierra
 
 [ansible28]: https://docs.ansible.com/ansible/2.8/index.html
 

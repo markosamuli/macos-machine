@@ -30,11 +30,6 @@ matrix:
       osx_image: xcode11
       env: UNINSTALL_HOMEBREW=YES
 
-    - name: "macOS 10.13 (High Sierra) with Xcode 10.1 (uninstall Homebrew)"
-      os: osx
-      osx_image: xcode10.1
-      env: UNINSTALL_HOMEBREW=YES
-
     - stage: test
       name: "macOS 10.15.5 (Catalina) with Xcode 12"
       os: osx
@@ -54,13 +49,6 @@ matrix:
     - name: "macOS 10.14 (Mojave) with Xcode 11.0"
       os: osx
       osx_image: xcode11
-      addons:
-        homebrew:
-          update: true
-
-    - name: "macOS 10.13 (High Sierra) with Xcode 10.1"
-      os: osx
-      osx_image: xcode10.1
       addons:
         homebrew:
           update: true
