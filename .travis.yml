@@ -13,44 +13,48 @@ language: generic
 
 matrix:
   include:
-    - name: "macOS 10.13 (High Sierra) with Xcode 10.1 (uninstall Homebrew)"
+    - stage: test
+      name: "macOS 10.15.5 (Catalina) with Xcode 12 (uninstall Homebrew)"
       os: osx
-      osx_image: xcode10.1
+      osx_image: xcode12
       env: UNINSTALL_HOMEBREW=YES
-    - name: "macOS 10.13 (High Sierra) with Xcode 10.1"
-      os: osx
-      osx_image: xcode10.1
-      env: UNINSTALL_HOMEBREW=NO
 
     - name: "macOS 10.14 (Mojave) with Xcode 11.0 (uninstall Homebrew)"
       os: osx
       osx_image: xcode11
       env: UNINSTALL_HOMEBREW=YES
-    - name: "macOS 10.14 (Mojave) with Xcode 11.0"
+
+    - name: "macOS 10.13 (High Sierra) with Xcode 10.1 (uninstall Homebrew)"
       os: osx
-      osx_image: xcode11
-      env: UNINSTALL_HOMEBREW=NO
+      osx_image: xcode10.1
+      env: UNINSTALL_HOMEBREW=YES
 
     - stage: test
       name: "macOS 10.15.5 (Catalina) with Xcode 11.6 (uninstall Homebrew)"
       os: osx
       osx_image: xcode11.6
       env: UNINSTALL_HOMEBREW=YES
-    - stage: test
-      name: "macOS 10.15.5 (Catalina) with Xcode 11.6"
-      os: osx
-      osx_image: xcode11.6
-      env: UNINSTALL_HOMEBREW=NO
 
-    - stage: test
-      name: "macOS 10.15.5 (Catalina) with Xcode 12 (uninstall Homebrew)"
-      os: osx
-      osx_image: xcode12
-      env: UNINSTALL_HOMEBREW=YES
     - stage: test
       name: "macOS 10.15.5 (Catalina) with Xcode 12"
       os: osx
       osx_image: xcode12
+      env: UNINSTALL_HOMEBREW=NO
+
+    - name: "macOS 10.14 (Mojave) with Xcode 11.0"
+      os: osx
+      osx_image: xcode11
+      env: UNINSTALL_HOMEBREW=NO
+
+    - name: "macOS 10.13 (High Sierra) with Xcode 10.1"
+      os: osx
+      osx_image: xcode10.1
+      env: UNINSTALL_HOMEBREW=NO
+
+    - stage: test
+      name: "macOS 10.15.5 (Catalina) with Xcode 11.6"
+      os: osx
+      osx_image: xcode11.6
       env: UNINSTALL_HOMEBREW=NO
 
 before_install:
