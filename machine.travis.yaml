@@ -20,7 +20,7 @@ install_vagrant: false
 install_hammerspoon: true
 
 # Install Docker
-install_docker: true
+install_docker: false
 
 # Install Packer
 install_packer: true
