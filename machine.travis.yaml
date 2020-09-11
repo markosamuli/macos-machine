@@ -50,4 +50,4 @@ install_ruby: false
 install_python: false
 
 # Install Go programming language
-install_golang: true
+install_golang: false
