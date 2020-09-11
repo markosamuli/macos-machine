@@ -47,7 +47,7 @@ install_rust: true
 install_ruby: false
 
 # Install Python
-install_python: true
+install_python: false
 
 # Install Go programming language
 install_golang: true
