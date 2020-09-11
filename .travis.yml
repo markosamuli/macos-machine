@@ -19,6 +19,12 @@ matrix:
       osx_image: xcode12
       env: UNINSTALL_HOMEBREW=YES
 
+    - stage: test
+      name: "macOS 10.15.5 (Catalina) with Xcode 11.6 (uninstall Homebrew)"
+      os: osx
+      osx_image: xcode11.6
+      env: UNINSTALL_HOMEBREW=YES
+
     - name: "macOS 10.14 (Mojave) with Xcode 11.0 (uninstall Homebrew)"
       os: osx
       osx_image: xcode11
@@ -30,15 +36,17 @@ matrix:
       env: UNINSTALL_HOMEBREW=YES
 
     - stage: test
-      name: "macOS 10.15.5 (Catalina) with Xcode 11.6 (uninstall Homebrew)"
-      os: osx
-      osx_image: xcode11.6
-      env: UNINSTALL_HOMEBREW=YES
-
-    - stage: test
       name: "macOS 10.15.5 (Catalina) with Xcode 12"
       os: osx
       osx_image: xcode12
+      addons:
+        homebrew:
+          update: true
+
+    - stage: test
+      name: "macOS 10.15.5 (Catalina) with Xcode 11.6"
+      os: osx
+      osx_image: xcode11.6
       addons:
         homebrew:
           update: true
@@ -53,14 +61,6 @@ matrix:
     - name: "macOS 10.13 (High Sierra) with Xcode 10.1"
       os: osx
       osx_image: xcode10.1
-      addons:
-        homebrew:
-          update: true
-
-    - stage: test
-      name: "macOS 10.15.5 (Catalina) with Xcode 11.6"
-      os: osx
-      osx_image: xcode11.6
       addons:
         homebrew:
           update: true
