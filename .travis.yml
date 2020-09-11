@@ -39,23 +39,31 @@ matrix:
       name: "macOS 10.15.5 (Catalina) with Xcode 12"
       os: osx
       osx_image: xcode12
-      env: UNINSTALL_HOMEBREW=NO
+      addons:
+        homebrew:
+          update: true
 
     - name: "macOS 10.14 (Mojave) with Xcode 11.0"
       os: osx
       osx_image: xcode11
-      env: UNINSTALL_HOMEBREW=NO
+      addons:
+        homebrew:
+          update: true
 
     - name: "macOS 10.13 (High Sierra) with Xcode 10.1"
       os: osx
       osx_image: xcode10.1
-      env: UNINSTALL_HOMEBREW=NO
+      addons:
+        homebrew:
+          update: true
 
     - stage: test
       name: "macOS 10.15.5 (Catalina) with Xcode 11.6"
       os: osx
       osx_image: xcode11.6
-      env: UNINSTALL_HOMEBREW=NO
+      addons:
+        homebrew:
+          update: true
 
 before_install:
   # The default Git on macOS doesn't support protocol version 2 that's enabled
@@ -74,12 +82,6 @@ before_install:
     fi
 
   # yamllint enable rule:line-length
-
-  # Update Homebrew to fix HOMEBREW_LOGS error
-  - >
-    if [[ "${UNINSTALL_HOMEBREW}" == "NO" ]]; then
-      brew update
-    fi
 
   # Cleanup existing NVM installation
   - unset NVM_CD_FLAGS
