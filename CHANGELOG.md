@@ -27,6 +27,7 @@
 
 Useful command line tools:
 
+- [`less`][less] (less-551) with PCRE
 - [`ncdu`][ncdu] disk usage analyser
 - [`fd`][fd] alternative to `find`
 - [`fzf`][fzf] fuzzy search
@@ -34,6 +35,7 @@ Useful command line tools:
 
 Thanks [Sebastian Witowski][switowski] for the tools I haven't used before.
 
+[less]: http://www.greenwoodsoftware.com/less/index.html
 [ncdu]: https://dev.yorhel.nl/ncdu
 [fzf]: https://github.com/junegunn/fzf
 [fd]: https://github.com/sharkdp/fd

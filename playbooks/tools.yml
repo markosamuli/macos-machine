@@ -24,6 +24,10 @@
       package:
         name: gnu-tar
 
+    - name: Install less
+      package:
+        name: less
+
     - name: Install shellcheck
       package:
         name: shellcheck
