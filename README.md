@@ -3,7 +3,7 @@
 [![GitHub release](https://img.shields.io/github/release/markosamuli/macos-machine.svg)](https://github.com/markosamuli/macos-machine/releases)
 [![License](https://img.shields.io/github/license/markosamuli/macos-machine.svg)](https://github.com/markosamuli/macos-machine/blob/master/LICENSE)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![Known Vulnerabilities](https://snyk.io/test/github/markosamuli/macos-machine/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/markosamuli/macos-machine?targetFile=requirements.txt)
+[![Known Vulnerabilities](https://snyk.io/test/github/markosamuli/macos-machine/badge.svg)](https://snyk.io/test/github/markosamuli/macos-machine)
 
 | Branch  | Build Status                              | Coding Style                |
 | ------- | ----------------------------------------- | --------------------------- |
