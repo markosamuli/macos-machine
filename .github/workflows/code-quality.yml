@@ -1,5 +1,5 @@
 ---
-name: Test
+name: Code Quality
 
 # This workflow is triggered on pushes to the repository.
 # yamllint disable rule:truthy
@@ -7,44 +7,44 @@ on: [push]
 # yamllint enable
 
 jobs:
-  build:
+  pre_commit:
     name: Pre-commit
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
         uses: actions/checkout@v1
 
-      - name: Install Node.js 12.x
+      - name: Set up Node.js 12.x
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
 
-      - name: Install Python 3.x
+      - name: Set up Python 3.x
         uses: actions/setup-python@v1
         with:
           python-version: "3.x"
           architecture: "x64"
 
-      - name: Install Ruby 2.x
+      - name: Set up Ruby 2.x
         uses: actions/setup-ruby@v1
         with:
           ruby-version: "2.x"
 
-      - name: Install Go 1.13.x
+      - name: Set up Go 1.15.x
         uses: actions/setup-go@v1
         with:
-          go-version: "1.13.x"
+          go-version: "1.15.x"
 
       - name: Fix Go directory permissions
         run: chmod -R o-rwx /opt/hostedtoolcache/go
 
-      - name: Install pre-commit
+      - name: Install Python packages
         run: |
-          pip install virtualenv==16.3.0
-          pip install pre-commit
+          python3 -m pip install --upgrade pip
+          pip3 install -r requirements.dev.txt
           pre-commit --version
 
-      - name: Install shfmt
+      - name: Install Go packages
         run: |
           export PATH="$PATH:$GOPATH/bin"
           export GO111MODULE=on
@@ -69,9 +69,46 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pre-commit-
 
-      - name: Run pre-commit
+      - name: Run pre-commit hooks
         run: |
           export PATH="$PATH:$GOPATH/bin"
+          export SKIP=pylint,flake8
           pre-commit run -a
         env:
           GOPATH: /home/runner/go
+
+  python:
+    name: Python
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.7, 3.8]
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v1
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+
+      - name: Install Python requirements
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install -r requirements.dev.txt
+          pre-commit --version
+          pylint --version
+          flake8 --version
+
+      - name: Lint with pylint
+        run: |
+          pylint machine scripts/*.py
+
+      - name: Lint with flake8
+        run: |
+          flake8 .

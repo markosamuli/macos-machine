@@ -27,10 +27,7 @@
     - name: Install shellcheck
       package:
         name: shellcheck
-
-    - name: Install shfmt
-      package:
-        name: shfmt
+      tags: shellcheck
 
     - name: Install asciinema
       package:

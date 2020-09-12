@@ -1,6 +1,18 @@
 # Changelog
 
-## [Unreleased] - 2020-01-18
+## [Unreleased][unreleased] - 2020-09-06
+
+### Breaking changes
+
+- Require Python 3 or newer for local development and running any of the Python
+  scripts
+- The setup script and Ansible playbooks will require [Ansible 2.8][ansible28]
+- Remove Python 2.7 support
+- Running `make setup` will only install dependencies
+- Running `make install` will run the playbooks
+- Drop support for High Sierra
+
+[ansible28]: https://docs.ansible.com/ansible/2.8/index.html
 
 ### Added
 
@@ -13,9 +25,51 @@
 
 ### Changed
 
-- Use `travis-lint` pre-commit hook from [markosamuli/pre-commit-travis-lint]
+#### Ansible
 
-[markosamuli/pre-commit-travis-lint]: https://github.com/markosamuli/pre-commit-travis-lint
+- Install Ansible 2.8 as the default version
+
+#### Golang
+
+- Install Go version 1.13
+- Upgrade [`markosamuli.golang`][markosamuli.golang] from v1.2.1 to v2.0.1
+
+#### Python
+
+- Install Python 3.7.8 and 3.8.5 as the default versions
+- Upgrade [`markosamuli.pyenv`][markosamuli.pyenv] v2.1.1 to v4.0.1
+
+#### Node.js
+
+- Install Node.js v12 as default version with NVM
+- Upgrade [`markosamuli.nvm`][markosamuli.nvm] from v1.4.1 to v1.4.2
+
+#### Development
+
+These development tools are not required for setting up a system with my
+playbooks, but are required if making changes to the codebase to ensure
+consistent coding style.
+
+- Changes to Makefile. Run `make help` to see the available commands.
+- Install [shfmt] and [shellcheck] as a dependency in the Makefile
+- Use [`pre-commit`][pre-commit] v2.7.0
+- Use [`flake8`][flake8] v3.8.3 to lint Python code
+- Use [`pylint`][pylint] v2.6.0 to lint Python code
+- Use [`ansible-lint`][ansible-lint] v4.3.3 to lint Ansible playbooks and roles
+- Use [shfmt] v3 for formatting bash scripts
+- Use [Prettier][prettier] for formatting JSON, Markdown and YAML files
+- Format Python code with [`black`][black]
+
+[pre-commit]: https://pre-commit.com/
+[flake8]: https://gitlab.com/pycqa/flake8
+[pylint]: https://github.com/PyCQA/pylint
+[ansible-lint]: https://github.com/ansible/ansible-lint
+[prettier]: https://prettier.io/
+[black]: https://github.com/psf/black
+
+### Removed
+
+- Removed `travis-lint` pre-commit hook as it's not installing on macOS Catalina
 
 ## [2.1.1] - 2020-01-13
 

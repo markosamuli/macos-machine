@@ -5,6 +5,9 @@ user_home: "{{ ansible_env.HOME }}"
 # User name
 user_name: "{{ ansible_env.USER }}"
 
+# Install zsh
+install_zsh: true
+
 # Install asdf-vm
 install_asdf: false
 
@@ -50,6 +53,20 @@ install_terraform: true
 # Install Packer
 install_packer: false
 
+# Install Ruby and rbenv
+install_ruby: false
+
+# Install rbenv for the current user
+rbenv:
+  env: user
+  version: v1.1.2
+  default_ruby: 2.7.1
+  rubies:
+    - version: 2.7.1
+
+# Install Rust programming language
+install_rust: false
+
 # Install Certbot
 install_certbot: false
 
@@ -64,34 +81,3 @@ install_jetbrains_toolbox: false
 
 # Install Digital Ocean CLI
 install_doctl: false
-
-# Install Ruby and rbenv
-install_ruby: false
-
-# Install rbenv for the current user
-rbenv:
-  env: user
-  version: v1.1.2
-  default_ruby: 2.6.3
-  rubies:
-    - version: 2.6.3
-
-# Install Rust programming language
-install_rust: false
-
-# GOPATH relative to user home directory
-golang_path: "go"
-
-# Enable Go modules
-golang_modules: true
-
-# Install Go packages
-golang_packages:
-  - name: github.com/kisielk/errcheck
-  - name: github.com/TrueFurby/go-callvis
-  - name: github.com/uudashr/gopkgs/cmd/gopkgs
-  - name: golang.org/x/lint
-  - name: golang.org/x/tools/cmd/goimports
-  - name: golang.org/x/tools/cmd/stringer
-  - name: golang.org/x/tools/cmd/guru
-  - name: honnef.co/go/tools/cmd/staticcheck

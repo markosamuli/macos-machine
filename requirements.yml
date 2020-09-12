@@ -1,29 +1,21 @@
-# -*- mode: yaml -*-
-# vim:ts=2:sw=2:ai:si:syntax=yaml
-#
-# Ansible Galaxy roles to install
 ---
 - name: markosamuli.asdf
-  src: https://github.com/markosamuli/ansible-asdf
   version: v1.1.0
 - name: markosamuli.aws_tools
-  src: https://github.com/markosamuli/ansible-aws-tools
   version: v2.1.0
 - name: markosamuli.gcloud
-  src: https://github.com/markosamuli/ansible-gcloud
   version: v2.1.2
 - name: markosamuli.golang
   src: https://github.com/markosamuli/ansible-golang
-  version: v1.2.1
+  version: v2.0.1
 - name: markosamuli.nvm
-  src: https://github.com/markosamuli/ansible-nvm
-  version: v1.4.1
+  version: v1.4.2
 - name: markosamuli.packer
   src: https://github.com/markosamuli/ansible-packer
   version: v1.0.0
 - name: markosamuli.pyenv
   src: https://github.com/markosamuli/ansible-pyenv
-  version: v2.1.1
+  version: v4.0.1
 - name: markosamuli.rust
   src: https://github.com/markosamuli/ansible-rust
   version: master

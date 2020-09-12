@@ -1,2 +1,4 @@
-pre-commit==1.20.0
-virtualenv==16.3.0
+-r requirements.txt
+flake8==3.8.3
+pre-commit>=2.7.0,<3.0
+pylint==2.6.0

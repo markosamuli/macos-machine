@@ -3,200 +3,362 @@
 # Self-documented help from:
 # https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 
-# Get paths to required commands
-TRAVIS = $(shell command -v travis 2>/dev/null)
-SHELLCHECK = $(shell command -v shellcheck 2>/dev/null)
-SHFMT = $(shell command -v shfmt 2>/dev/null)
+###
+# Makefile configuration
+###
 
-.PHONY: default
-default: help
+.DEFAULT_GOAL := help
 
-.PHONY: help
-help:  ## print this help
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+# We want our output silent by default, use VERBOSE=1 make <command> ...
+# to get verbose output.
+ifndef VERBOSE
+.SILENT:
+endif
+
+###
+# Define environment variables in the beginning of the file
+###
+
+UNAME_S  := $(shell uname -s)
+
+ANSIBLE_BIN    = $(shell ansible --version 2>&1 | head -1 | grep -q 'ansible 2' && command -v ansible)
+BREW_BIN       = $(shell command -v brew 2>/dev/null)
+GO_BIN         = $(shell command -v go 2>/dev/null)
+PYENV_BIN      = $(shell command -v pyenv 2>/dev/null)
+PRE_COMMIT_BIN = $(shell pre-commit --version 2>&1 | head -1 | grep -q 'pre-commit [12]\.' && command -v pre-commit)
+PYLINT_BIN     = $(shell pylint --version 2>&1 | head -1 | grep -q 'pylint 2' && command -v pylint)
+SHELLCHECK_BIN = $(shell command -v shellcheck 2>/dev/null)
+SHFMT_BIN      = $(shell command -v shfmt 2>/dev/null)
+
+###
+# Define local variables after environment variables
+###
+
+# Paths to supported Git hooks
+pre_commit_hooks = .git/hooks/pre-commit
+pre_push_hooks 	 = .git/hooks/pre-push
+commit_msg_hooks = .git/hooks/commit-msg
+git_hooks = $(pre_commit_hooks) $(pre_push_hooks) $(commit_msg_hooks)
+
+###
+# Setup
+###
 
 .PHONY: setup
-setup:  ## run setup with default options
-	@./setup
+setup: setup-ansible setup-requirements ## setup requirements for running playbooks
 
-# Get paths to pyenv and Python commmands
-PYENV_BIN = $(shell command -v pyenv 2>/dev/null)
-PYTHON_BIN = $(shell command -v python 2>/dev/null)
+.PHONY: setup-development
+setup-development: setup setup-git-hooks ## setup requirements for local development
 
-# Python version to use for the virtualenv
-PYTHON_VERSION = $(shell pyenv install --list | sed 's/ //g' | grep "^3\.7\.[0-9]*$$" | sort -r | head -1)
-PYTHON_VERSION_PATH = $(HOME)/.pyenv/versions/$(PYTHON_VERSION)
+###
+# Setup: Python, pyenv and virtualenv
+###
 
-# Virtualenv name will be generated from the repository name
-PYENV_VIRTUALENV = $(shell basename "$(shell pwd)")
-PYENV_VIRTUALENV_PATH = $(HOME)/.pyenv/versions/$(PYENV_VIRTUALENV)
-
-# Get local pyenv version
-PYENV_LOCAL = $(shell pyenv local 2>/dev/null)
+.PHONY: setup-pyenv
+setup-pyenv:
+ifeq ($(PYENV_BIN),)
+	$(MAKE) python
+endif
 
 .PHONY: setup-pyenv-virtualenv
-setup-pyenv-virtualenv:  ## setup virtualenv with pyenv for development
-ifeq ($(PYENV_BIN),)
-	@echo "pyenv is not installed"
-	@exit 1
-endif
-ifeq ($(PYENV_LOCAL),)
-# Local version is not defined
-# 1. Install Python if missing
-# 2. Create virtualenv if missing
-# 3. Set local virtualenv
-ifeq (,$(wildcard $(PYTHON_VERSION_PATH)))
-	@echo "Install Python $(PYTHON_VERSION)"
-	@pyenv install $(PYTHON_VERSION)
-endif
-ifeq (,$(wildcard $(PYENV_VIRTUALENV_PATH)))
-	@echo "Creating virtualenv '$(PYENV_VIRTUALENV)' with pyenv using Python $(PYTHON_VERSION)"
-	@pyenv virtualenv $(PYTHON_VERSION) $(PYENV_VIRTUALENV)
-endif
-	@echo "Using existing virtualenv '$(PYENV_VIRTUALENV)'"
-	@pyenv local $(PYENV_VIRTUALENV)
-else
-# Local version is set
-ifneq ($(PYENV_LOCAL),$(PYENV_VIRTUALENV))
-	@echo "WARNING: pyenv local version should be $(PYENV_VIRTUALENV), found $(PYENV_LOCAL)"
-endif
-endif
+setup-pyenv-virtualenv: setup-pyenv
+	./scripts/create_virtualenv.sh
 
 .PHONY: setup-requirements
-setup-requirements: setup-pyenv-virtualenv  ## setup requirements for running the scripts
-	@pip install -q -r requirements.txt
+setup-requirements: setup-pyenv-virtualenv
+	pip install -q -r requirements.txt
 
 .PHONY: setup-dev-requirements
-setup-dev-requirements: setup-pyenv-virtualenv  ## setup development requirements
-	@pip install -q -r requirements.dev.txt
+setup-dev-requirements: setup-pyenv-virtualenv
+	pip install -q -r requirements.dev.txt
 
-PRE_COMMIT_INSTALLED = $(shell pre-commit --version 2>&1 | head -1 | grep -q 'pre-commit 1' && echo true)
+###
+# Setup: Homebrew
+###
+
+.PHONY: setup-homebrew
+setup-homebrew:
+ifeq ($(BREW_BIN),)
+ifeq ($(UNAME_S),Linux)
+	$(MAKE) linuxbrew
+endif
+ifeq ($(UNAME_S),Darwin)
+	./setup --no-install-ansible --no-run-playbook --no-install-roles
+endif
+endif
+
+###
+# Setup: pre-commit and Git hooks
+###
 
 .PHONY: setup-pre-commit
-setup-pre-commit:  ## setup pre-commit if not installed
-ifneq ($(PRE_COMMIT_INSTALLED),true)
-	@$(MAKE) setup-dev-requirements
+setup-pre-commit:
+ifeq ($(PRE_COMMIT_BIN),)
+	$(MAKE) setup-dev-requirements
 endif
+
+.PHONY: setup-git-hooks
+setup-git-hooks: $(git_hooks)
+
+$(pre_commit_hooks): | setup-pre-commit
+	pre-commit install --install-hooks
+
+$(pre_push_hooks): | setup-pre-commit
+	pre-commit install --install-hooks -t pre-push
+
+$(commit_msg_hooks): | setup-pre-commit
+	pre-commit install --install-hooks -t commit-msg
+
+###
+# Setup: Go
+###
+
+.PHONY: setup-golang
+setup-golang:
+ifeq ($(GO_BIN),)
+	$(MAKE) golang
+endif
+
+###
+# Setup: Shellcheck and shfmt
+###
+
+.PHONY: setup-shellcheck
+setup-shellcheck:
+ifeq ($(SHELLCHECK_BIN),)
+	./setup -q -t shellcheck
+endif
+
+.PHONY: setup-shfmt
+setup-shfmt: setup-golang
+ifeq ($(SHFMT_BIN),)
+	GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt
+endif
+
+###
+# Setup: pylint
+###
+
+.PHONY: setup-pylint
+setup-pylint:
+ifeq ($(PYLINT_BIN),)
+	$(MAKE) setup-dev-requirements
+endif
+
+###
+# Setup: Ansible roles
+###
+
+playbooks/roles/zzet.rbenv:
+	./setup --no-run-playbook
+
+playbooks/roles/markosamuli.%:
+	./setup --no-run-playbook
+
+###
+# Linting and formatting
+###
 
 .PHONY: lint
-lint: pre-commit  ## lint source code
+lint: setup-pre-commit setup-shfmt setup-shellcheck setup-pylint  ## run pre-commit hooks on all files
+	pre-commit run -a
 
-.PHONY: pre-commit
-pre-commit: setup-pre-commit  ## run pre-commit hooks on all files
-ifndef SHELLCHECK
-	$(error "shellcheck not found, try: 'brew install shellcheck'")
-endif
-ifndef SHFMT
-	$(error "shfmt not found, try: 'brew install shfmt'")
-endif
-	@pre-commit run -a
+.PHONY: format-python
+format-python: setup-pre-commit  ## format Python files
+	-pre-commit run -a requirements-txt-fixer
+	-pre-commit run -a black
 
-.PHONY: python-lint
-python-lint: setup-pre-commit  ## lint and format Python files
-	@pre-commit run -a check-ast
-	@pre-commit run -a requirements-txt-fixer
-	@pre-commit run -a yapf
-	@pre-commit run -a flake8
-	@pre-commit run -a pylint
+.PHONY: lint-python
+lint-python: setup-pre-commit setup-pylint format-python  ## lint and format Python files
+	pre-commit run -a check-ast
+	pre-commit run -a flake8
+	pre-commit run -a pylint
 
-.PHONY: travis-lint
-travis-lint: setup-pre-commit  ## lint .travis.yml file
-	@pre-commit run -a travis-lint
+.PHONY: lint-travis
+lint-travis: setup-pre-commit  ## lint .travis.yml file
+	pre-commit run -a travis-lint
+
+###
+# Setup: Ansible
+###
 
 .PHONY: setup-ansible
+setup-ansible:
+ifeq ($(ANSIBLE_BIN),)
+	$(MAKE) install-ansible
+endif
+
+.PHONY: install-ansible
 install-ansible:  ## install Ansible without roles or running playbooks
-	@./setup \
+	./setup \
 		--install-ansible \
 		--no-run-playbook \
-		--no-install-roles \
-		--print-versions \
-		--verbose
+		--no-install-roles
 
 .PHONY: install-roles
 install-roles:  ## install Ansible roles
-	@./setup --no-run-playbook
+	./setup --no-run-playbook
 
 .PHONY: list-tags
 list-tags:  # list Ansible tags
-	@./setup --no-run-playbook --no-install-roles -l
+	./setup --no-run-playbook --no-install-roles -l
 
 .PHONY: clean-roles
 clean-roles: setup-requirements  ## remove outdated Ansible roles
-	@./scripts/clean_roles.py
+	./scripts/clean_roles.py
 
 .PHONY: update-roles
-update-roles: setup-requirements  ## update Ansible roles in the requirements.yml file
-	@./scripts/update_roles.py
+update-roles: setup-ansible ## update Ansible roles in the requirements.yml file
+	./setup --no-install-ansible --update-roles --no-run-playbook
 
 .PHONY: latest-roles
 latest-roles: update-roles clean-roles install-roles  # update Ansible roles and install new versions
 
-.PHONY: aws
-aws:  ## install AWS tools
-	@./setup -q -t aws
-
-.PHONY: docker
-docker:  ## install Docker
-	@./setup -q -t docker
-
-.PHONY: gcloud
-gcloud: playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
-	@./setup -q -t gcloud
-
-.PHONY: golang
-golang: playbooks/roles/markosamuli.golang  ## install Go programming language
-	@./setup -q -t golang
-
-.PHONY: lua
-lua: ## install Lua programming language
-	@./setup -q -t lua
-
-.PHONY: node
-node: playbooks/roles/markosamuli.nvm  ## install Node.js with NVM
-	@./setup -q -t node,nvm
+###
+# Tools
+###
 
 .PHONY: permissions
-permissions:  ## fix permissions in user home directory
-	@USER_HOME_FIX_PERMISSIONS=true ./setup -q -t permissions
+permissions: fix-permissions
+
+.PHONY: fix-permissions
+fix-permissions: setup ## fix permissions in user home directory
+	USER_HOME_FIX_PERMISSIONS=true ./setup -q -t permissions
+
+###
+# Configure system with the playbooks
+###
+
+.PHONY: install
+install:  ## install everything with default options
+	./setup
+
+.PHONY: aws
+aws: install-aws
+
+.PHONY: install-aws
+install-aws: setup playbooks/roles/markosamuli.aws_tools  ## install AWS tools
+	./scripts/configure.py install_aws true
+	./setup -q -t aws
+
+.PHONY: docker
+docker: install-docker
+
+.PHONY: install-docker
+install-docker: setup ## install Docker
+	./scripts/configure.py install_docker true
+	./setup -q -t docker
+
+.PHONY: editors
+editors: install-editors
+
+.PHONY: install-editors
+install-editors: setup ## install IDEs and code editors
+	./setup -q -t editors
+
+.PHONY: gcloud
+gcloud: install-gcloud
+
+.PHONY: install-gcloud
+install-gcloud: setup playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
+	./scripts/configure.py install_gcloud true
+	./setup -q -t gcloud
+
+.PHONY: go
+go: install-golang
+
+.PHONY: golang
+golang: install-golang
+
+.PHONY: install-golang
+install-golang: setup playbooks/roles/markosamuli.golang  ## install Go programming language
+	./scripts/configure.py install_golang true
+	./setup -q -t golang
+
+.PHONY: lua
+lua: install-lua
+
+.PHONY: install-lua
+install-lua: setup ## install Lua programming language
+	./scripts/configure.py install_lua true
+	./setup -q -t lua
+
+.PHONY: node
+node: install-node
+
+.PHONY: install-node
+install-node: setup playbooks/roles/markosamuli.nvm ## install Node.js with NVM
+	./scripts/configure.py install_nodejs true
+	./setup -q -t node,nvm
 
 .PHONY: python
-python: playbooks/roles/markosamuli.pyenv  ## install Python with pyenv
-	@./setup -q -t python,pyenv
+python: install-python
+
+# Do not create virtualenv if Python is not installed yet
+.PHONY: install-python
+install-python: setup-ansible playbooks/roles/markosamuli.pyenv ## install Python with pyenv
+	./setup -q -t python,pyenv
 
 .PHONY: ruby
-ruby: playbooks/roles/zzet.rbenv  ## install Ruby with rbenv
-	@./setup -q -t ruby,rbenv
+ruby: install-ruby
+
+.PHONY: install-ruby
+install-ruby: setup playbooks/roles/zzet.rbenv ## install Ruby with rbenv
+	./scripts/configure.py install_ruby true
+	./setup -q -t ruby,rbenv
 
 .PHONY: rust
-rust: ## install Rust programming language
-	@./setup -q -t rust
+rust: install-rust
+
+.PHONY: install-rust
+install-rust: setup playbooks/roles/markosamuli.rust ## install Rust programming language
+	./scripts/configure.py install_rust true
+	./setup -q -t rust
+
+.PHONY: shellcheck
+shellcheck: install-shellcheck
+
+.PHONY: install-shellcheck
+install-shellcheck: setup ## install shellcheck
+	./setup -q -t shellcheck
 
 .PHONY: terraform
-terraform: ## install Terraform
-	@./setup -q -t terraform
+terraform: install-terraform
+
+.PHONY: install-terraform
+install-terraform: setup ## install Terraform
+	./scripts/configure.py install_terraform true
+	./setup -q -t terraform
 
 .PHONY: tools
-tools:  ## install tools
-	@./setup -q -t tools
+tools: install-tools
 
-playbooks/roles/zzet.rbenv:
-	@./setup --no-run-playbook
+.PHONY: install-tools
+install-tools: setup ## install tools
+	./setup -q -t tools
 
-playbooks/roles/markosamuli.%:
-	@./setup --no-run-playbook
+.PHONY: zsh
+zsh: install-zsh
 
-PRE_COMMIT_HOOKS = .git/hooks/pre-commit
-PRE_PUSH_HOOKS = .git/hooks/pre-push
-COMMIT_MSG_HOOKS = .git/hooks/commit-msg
+.PHONY: install-zsh
+install-zsh: setup ## install zsh
+	./scripts/configure.py install_zsh true
+	./setup -q -t zsh
 
-.PHONY: install-git-hooks
-install-git-hooks: $(PRE_COMMIT_HOOKS) $(PRE_PUSH_HOOKS) $(COMMIT_MSG_HOOKS)  ## install Git hooks
+###
+# Clean
+###
 
-$(PRE_COMMIT_HOOKS): setup-pre-commit  ## install pre-commit hooks
-	@pre-commit install --install-hooks
+.PHONY: clean
+clean:  ## delete local development dependencies
+	-rm -rf playbooks/roles/markosamuli.*
+	-rm -rf playbooks/roles/zzet.rbenv
+	./scripts/delete_virtualenv.sh
 
-$(PRE_PUSH_HOOKS): setup-pre-commit  ## install pre-push hooks
-	@pre-commit install --install-hooks -t pre-push
+###
+# This Makefile uses self-documenting help commands
+###
 
-$(COMMIT_MSG_HOOKS): setup-pre-commit  ## install commit-msg hooks
-	@pre-commit install --install-hooks -t commit-msg
+.PHONY: help
+help:  ## print this help
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort -d | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

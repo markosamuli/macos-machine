@@ -13,22 +13,45 @@ language: generic
 
 matrix:
   include:
-    - name: "macOS 10.13 (High Sierra) with Xcode 10.1 (uninstall Homebrew)"
+    - stage: test
+      name: "macOS 10.15.5 (Catalina) with Xcode 12 (uninstall Homebrew)"
       os: osx
-      osx_image: xcode10.1
+      osx_image: xcode12
       env: UNINSTALL_HOMEBREW=YES
-    - name: "macOS 10.13 (High Sierra) with Xcode 10.1"
+
+    - stage: test
+      name: "macOS 10.15.5 (Catalina) with Xcode 11.6 (uninstall Homebrew)"
       os: osx
-      osx_image: xcode10.1
-      env: UNINSTALL_HOMEBREW=NO
+      osx_image: xcode11.6
+      env: UNINSTALL_HOMEBREW=YES
+
     - name: "macOS 10.14 (Mojave) with Xcode 11.0 (uninstall Homebrew)"
       os: osx
       osx_image: xcode11
       env: UNINSTALL_HOMEBREW=YES
+
+    - stage: test
+      name: "macOS 10.15.5 (Catalina) with Xcode 12"
+      os: osx
+      osx_image: xcode12
+      addons:
+        homebrew:
+          update: true
+
+    - stage: test
+      name: "macOS 10.15.5 (Catalina) with Xcode 11.6"
+      os: osx
+      osx_image: xcode11.6
+      addons:
+        homebrew:
+          update: true
+
     - name: "macOS 10.14 (Mojave) with Xcode 11.0"
       os: osx
       osx_image: xcode11
-      env: UNINSTALL_HOMEBREW=NO
+      addons:
+        homebrew:
+          update: true
 
 before_install:
   # The default Git on macOS doesn't support protocol version 2 that's enabled
@@ -43,16 +66,10 @@ before_install:
   # Uninstall existing Homebrew installation
   - >
     if [[ "${UNINSTALL_HOMEBREW}" == "YES" ]]; then
-      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)" -- --force
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh)" -- --force
     fi
 
   # yamllint enable rule:line-length
-
-  # Update Homebrew to fix HOMEBREW_LOGS error
-  - >
-    if [[ "${UNINSTALL_HOMEBREW}" == "NO" ]]; then
-      brew update
-    fi
 
   # Cleanup existing NVM installation
   - unset NVM_CD_FLAGS
@@ -61,12 +78,25 @@ before_install:
   - rm -rf /Users/travis/.nvm
   - rm -rf /etc/profile.d/travis-nvm.sh
 
+  # Remove Go versions installed with Gimme
+  - >
+    if [[ -d "/home/travis/.gimme" ]]; then
+      rm -rf /home/travis/.gimme
+    fi
+
+  # Unset GOROOT and GIMME_ENV variables
+  - unset GOROOT
+  - unset GIMME_ENV
+
+  # Remove Gimme installed Go version from the PATH
+  - export PATH=$(echo "${PATH}" | sed 's~/home/travis/.gimme/versions/\([^/]*\)/bin:~~')
+
 script:
   # Use Travis test configuration
   - cp machine.travis.yaml machine.yaml
 
-  # Install roles
-  - ./setup -n || travis_terminate 1
+  # Install Ansible and roles
+  - ./setup --upgrade-ansible --no-run-playbook || travis_terminate 1
 
   # Check syntax of the Ansible playbooks
   - ./setup -s || travis_terminate 1

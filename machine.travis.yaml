@@ -20,7 +20,7 @@ install_vagrant: false
 install_hammerspoon: true
 
 # Install Docker
-install_docker: true
+install_docker: false
 
 # Install Packer
 install_packer: true
@@ -34,26 +34,20 @@ install_nmap: true
 # Install Lua programming language
 install_lua: true
 
-# Install asdf-vm
-install_asdf: true
+# Do not install asdf-vm
+install_asdf: false
 
 # Install doctl with Homebrew
 install_doctl: true
 
-# Install asdf plugins
-asdf_plugins:
-  - name: kubectl
-    versions:
-      - "1.14.2"
-  - name: helm
-    versions:
-      - "2.14.0"
-  - name: concourse
-    versions:
-      - "5.2.0"
-  - name: packer
-    versions:
-      - "1.4.1"
-  - name: minikube
-    versions:
-      - "1.1.0"
+# Install Rust programming language
+install_rust: true
+
+# Do not install Ruby and rbenv
+install_ruby: false
+
+# Install Python
+install_python: false
+
+# Install Go programming language
+install_golang: false

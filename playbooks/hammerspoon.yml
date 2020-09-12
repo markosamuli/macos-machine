@@ -28,6 +28,7 @@
         dest: ~/.hammerspoon/Spoons
         remote_src: true
         creates: ~/.hammerspoon/Spoons/ReloadConfiguration.spoon
+        mode: "0755"
 
     - name: Get ReloadConfiguration.spoon/init.lua checksum
       stat:

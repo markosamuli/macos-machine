@@ -1,0 +1,61 @@
+---
+# I use .dotfiles from github.com/markosamuli/dotfiles and I don't want the
+# Ansible roles messing up with my .bashrc or .zshrc files.
+nvm_shell_init: false
+pyenv_init_shell: false
+gcloud_setup_shell: false
+golang_init_shell: false
+aws_tools_init_shell: false
+asdf_init_shell: false
+rust_modify_path: false
+
+# Do not install asdf-vm
+install_asdf: false
+
+# Install Certbot
+install_certbot: true
+
+# Install Docker
+install_docker: true
+
+# Install Digital Ocean CLI
+install_doctl: true
+
+# Install Go programming language
+install_golang: true
+
+# Install Hammerspoon automation tool
+install_hammerspoon: true
+
+# Install JetBrains Toolbox
+install_jetbrains_toolbox: true
+
+# Install Lua programming language
+install_lua: true
+
+# Install nmap
+install_nmap: true
+
+# Install Packer
+install_packer: false
+
+# Install Python
+install_python: true
+
+# Do not install Ruby and rbenv
+install_ruby: false
+
+# Install Rust programming language
+install_rust: true
+
+# Default Python version
+pyenv_global: "{{ pyenv_python38_version }}"
+
+# Python versions to install
+pyenv_python_versions:
+  - "2.7.18"
+  - "{{ pyenv_python37_version }}"
+  - "{{ pyenv_python38_version }}"
+
+# Use Node.js v12.x as the default version
+nvm_default_node_version: lts/erbium

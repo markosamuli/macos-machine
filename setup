@@ -3,6 +3,38 @@
 # Setup script for https://github.com/markosamuli/linux-machine and
 # https://github.com/markosamuli/macos-machine Ansible playbooks.
 #
+# 2020-09-06:
+# - Upgrade outdated Ansible Homebrew formula
+# - Detect installed Ansible Homebrew path correctly during install
+#
+# 2020-09-04:
+# - Re-install Xcode Command Line Tools (CLT) after upgrade
+# - Wait for Xcode CLT installation to complete in the background
+#
+# 2020-08-31:
+# - Detect WSL1 / WSL2 version and pass it to the Ansible playbook
+# - Use 'auto' for detecting Python in Ubuntu 20.04 LTS
+# - Added debug() function that logs only if DEBUG environment variable is
+#   defined
+#
+# 2020-08-30:
+# - Use Ansible 2.9 as the default version
+# - Update APT cache before installing packages
+#
+# 2020-08-29:
+# - Fix issue with the script detecting pyenv when .python-version file exists
+#   even if pyenv was not installed on the system
+# - Do not install Ansible from PPA on Ubuntu 20.04 LTS
+# - Detect Linux distribution release name
+#
+# 2020-07-01:
+# - Use the new Bash Homebrew installer
+#
+# 2020-02-16:
+# - Require minimum Ansible version 2.8 (snap module for Ubuntu)
+# - Added '--no-install-ansible' option
+# - Added '--update-roles' option
+#
 # 2019-11-24:
 # - Fix Ansible version checking on macOS
 #
@@ -41,16 +73,20 @@ install_ansible=1     # Install Ansible
 install_roles_force=0 # Force overwriting existing Ansible roles
 update_roles=0        # Update Ansible roles to the latest versions
 print_versions=0      # Print Python and Ansible versions
+upgrade_ansible=0     # Upgrade Ansible to the latest version
 
 # System properties
-is_macos=""   # macOS
-is_linux=""   # Linux
-is_ubuntu=""  # Ubuntu
-is_pengwin="" # Pengwin
-is_wsl=""     # Windows Subsystem for Linux
+is_macos=""        # macOS
+is_linux=""        # Linux
+is_ubuntu=""       # Ubuntu
+is_pengwin=""      # Pengwin
+is_wsl=""          # Windows Subsystem for Linux
+distrib_release="" # OS release codename
+wsl_version=""     # WSL1 / WSL2
 
 # macOS specific setup options
 install_homebrew=1 # Install Homebrew
+install_xcode=1    # Install Xcode
 
 # Environment configuration
 deploy_env="local"
@@ -73,10 +109,10 @@ ansible_pyenv=""
 ansible_virtualenv="${DIR}/.venv"
 
 # Ansible version test
-required_ansible_version="2.7"
+required_ansible_version="2.8"
 
 # Ansible version to install
-ansible_version="${MACHINE_ANSIBLE_VERSION:-2.8}"
+ansible_version="${MACHINE_ANSIBLE_VERSION:-2.9}"
 
 # Ansible PPA to use
 ansible_ppa="ansible/ansible-${ansible_version}"
@@ -89,9 +125,15 @@ ansible_homebrew_enabled="${MACHINE_ANSIBLE_HOMEBREW}"
 ansible_virtualenv_enabled="${MACHINE_ANSIBLE_VIRTUALENV}"
 ansible_pyenv_enabled="${MACHINE_ANSIBLE_PYENV}"
 
-# Print error into STDERR
 error() {
     echo "$@" 1>&2
+}
+
+debug() {
+    if [ -z "${DEBUG}" ]; then
+        return 0
+    fi
+    echo "DEBUG: $*" 1>&2
 }
 
 # Print usage help
@@ -128,6 +170,9 @@ show_help() {
 
   --no-install-roles
       Disable Ansible roles from being installed or updated
+
+  --upgrade-ansible
+      Upgrade outdated Ansible version (macOS with Homebrew only)
 
   --verbose
       Enable verbose Ansible output
@@ -192,6 +237,7 @@ compare_ansible_version() {
 
 # Install dependencies on Linux
 install_linux_dependencies() {
+    debug "install Linux dependencies"
     if is_true "${install_ansible}"; then
         install_ansible
     fi
@@ -199,26 +245,36 @@ install_linux_dependencies() {
 
 # Install dependencies on macOS
 install_macos_dependencies() {
+    if is_true "${install_xcode}"; then
+        install_xcode
+    fi
     if is_true "${install_homebrew}"; then
-        install_xcode_cli
         install_homebrew
     fi
     if is_true "${install_ansible}"; then
         install_ansible
     fi
+    if is_true "${upgrade_ansible}"; then
+        upgrade_ansible
+    fi
 }
 
 # Install Xcode Command Line Tools
-install_xcode_cli() {
-    if command -v gcc >/dev/null; then
-        return 0
-    fi
+install_xcode() {
     echo "*** Installing Xcode Command Line Tools..."
     xcode-select --install ||
         {
             error "Failed to install Xcode Command Line Tools"
             exit 1
         }
+    echo "Follow instructions on the dialog to complete the installation."
+    echo "Press [CTRL+C] to stop."
+    printf "Waiting for install to complete"
+    while is_true "${install_xcode}"; do
+        printf "."
+        sleep 5
+        configure_xcode
+    done
 }
 
 # Install Homebrew
@@ -227,9 +283,9 @@ install_homebrew() {
         return 0
     fi
     local url="https://raw.githubusercontent.com"
-    url="${url}/Homebrew/install/master/install"
+    url="${url}/Homebrew/install/master/install.sh"
     echo "*** Installing Homebrew..."
-    ruby -e "$(curl -fsSL ${url})" ||
+    /bin/bash -c "$(curl -fsSL ${url})" ||
         {
             error "Failed to install Homebrew"
             exit 1
@@ -248,17 +304,53 @@ install_ansible() {
     fi
 }
 
+# Upgrade existing Ansible installation to the latest version
+upgrade_ansible() {
+    if is_true "${is_macos}"; then
+        upgrade_ansible_on_macos
+    elif is_true "${is_linux}"; then
+        error "upgrading Ansible on Linux is not supported"
+    else
+        error "Your system is not supported"
+        exit 1
+    fi
+}
+
+# Is the installed Ansible version outdated
+is_ansible_outdated() {
+    if ! is_ansible_installed; then
+        debug "ansible not installed, not marking it as outdated"
+        return 1
+    fi
+    # Check Homebrew installation
+    if is_ansible_homebrew_enabled; then
+        local outdated
+        outdated=$(brew outdated -q ansible)
+        if [ -n "${outdated}" ]; then
+            debug "outdated Ansible Homebrew formula found"
+            return 0
+        fi
+    fi
+    # Not supporting Linux or PyPI version checking
+    return 1
+}
+
 # Is Ansible installed on the PATH or in the custom location
 is_ansible_installed() {
     # Check Homebrew installation
     if is_ansible_homebrew_enabled; then
         # Fail if Ansible formula is not found
         if [ "$(brew --prefix ansible)" == "" ]; then
+            debug "brew --prefix ansible is empty"
             return 1
         fi
+        debug "ansible Homebrew formula found"
     fi
     # Fail if 'ansible --version' doesn't work
-    if [ -z "$(ansible_exec ansible --version 2>/dev/null)" ]; then
+    local version
+    version=$(ansible_exec ansible --version 2>/dev/null)
+    if [ -z "${version}" ]; then
+        debug "ansible --version is empty"
         return 1
     fi
 }
@@ -315,27 +407,74 @@ install_ansible_on_linux() {
     exit 1
 }
 
+# Upgrade exisging Ansible installation on macOS
+upgrade_ansible_on_macos() {
+    debug "upgrade Ansible on macOS"
+
+    configure_ansible_on_macos
+
+    if ! is_ansible_outdated; then
+        debug "outdated Ansible version not detected"
+        return 0
+    fi
+
+    if is_ansible_pypi_enabled; then
+        error "upgrading Ansible PyPI packages is not supported"
+        return 1
+    fi
+    if ! is_ansible_homebrew_enabled; then
+        error "upgrading Ansible on macOS requires Homebrew"
+        return 1
+    fi
+    if ! upgrade_ansible_with_homebrew; then
+        error "failed to upgrade Ansible"
+        return 1
+    fi
+}
+
+# Upgrade Ansible installed with Homebrew
+upgrade_ansible_with_homebrew() {
+    echo "*** Upgrading Ansible with Homebrew..."
+    brew upgrade ansible ||
+        {
+            error "Failed to upgrade Ansible with Homebrew"
+            exit 1
+        }
+}
+
+# Configure Ansible on macOS
+configure_ansible_on_macos() {
+    debug "configure Ansible on macOS"
+    # Enable Homebrew installation as the default option if neither Homebrew or
+    # PyPI installation option have been set or if PyPI has been disabled.
+    if [ -z "${ansible_homebrew_enabled}" ]; then
+        if [ -z "${ansible_pypi_enabled}" ]; then
+            debug "PyPI installation is not enabled"
+            ansible_homebrew_enabled=true
+        elif is_ansible_pypi_disabled; then
+            debug "PyPI installation is disabled"
+            ansible_homebrew_enabled=true
+        fi
+    fi
+}
+
 # Install Ansible on macOS
 install_ansible_on_macos() {
 
+    debug "install Ansible on macOS"
+
+    configure_ansible_on_macos
+
     if is_ansible_installed; then
+        debug "existing Ansible version found, not installing..."
         return 0
     fi
 
     echo "Install Ansible on macOS..."
 
-    # Enable Homebrew installation as the default option if neither Homebrew or
-    # PyPI installation option have been set or if PyPI has been disabled.
-    if [ -z "${ansible_homebrew_enabled}" ]; then
-        if [ -z "${ansible_pypi_enabled}" ]; then
-            ansible_homebrew_enabled=true
-        elif is_ansible_pypi_disabled; then
-            ansible_homebrew_enabled=true
-        fi
-    fi
-
     # Install Ansible from Homebrew
     if is_ansible_homebrew_enabled; then
+        debug "install Ansible from Homebrew"
         if is_true "${is_macos}"; then
             if install_ansible_with_homebrew; then
                 return 0
@@ -538,12 +677,14 @@ remove_ansible_installations() {
     remove_ansible_virtualenv
 
     # Find local pyenv version
-    local pyenv_version
-    if [ -n "${ansible_pyenv}" ]; then
-        pyenv_version="${ansible_pyenv}"
-    elif [ -e ".python-version" ]; then
-        # Check .python-version file even if PyPi install is disabled
-        pyenv_version=$(cat .python-version)
+    if command -v pyenv >/dev/null; then
+        local pyenv_version
+        if [ -n "${ansible_pyenv}" ]; then
+            pyenv_version="${ansible_pyenv}"
+        elif [ -e ".python-version" ]; then
+            # Check .python-version file even if PyPi install is disabled
+            pyenv_version=$(cat .python-version)
+        fi
     fi
 
     # Uninstall Ansible package from the pyenv environment
@@ -585,9 +726,6 @@ install_ansible_ppa_on_ubuntu() {
     sudo apt-add-repository -y "ppa:${ansible_ppa}"
 
     add_ansible_ppa_key
-
-    echo "*** Update APT cache..."
-    sudo apt-get update
 }
 
 # Remove all Ansible sources list files
@@ -605,7 +743,10 @@ remove_ansible_apt_sources_list() {
     done
     if [ "${update_apt_cache}" == "1" ]; then
         echo "*** Update APT cache..."
-        sudo apt-get update
+        sudo apt-get update || {
+            error "failed to update APT cache"
+            exit 1
+        }
     fi
 }
 
@@ -627,7 +768,11 @@ remove_ansible_virtualenv() {
 # Install Ansible with APT on Ubuntu
 install_ansible_with_apt_on_ubuntu() {
 
-    install_ansible_ppa_on_ubuntu
+    if [ "${distrib_release}" == "focal" ]; then
+        echo "*** Do not use PPA on Ubuntu 20.04 LTS"
+    else
+        install_ansible_ppa_on_ubuntu
+    fi
 
     if ! install_ansible_apt "${ansible_version}"; then
         error "Couldn't install Ansible ${ansible_version} from APT"
@@ -658,9 +803,6 @@ install_ansible_ppa_on_debian() {
     fi
 
     add_ansible_ppa_key
-
-    echo "*** Update APT cache..."
-    sudo apt-get update
 }
 
 # Install Ansible with APT on Debian
@@ -682,6 +824,12 @@ install_ansible_with_apt_on_debian() {
 install_ansible_apt() {
     local version=$1
 
+    echo "*** Update APT cache..."
+    sudo apt-get update || {
+        error "failed to update APT cache"
+        exit 1
+    }
+
     local candidate
     candidate=$(apt_install_candidate "ansible")
     if [ "${candidate}" == "2.8.6" ]; then
@@ -689,7 +837,7 @@ install_ansible_apt() {
         return 1
     fi
 
-    echo "*** Installing Ansible ${version}..."
+    echo "*** Installing Ansible ${version} from APT..."
     sudo apt-get install -y "ansible=${version}*" || {
         error "Failed to install ansible=${version}*"
         return 1
@@ -786,25 +934,38 @@ detect_os() {
 
 # Detect Windows Subsystem for Linux
 detect_wsl() {
-    if grep -q Microsoft /proc/version; then
-        echo "*** Windows Subsystem for Linux detected"
+    if [[ -d "/run/WSL" ]]; then
+        echo "*** Windows Subsystem for Linux (WSL2) detected"
         is_wsl=1
-    else
-        is_wsl=0
+        wsl_version='WSL2'
+        return
     fi
+    if grep -q Microsoft /proc/version; then
+        echo "*** Windows Subsystem for Linux (WSL1) detected"
+        is_wsl=1
+        wsl_version='WSL1'
+        return
+    fi
+    is_wsl=0
 }
 
 # Detect Ubuntu
 detect_ubuntu() {
-    if test -f /etc/lsb-release; then
-        if grep -q Ubuntu /etc/lsb-release; then
-            echo "*** Ubuntu detected"
-            is_ubuntu=1
-        else
-            is_ubuntu=0
-        fi
-    else
+    if ! test -f /etc/lsb-release; then
         is_ubuntu=0
+        return
+    fi
+    if ! grep -q Ubuntu /etc/lsb-release; then
+        is_ubuntu=0
+        return
+    fi
+    echo "*** Ubuntu detected"
+    is_ubuntu=1
+    local codename
+    codename=$(grep "DISTRIB_CODENAME=" /etc/lsb-release | cut -d= -f2)
+    if [ -n "${codename}" ]; then
+        # shellcheck disable=SC2034
+        distrib_release="${codename}"
     fi
 }
 
@@ -827,6 +988,10 @@ pyenv_exec() {
     local args=("$@")
     # The first argument is the pyenv version
     local pyenv_version="${args[0]}"
+    if ! command -v pyenv >/dev/null; then
+        error "pyenv not installed"
+        exit 1
+    fi
     # shellcheck disable=SC2068
     PYENV_VERSION="${pyenv_version}" pyenv exec "${args[@]:1}"
 }
@@ -854,10 +1019,13 @@ ansible_exec() {
 
     # Get Homebrew Ansible installation prefix
     if is_ansible_homebrew_enabled; then
+        debug "ansible_exec: Ansible Homebrew enabled"
         local prefix
         prefix="$(brew --prefix ansible)"
+        debug "ansible_exec: Ansible prefix: ${prefix}"
         if [ -n "${prefix}" ] && [ -d "${prefix}/bin" ]; then
             ansible_path="${prefix}/bin"
+            debug "ansible_exec: use Ansible from Homebrew"
         fi
     fi
 
@@ -878,22 +1046,19 @@ ansible_exec() {
     fi
 
     if [ -n "${ansible_path}" ]; then
-        # Execute with the custom path
-        # echo "*** Execute with custom path ${ansible_path}" >&2
+        debug "execute with the custom path ${ansible_path}"
         # shellcheck disable=SC2068
         PATH="${ansible_path}:$PATH" ${args[@]}
     elif [ -n "${pyenv_version}" ]; then
-        # Execute in the local pyenv
-        # echo "*** Execute with pyenv ${pyenv_version}" >&2
+        debug "execute in the local pyenv ${pyenv_version}"
         # shellcheck disable=SC2068
         pyenv_exec "${pyenv_version}" "${args[@]}"
     elif [ -n "${virtualenv_path}" ]; then
-        # Execute in the local virtualenv
-        # echo "*** Execute with virtualenv ${virtualenv_path}" >&2
+        debug "execute in the local virtualenv ${virtualenv_path}"
         # shellcheck disable=SC2068
         virtualenv_exec "${virtualenv_path}" "${args[@]}"
     else
-        # echo "*** Execute with system PATH" >&2
+        debug "execute with system PATH"
         # shellcheck disable=SC2068
         ${args[@]}
     fi
@@ -918,6 +1083,10 @@ run_ansible_playbook_opts() {
 
     local ansible_opts=()
 
+    if [ "${distrib_release}" == "focal" ]; then
+        ansible_opts+=("-e ansible_python_interpreter=auto")
+    fi
+
     if [ -e "${local_vars_file}" ]; then
         ansible_opts+=("--extra-vars @${local_vars_file}")
     fi
@@ -940,6 +1109,7 @@ run_ansible_playbook_opts() {
     if is_true "${is_linux}"; then
         if is_true "${is_wsl}"; then
             ansible_vars+=("\"is_wsl\":true")
+            ansible_vars+=("\"wsl_version\":${wsl_version}")
         else
             ansible_vars+=("\"is_wsl\":false")
         fi
@@ -1029,18 +1199,43 @@ configure_linux() {
     ansible_become=1
     # Disable Homebrew installation source on Linux
     ansible_homebrew_enabled=false
-    # Do not install Homebrew on Linux
+    # Do not install Xcode or Homebrew on Linux
     install_homebrew=0
+    install_xcode=0
     # Use bash on WSL to avoid issues with spaces on the PATH
     if is_true "${is_wsl}"; then
         ansible_executable=$(command -v /bin/bash 2>/dev/null)
     fi
 }
 
+# Check for known issues with macOS upgrade
+configure_xcode() {
+    if ! is_true "${is_macos}"; then
+        return
+    fi
+    if ! command -v gcc >/dev/null; then
+        echo "*** GCC doesn't exist, install Xcode..."
+        install_xcode=1
+        return
+    fi
+    if ! command -v make >/dev/null; then
+        echo "*** GNU make not found, install Xcode..."
+        install_xcode=1
+        return
+    fi
+    if ! make --version >/dev/null; then
+        echo "*** GNU make is not working, install Xcode..."
+        install_xcode=1
+        return
+    fi
+    install_xcode=0
+}
+
 # Configure options
 configure_options() {
     if is_true "${is_macos}"; then
         configure_macos
+        configure_xcode
     elif is_true "${is_linux}"; then
         configure_linux
     else
@@ -1280,8 +1475,20 @@ while [[ $# -gt 0 ]]; do
             run_playbook=0
             shift
             ;;
+        --no-install-ansible)
+            install_ansible=0
+            shift
+            ;;
         --no-install-roles)
             install_roles=0
+            shift
+            ;;
+        --upgrade-ansible)
+            upgrade_ansible=1
+            shift
+            ;;
+        --update-roles)
+            update_roles=1
             shift
             ;;
         --verbose)

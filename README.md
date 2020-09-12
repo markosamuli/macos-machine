@@ -1,9 +1,14 @@
 # Development macOS Setup
 
-| Branch  | Status                                                                                                                                 |
-| ------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| master  | [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=master)](https://travis-ci.org/markosamuli/macos-machine)  |
-| develop | [![Build Status](https://travis-ci.org/markosamuli/macos-machine.svg?branch=develop)](https://travis-ci.org/markosamuli/macos-machine) |
+[![GitHub release](https://img.shields.io/github/release/markosamuli/macos-machine.svg)](https://github.com/markosamuli/macos-machine/releases)
+[![License](https://img.shields.io/github/license/markosamuli/macos-machine.svg)](https://github.com/markosamuli/macos-machine/blob/master/LICENSE)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![Known Vulnerabilities](https://snyk.io/test/github/markosamuli/macos-machine/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/markosamuli/macos-machine?targetFile=requirements.txt)
+
+| Branch  | Build Status                              | Coding Style                |
+| ------- | ----------------------------------------- | --------------------------- |
+| master  | [![Build Status][travis-master]][travis]  | ![Coding Style][cs-master]  |
+| develop | [![Build Status][travis-develop]][travis] | ![Coding Style][cs-develop] |
 
 This is a collection of Ansible roles and tasks to setup a new developer machine
 on macOS.
@@ -11,11 +16,16 @@ on macOS.
 Read my [Machine Setup Guide][machine-setup-guide] for instructions.
 
 [machine-setup-guide]: https://machine.msk.io/
+[travis]: https://travis-ci.org/markosamuli/macos-machine/branches
+[travis-master]: https://travis-ci.org/markosamuli/macos-machine.svg?branch=master
+[travis-develop]: https://travis-ci.org/markosamuli/macos-machine.svg?branch=develop
+[cs-master]: https://github.com/markosamuli/macos-machine/workflows/Code%20Quality/badge.svg?branch=master
+[cs-develop]: https://github.com/markosamuli/macos-machine/workflows/Code%20Quality/badge.svg?branch=develop
 
 ## Requirements
 
-- Mac running macOS 10.13 (High Sierra) or later
-- Xcode 10.1 or later installed
+- Mac running macOS 10.14 (Mojave) or later
+- Xcode 11 or later installed
 - Git installed
 
 This setup has only been tested on the macOS Sierra and not against existing
@@ -67,8 +77,8 @@ already found on the system.
 
 - Xcode Command Line Tools
 - [Homebrew](https://brew.sh/)
-- [Ansible](https://www.ansible.com/) v2.7 installed with Homebrew
-- [Python](https://www.python.org/) v3.7 installed with Homebrew
+- [Ansible](https://www.ansible.com/) installed with Homebrew
+- [Python](https://www.python.org/) installed with Homebrew
 
 ### Desktop applications
 
@@ -114,7 +124,7 @@ Latest version of [Zsh][zsh] will be installed from Homebrew.
 Run tools playbook:
 
 ```bash
-make tools
+make install-tools
 ```
 
 [wget]: https://www.gnu.org/software/wget/
@@ -199,12 +209,12 @@ Use [pyenv] to install and manage Python versions for the current user:
 
 - [pyenv]
 - [pyenv-virtualenv]
-- [Python][python] v2.7 and v3.7 installed with pyenv
+- [Python][python] v3.7 installed with pyenv
 
 Run Python playbook:
 
 ```bash
-make python
+make install-python
 ```
 
 You can disable installation by adding the following option to your
@@ -242,7 +252,7 @@ This will install:
 Run Ruby playbook:
 
 ```bash
-make ruby
+make install-ruby
 ```
 
 To change the installed rubies and default version, add the following to your
@@ -282,7 +292,7 @@ fi
 Run Node.js playbook:
 
 ```bash
-make node
+make install-node
 ```
 
 You can disable installation by adding the following option to your
@@ -303,7 +313,7 @@ role.
 Run Go playbook:
 
 ```bash
-make golang
+make install-golang
 ```
 
 You can disable installation by adding the following option to your
@@ -327,7 +337,7 @@ install_lua: true
 Run Lua playbook:
 
 ```bash
-make lua
+make install-lua
 ```
 
 This will also install [LuaRocks][luarocks] package manager and [luacheck]
@@ -355,7 +365,7 @@ rust_modify_path: false
 Run Rust playbook:
 
 ```bash
-make rust
+make install-rust
 ```
 
 To uninstall Rust, run:
@@ -391,7 +401,7 @@ install_vagrant: true
 Run Docker playbook:
 
 ```bash
-make docker
+make install-docker
 ```
 
 To disable installation, add:
@@ -444,7 +454,7 @@ role are removed.
 Run Terraform playbook:
 
 ```bash
-make terraform
+make install-terraform
 ```
 
 Disable [Terraform][terraform] installation with:
@@ -482,7 +492,7 @@ This will uninstall any conflicting asdf plugins and versions.
 Run AWS playbook:
 
 ```bash
-make gcloud
+make install-aws
 ```
 
 You can disable installation by adding the following option to your
@@ -500,7 +510,7 @@ directory. You shouldn't try to install a global version with these playbooks.
 Run Google Cloud SDK playbook:
 
 ```bash
-make gcloud
+make install-gcloud
 ```
 
 Default install path is in `~/google-cloud-sdk`, but you can install it to
@@ -541,16 +551,22 @@ backup copies of them before running the script.
 The following external Ansible roles are installed and used. See
 [requirements.yml] file for the installed versions.
 
-To install roles and forcibly update any existing ones:
+To install roles:
 
 ```bash
-make roles
+make install-roles
 ```
 
 To update roles to the latest release versions:
 
 ```bash
-make update
+make update-roles
+```
+
+To remove any outdated roles:
+
+```bash
+make clean-roles
 ```
 
 | Role                    | Build status                                                                                                                                  |
@@ -562,8 +578,9 @@ make update
 | [markosamuli.nvm]       | [![Build Status](https://travis-ci.org/markosamuli/ansible-nvm.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-nvm)             |
 | [markosamuli.packer]    | [![Build Status](https://travis-ci.org/markosamuli/ansible-packer.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-packer)       |
 | [markosamuli.pyenv]     | [![Build Status](https://travis-ci.org/markosamuli/ansible-pyenv.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-pyenv)         |
-| [markosamuli.terraform] | [![Build Status](https://travis-ci.org/markosamuli/ansible-terraform.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-terraform) |
+| [markosamuli.rust]      | [![Build Status](https://travis-ci.org/markosamuli/ansible-rust.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-rust)           |
 | [markosamuli.vagrant]   | [![Build Status](https://travis-ci.org/markosamuli/ansible-vagrant.svg?branch=master)](https://travis-ci.org/markosamuli/ansible-vagrant)     |
+| [zzet.rbenv]            | [![Build Status](https://travis-ci.org/zzet/ansible-rbenv-role.png?branch=master)](https://travis-ci.org/zzet/ansible-rbenv-role)             |
 
 [markosamuli.asdf]: https://github.com/markosamuli/ansible-asdf
 [markosamuli.aws_tools]: https://github.com/markosamuli/ansible-aws-tools
@@ -574,20 +591,15 @@ make update
 [markosamuli.pyenv]: https://github.com/markosamuli/ansible-pyenv
 [markosamuli.terraform]: https://github.com/markosamuli/ansible-terraform
 [markosamuli.vagrant]: https://github.com/markosamuli/ansible-vagrant
+[zzet.rbenv]: https://github.com/zzet/rbenv
 [requirements.yml]: requirements.yml
 
 ## Development
 
-Fix ansible-lint installation issues:
-
-```bash
-pip install virtualenv==16.3.0
-```
-
 Install [pre-commit] hooks:
 
 ```bash
-make install-git-hooks
+make setup-git-hooks
 ```
 
 Lint code and configuration:
