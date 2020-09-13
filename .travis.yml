@@ -102,7 +102,7 @@ script:
   - ./setup -s || travis_terminate 1
 
   # Run playbooks without installing roles
-  - ./setup -q || travis_terminate 1
+  - travis_wait 20 ./setup -q -v || travis_terminate 1
 
   # Run idempotence tests
   - >
