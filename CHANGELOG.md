@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased][unreleased] - 2020-09-06
+## [Unreleased][unreleased] - 2020-09-11
 
 ### Breaking changes
 
@@ -22,6 +22,25 @@
 
 [terminus]: https://eugeny.github.io/terminus/
 [recommended-extensions]: https://code.visualstudio.com/docs/editor/extension-gallery#_workspace-recommended-extensions
+
+#### Commmand line tools
+
+Useful command line tools:
+
+- [`less`][less] (less-551) with PCRE
+- [`ncdu`][ncdu] disk usage analyser
+- [`fd`][fd] alternative to `find`
+- [`fzf`][fzf] fuzzy search
+- [ripgrep][ripgrep] (`rg`) alternative to `grep`
+
+Thanks [Sebastian Witowski][switowski] for the tools I haven't used before.
+
+[less]: http://www.greenwoodsoftware.com/less/index.html
+[ncdu]: https://dev.yorhel.nl/ncdu
+[fzf]: https://github.com/junegunn/fzf
+[fd]: https://github.com/sharkdp/fd
+[ripgrep]: https://github.com/BurntSushi/ripgrep
+[switowski]: https://switowski.com/blog/favorite-cli-tools
 
 ### Changed
 

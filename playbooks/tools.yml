@@ -24,6 +24,10 @@
       package:
         name: gnu-tar
 
+    - name: Install less
+      package:
+        name: less
+
     - name: Install shellcheck
       package:
         name: shellcheck
@@ -40,3 +44,19 @@
     - name: Install 7zip
       package:
         name: p7zip
+
+    - name: Install ncdu (disk usage analyzer)
+      package:
+        name: ncdu
+
+    - name: Install fd (alternative to find)
+      package:
+        name: fd
+
+    - name: Install fzf (command-line fuzzy finder)
+      package:
+        name: fzf
+
+    - name: Install ripgrep (search tool)
+      package:
+        name: ripgrep
