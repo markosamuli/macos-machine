@@ -56,7 +56,7 @@ Thanks [Sebastian Witowski][switowski] for the tools I haven't used before.
 #### Python
 
 - Install Python 3.7.8 and 3.8.5 as the default versions
-- Upgrade [`markosamuli.pyenv`][markosamuli.pyenv] v2.1.1 to v4.0.1
+- Upgrade [`markosamuli.pyenv`][markosamuli.pyenv] v2.1.1 to v4.0.2
 
 #### Node.js
 
