@@ -50,8 +50,8 @@ Thanks [Sebastian Witowski][switowski] for the tools I haven't used before.
 
 #### Golang
 
-- Install Go version 1.13
-- Upgrade [`markosamuli.golang`][markosamuli.golang] from v1.2.1 to v2.0.1
+- Install Go version 1.15
+- Upgrade [`markosamuli.golang`][markosamuli.golang] from v1.2.1 to v2.0.2
 
 #### Python
 
