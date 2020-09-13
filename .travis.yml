@@ -60,8 +60,35 @@ script:
   # Check syntax of the Ansible playbooks
   - ./setup -s || travis_terminate 1
 
-  # Run playbooks without installing roles
-  - ./setup -q || travis_terminate 1
+  # Run playbooks without tasks using external roles
+  - ./setup -q -v -i asdf,aws,gcloud,golang,nvm,python,packer,ruby,rust || travis_terminate 1
+
+  # Run asdf setup
+  - ./setup -q -v -t asdf || travis_terminate 1
+
+  # Run aws setup
+  - ./setup -q -v -t aws || travis_terminate 1
+
+  # Run Google Cloud SDK setup
+  - ./setup -q -v -t gcloud || travis_terminate 1
+
+  # Run golang setup
+  - ./setup -q -v -t golang || travis_terminate 1
+
+  # Run nvm setup
+  - ./setup -q -v -t nvm || travis_terminate 1
+
+  # Run python setup
+  - ./setup -q -v -t packer || travis_terminate 1
+
+  # Run packer setup
+  - ./setup -q -v -t python || travis_terminate 1
+
+  # Run ruby setup
+  - ./setup -q -v -t ruby || travis_terminate 1
+
+  # Run rust setup
+  - ./setup -q -v -t rust || travis_terminate 1
 
   # Run idempotence tests
   - >
