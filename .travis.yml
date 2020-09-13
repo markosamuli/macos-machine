@@ -9,49 +9,7 @@ if: |
   type = pull_request OR \
   branch IN (master, develop)
 
-language: generic
-
-matrix:
-  include:
-    - stage: test
-      name: "macOS 10.15.5 (Catalina) with Xcode 12 (uninstall Homebrew)"
-      os: osx
-      osx_image: xcode12
-      env: UNINSTALL_HOMEBREW=YES
-
-    - stage: test
-      name: "macOS 10.15.5 (Catalina) with Xcode 11.6 (uninstall Homebrew)"
-      os: osx
-      osx_image: xcode11.6
-      env: UNINSTALL_HOMEBREW=YES
-
-    - name: "macOS 10.14 (Mojave) with Xcode 11.0 (uninstall Homebrew)"
-      os: osx
-      osx_image: xcode11
-      env: UNINSTALL_HOMEBREW=YES
-
-    - stage: test
-      name: "macOS 10.15.5 (Catalina) with Xcode 12"
-      os: osx
-      osx_image: xcode12
-      addons:
-        homebrew:
-          update: true
-
-    - stage: test
-      name: "macOS 10.15.5 (Catalina) with Xcode 11.6"
-      os: osx
-      osx_image: xcode11.6
-      addons:
-        homebrew:
-          update: true
-
-    - name: "macOS 10.14 (Mojave) with Xcode 11.0"
-      os: osx
-      osx_image: xcode11
-      addons:
-        homebrew:
-          update: true
+language: shell
 
 before_install:
   # The default Git on macOS doesn't support protocol version 2 that's enabled
@@ -71,25 +29,26 @@ before_install:
 
   # yamllint enable rule:line-length
 
-  # Cleanup existing NVM installation
-  - unset NVM_CD_FLAGS
-  - unset NVM_DIR
-  - unset NVM_BIN
-  - rm -rf /Users/travis/.nvm
-  - rm -rf /etc/profile.d/travis-nvm.sh
+  # Remove existing NVM installation
+  - >
+    if [[ "${UNINSTALL_NVM}" == "YES" ]]; then
+      unset NVM_CD_FLAGS
+      unset NVM_DIR
+      unset NVM_BIN
+      rm -rf /Users/travis/.nvm
+      rm -rf /etc/profile.d/travis-nvm.sh
+    fi
 
   # Remove Go versions installed with Gimme
   - >
-    if [[ -d "/home/travis/.gimme" ]]; then
-      rm -rf /home/travis/.gimme
+    if [[ "${UNINSTALL_GIMME}" == "YES" ]]; then
+      if [[ -d "/Users/travis/.gimme" ]]; then
+        rm -rf /Users/travis/.gimme
+      fi
+      unset GOROOT
+      unset GIMME_ENV
+      export PATH=$(echo "${PATH}" | sed 's~/Users/travis/.gimme/versions/\([^/]*\)/bin:~~')
     fi
-
-  # Unset GOROOT and GIMME_ENV variables
-  - unset GOROOT
-  - unset GIMME_ENV
-
-  # Remove Gimme installed Go version from the PATH
-  - export PATH=$(echo "${PATH}" | sed 's~/home/travis/.gimme/versions/\([^/]*\)/bin:~~')
 
 script:
   # Use Travis test configuration
@@ -101,8 +60,38 @@ script:
   # Check syntax of the Ansible playbooks
   - ./setup -s || travis_terminate 1
 
-  # Run playbooks without installing roles
-  - ./setup -q || travis_terminate 1
+  # Run playbooks without tasks using external roles
+  - ./setup -q -v -i asdf,aws,gcloud,golang,nvm,packer,python,ruby,rust,vagrant || travis_terminate 1
+
+  # Run asdf setup
+  - ./setup -q -v -t asdf || travis_terminate 1
+
+  # Run aws setup
+  - ./setup -q -v -t aws || travis_terminate 1
+
+  # Run Google Cloud SDK setup
+  - ./setup -q -v -t gcloud || travis_terminate 1
+
+  # Run golang setup
+  - ./setup -q -v -t golang || travis_terminate 1
+
+  # Run nvm setup
+  - ./setup -q -v -t nvm || travis_terminate 1
+
+  # Run python setup
+  - ./setup -q -v -t packer || travis_terminate 1
+
+  # Run packer setup
+  - ./setup -q -v -t python || travis_terminate 1
+
+  # Run ruby setup
+  - ./setup -q -v -t ruby || travis_terminate 1
+
+  # Run rust setup
+  - ./setup -q -v -t rust || travis_terminate 1
+
+  # Run rust setup
+  - ./setup -q -v -t vagrant || travis_terminate 1
 
   # Run idempotence tests
   - >
@@ -110,3 +99,91 @@ script:
       | grep -q 'changed=0.*failed=0' \
       && (echo 'Idempotence test: pass' && exit 0) \
       || (echo 'Idempotence test: fail' && exit 1)
+
+stages:
+  - validate
+  - test
+
+jobs:
+  include:
+    - stage: validate
+      name: Validate with pre-commit
+      os: linux
+      dist: focal
+      language: python
+      python: 3.8
+      cache:
+        directories:
+          - $HOME/.cache/pre-commit/
+      before_cache:
+        - rm -f $HOME/.cache/pre-commit/pre-commit.log
+      install:
+        - pip3 install -r requirements.dev.txt
+        - python --version
+        - shfmt -version
+        - shellcheck --version
+        - pre-commit --version
+      script:
+        # shfmt version is too old
+        - export SKIP=shfmt
+        - pre-commit run -a
+
+    - stage: test
+      name: "macOS 10.15.5 (Catalina) with Xcode 12 (uninstall Homebrew)"
+      os: osx
+      osx_image: xcode12
+      env: >-
+        UNINSTALL_HOMEBREW=YES
+        UNINSTALL_NVM=YES
+        UNINSTALL_GIMME=YES
+
+    - stage: test
+      name: "macOS 10.15.5 (Catalina) with Xcode 11.6 (uninstall Homebrew)"
+      os: osx
+      osx_image: xcode11.6
+      env: >-
+        UNINSTALL_HOMEBREW=YES
+        UNINSTALL_NVM=YES
+        UNINSTALL_GIMME=YES
+
+    - stage: test
+      name: "macOS 10.14 (Mojave) with Xcode 11.0 (uninstall Homebrew)"
+      os: osx
+      osx_image: xcode11
+      env: >-
+        UNINSTALL_HOMEBREW=YES
+        UNINSTALL_NVM=YES
+        UNINSTALL_GIMME=YES
+
+    - stage: test
+      name: "macOS 10.15.5 (Catalina) with Xcode 12"
+      os: osx
+      osx_image: xcode12
+      env: >-
+        UNINSTALL_NVM=YES
+        UNINSTALL_GIMME=YES
+      addons:
+        homebrew:
+          update: true
+
+    - stage: test
+      name: "macOS 10.15.5 (Catalina) with Xcode 11.6"
+      os: osx
+      osx_image: xcode11.6
+      env: >-
+        UNINSTALL_NVM=YES
+        UNINSTALL_GIMME=YES
+      addons:
+        homebrew:
+          update: true
+
+    - stage: test
+      name: "macOS 10.14 (Mojave) with Xcode 11.0"
+      os: osx
+      osx_image: xcode11
+      env: >-
+        UNINSTALL_NVM=YES
+        UNINSTALL_GIMME=YES
+      addons:
+        homebrew:
+          update: true
