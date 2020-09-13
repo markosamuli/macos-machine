@@ -1,6 +1,17 @@
 # Changelog
 
-## [Unreleased][unreleased] - 2020-09-11
+## [Unreleased][unreleased]
+
+Any unreleased changes in the `develop` branch.
+
+[unreleased]: https://github.com/markosamuli/macos-machine/tree/develop
+
+## [3.0.0] - 2020-09-13
+
+This is a release with a number of previous unreleased improvements, fixes and
+support for macOS Catalina.
+
+[3.0.0]: https://github.com/markosamuli/macos-machine/releases/tag/v3.0.0
 
 ### Breaking changes
 
@@ -92,6 +103,8 @@ consistent coding style.
 
 ## [2.1.1] - 2020-01-13
 
+[2.1.1]: https://github.com/markosamuli/macos-machine/releases/tag/v2.1.1
+
 ### Fixed
 
 - Add check that VS Code isn't already installed by [@ilyatulvio]
@@ -106,6 +119,8 @@ consistent coding style.
 [prettier]: https://prettier.io/
 
 ## [2.1.0] - 2019-11-24
+
+[2.1.0]: https://github.com/markosamuli/macos-machine/releases/tag/v2.1.0
 
 ### Added
 
@@ -186,6 +201,8 @@ consistent coding style.
 ## [2.0.0] - 2019-11-20
 
 Release with macOS Mojave support.
+
+[2.0.0]: https://github.com/markosamuli/macos-machine/releases/tag/v2.0.0
 
 ### Added
 
@@ -326,8 +343,4 @@ manually enabled:
 
 Initial version on macOS High Sierra.
 
-[unreleased]: https://github.com/markosamuli/macos-machine/tree/develop
-[2.1.1]: https://github.com/markosamuli/macos-machine/releases/tag/v2.1.1
-[2.1.0]: https://github.com/markosamuli/macos-machine/releases/tag/v2.1.0
-[2.0.0]: https://github.com/markosamuli/macos-machine/releases/tag/v2.0.0
 [1.0.0]: https://github.com/markosamuli/macos-machine/releases/tag/v1.0.0
