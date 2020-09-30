@@ -4,6 +4,10 @@
 
 Any unreleased changes in the `develop` branch.
 
+### Removed
+
+- Do not run Travis CI builds on macOS Catalina using Xcode 11.6
+
 [unreleased]: https://github.com/markosamuli/macos-machine/tree/develop
 
 ## [3.0.0] - 2020-09-13

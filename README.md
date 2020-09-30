@@ -25,8 +25,9 @@ Read my [Machine Setup Guide][machine-setup-guide] for instructions.
 ## Requirements
 
 - Mac running macOS 10.14 (Mojave) or later
-- Xcode 11 or later installed
-- Git installed
+- Xcode (Command Line Tools) 11 or later installed
+- Xcode (Command Line Tools) 12 or later recommended on macOS Catalina
+- Git installed (provided with Xcode Command Line tools)
 
 This setup has only been tested on the macOS Sierra and not against existing
 installations.

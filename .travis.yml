@@ -138,15 +138,6 @@ jobs:
         UNINSTALL_GIMME=YES
 
     - stage: test
-      name: "macOS 10.15.5 (Catalina) with Xcode 11.6 (uninstall Homebrew)"
-      os: osx
-      osx_image: xcode11.6
-      env: >-
-        UNINSTALL_HOMEBREW=YES
-        UNINSTALL_NVM=YES
-        UNINSTALL_GIMME=YES
-
-    - stage: test
       name: "macOS 10.14 (Mojave) with Xcode 11.0 (uninstall Homebrew)"
       os: osx
       osx_image: xcode11
@@ -159,17 +150,6 @@ jobs:
       name: "macOS 10.15.5 (Catalina) with Xcode 12"
       os: osx
       osx_image: xcode12
-      env: >-
-        UNINSTALL_NVM=YES
-        UNINSTALL_GIMME=YES
-      addons:
-        homebrew:
-          update: true
-
-    - stage: test
-      name: "macOS 10.15.5 (Catalina) with Xcode 11.6"
-      os: osx
-      osx_image: xcode11.6
       env: >-
         UNINSTALL_NVM=YES
         UNINSTALL_GIMME=YES
