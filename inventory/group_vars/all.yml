@@ -5,6 +5,9 @@ user_home: "{{ ansible_env.HOME }}"
 # User name
 user_name: "{{ ansible_env.USER }}"
 
+# Path to brew binary
+homebrew_brew_bin_path: /usr/local/bin
+
 # Install zsh
 install_zsh: true
 

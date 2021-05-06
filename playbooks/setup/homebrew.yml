@@ -1,0 +1,15 @@
+---
+- name: Check Homebrew installation
+  hosts: all
+  tags:
+    - always
+  tasks:
+    - name: Check if homebrew binary exists
+      stat:
+        path: "{{ homebrew_brew_bin_path }}/brew"
+      register: homebrew_binary
+    - name: Homebrew binary must exist
+      assert:
+        that:
+          - "homebrew_binary.stat.exists"
+        msg: "Homebrew binary not found"
