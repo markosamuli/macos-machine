@@ -31,3 +31,10 @@ go.sum
 
 # Ruby
 .ruby-version
+
+# Ignore Ansible inventory files
+inventory/*
+inventory/group_vars/*.yml
+!inventory/local
+!inventory/group_vars/all.yml
+!inventory/group_vars/local.yml
