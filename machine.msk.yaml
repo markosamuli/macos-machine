@@ -51,11 +51,12 @@ install_rust: true
 # Default Python version
 pyenv_global: "{{ pyenv_python38_version }}"
 
-# Python versions to install
-pyenv_python_versions:
-  - "2.7.18"
-  - "{{ pyenv_python37_version }}"
-  - "{{ pyenv_python38_version }}"
+# pyenv_python39_version: 3.9.4
+
+# # Python versions to install
+# pyenv_python_versions:
+#   - "{{ pyenv_python38_version }}"
+#   - "{{ pyenv_python39_version }}"
 
 # Use Node.js v12.x as the default version
 nvm_default_node_version: lts/erbium
