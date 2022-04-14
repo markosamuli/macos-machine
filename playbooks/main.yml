@@ -5,7 +5,9 @@
   when: install_zsh | bool
 
 - import_playbook: iterm.yml
-- import_playbook: terminus.yml
+  when: install_iterm | bool
+
+- import_playbook: tabby.yml
 
 - import_playbook: slack.yml
   when: install_slack | bool

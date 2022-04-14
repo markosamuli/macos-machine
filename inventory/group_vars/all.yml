@@ -84,3 +84,6 @@ install_jetbrains_toolbox: false
 
 # Install Digital Ocean CLI
 install_doctl: false
+
+# Install iTerm
+install_iterm: false
