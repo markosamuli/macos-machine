@@ -185,9 +185,14 @@ END_OF_OPTIONS
 # Get Ansible version
 get_ansible_version() {
     local version
-    version=$(ansible_exec ansible --version 2>/dev/null)
-    if [ -n "$version" ]; then
-        echo "${version}" | grep "^ansible" | awk '{ print $2 }'
+    version=$(ansible_exec ansible --version | grep "^ansible" 2>/dev/null)
+    if [ -z "$version" ]; then
+        return
+    fi
+    if [[ $version =~ core ]]; then
+        echo "${version}" | grep -E -o "([0-9.]*)"
+    else
+        echo "${version}" | awk '{ print $2 }'
     fi
 }
 
