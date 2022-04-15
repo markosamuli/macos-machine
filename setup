@@ -96,7 +96,6 @@ local_vars_file="machine.yaml"
 
 # Ansible playbook options
 ansible_playbook="playbooks/main.yml"
-ansible_roles="playbooks/roles"
 ansible_tags=""
 ansible_skip_tags=""
 ansible_verbose=0
