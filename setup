@@ -108,10 +108,10 @@ ansible_pyenv=""
 ansible_virtualenv="${DIR}/.venv"
 
 # Ansible version test
-required_ansible_version="2.8"
+required_ansible_version="2.10"
 
 # Ansible version to install
-ansible_version="${MACHINE_ANSIBLE_VERSION:-2.9}"
+ansible_version="${MACHINE_ANSIBLE_VERSION:-2.10}"
 
 # Ansible PPA to use
 ansible_ppa="ansible/ansible-${ansible_version}"
