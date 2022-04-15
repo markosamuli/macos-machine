@@ -2,28 +2,12 @@
 """Configure local settings"""
 
 import sys
-from pathlib import Path
-
-# Add project root to to sys.path
-FILE = Path(__file__).resolve()
-SCRIPTS_DIR, PROJECT_ROOT = FILE.parent, FILE.parents[1]
-sys.path.append(str(PROJECT_ROOT))
-# Remove the current scripts/ directory from sys.path
-try:
-    sys.path.remove(str(SCRIPTS_DIR))
-except ValueError:  # Already removed
-    pass
-
-# pylint: disable=import-error
-# pylint: disable=wrong-import-position
 from machine import settings  # noqa: E402
 
 # pylint: disable=unused-import
 import machine.config  # noqa: E402,F401
 
 # pylint: enable=unused-import
-# pylint: enable=wrong-import-position
-# pylint: enable=import-error
 
 
 def display_usage(command):

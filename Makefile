@@ -206,7 +206,7 @@ list-tags:  # list Ansible tags
 
 .PHONY: clean-roles
 clean-roles: setup-requirements  ## remove outdated Ansible roles
-	./scripts/clean_roles.py
+	python -m machine.scripts.clean_roles
 
 .PHONY: update-roles
 update-roles: setup-ansible ## update Ansible roles in the requirements.yml file
@@ -239,7 +239,7 @@ aws: install-aws
 
 .PHONY: install-aws
 install-aws: setup playbooks/roles/markosamuli.aws_tools  ## install AWS tools
-	./scripts/configure.py install_aws true
+	python -m machine.scripts.configure install_aws true
 	./setup -q -t aws
 
 .PHONY: docker
@@ -247,7 +247,7 @@ docker: install-docker
 
 .PHONY: install-docker
 install-docker: setup ## install Docker
-	./scripts/configure.py install_docker true
+	python -m machine.scripts.configure install_docker true
 	./setup -q -t docker
 
 .PHONY: editors
@@ -262,7 +262,7 @@ gcloud: install-gcloud
 
 .PHONY: install-gcloud
 install-gcloud: setup playbooks/roles/markosamuli.gcloud  ## install Google Cloud SDK
-	./scripts/configure.py install_gcloud true
+	python -m machine.scripts.configure install_gcloud true
 	./setup -q -t gcloud
 
 .PHONY: go
@@ -273,7 +273,7 @@ golang: install-golang
 
 .PHONY: install-golang
 install-golang: setup playbooks/roles/markosamuli.golang  ## install Go programming language
-	./scripts/configure.py install_golang true
+	python -m machine.scripts.configure install_golang true
 	./setup -q -t golang
 
 .PHONY: lua
@@ -281,7 +281,7 @@ lua: install-lua
 
 .PHONY: install-lua
 install-lua: setup ## install Lua programming language
-	./scripts/configure.py install_lua true
+	python -m machine.scripts.configure install_lua true
 	./setup -q -t lua
 
 .PHONY: node
@@ -289,7 +289,7 @@ node: install-node
 
 .PHONY: install-node
 install-node: setup playbooks/roles/markosamuli.nvm ## install Node.js with NVM
-	./scripts/configure.py install_nodejs true
+	python -m machine.scripts.configure install_nodejs true
 	./setup -q -t node,nvm
 
 .PHONY: python
@@ -305,7 +305,7 @@ ruby: install-ruby
 
 .PHONY: install-ruby
 install-ruby: setup playbooks/roles/zzet.rbenv ## install Ruby with rbenv
-	./scripts/configure.py install_ruby true
+	python -m machine.scripts.configure install_ruby true
 	./setup -q -t ruby,rbenv
 
 .PHONY: rust
@@ -313,7 +313,7 @@ rust: install-rust
 
 .PHONY: install-rust
 install-rust: setup playbooks/roles/markosamuli.rust ## install Rust programming language
-	./scripts/configure.py install_rust true
+	python -m machine.scripts.configure install_rust true
 	./setup -q -t rust
 
 .PHONY: shellcheck
@@ -328,7 +328,7 @@ terraform: install-terraform
 
 .PHONY: install-terraform
 install-terraform: setup ## install Terraform
-	./scripts/configure.py install_terraform true
+	python -m machine.scripts.configure install_terraform true
 	./setup -q -t terraform
 
 .PHONY: tools
@@ -343,7 +343,7 @@ zsh: install-zsh
 
 .PHONY: install-zsh
 install-zsh: setup ## install zsh
-	./scripts/configure.py install_zsh true
+	python -m machine.scripts.configure install_zsh true
 	./setup -q -t zsh
 
 ###

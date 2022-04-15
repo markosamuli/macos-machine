@@ -913,7 +913,7 @@ update_ansible_roles() {
     }
 
     echo "*** Updating Ansible roles..."
-    ./scripts/update_roles.py || {
+    python -m machine.scripts.update_roles || {
         error "Failed to update Ansible roles"
         exit 1
     }

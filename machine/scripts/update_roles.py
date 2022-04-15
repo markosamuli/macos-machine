@@ -2,19 +2,6 @@
 """Update Ansible roles in requirements.yml to their latest released version"""
 
 import sys
-from pathlib import Path
-
-# Add project root to to sys.path
-FILE = Path(__file__).resolve()
-SCRIPTS_DIR, PROJECT_ROOT = FILE.parent, FILE.parents[1]
-sys.path.append(str(PROJECT_ROOT))
-# Remove the current scripts/ directory from sys.path
-try:
-    sys.path.remove(str(SCRIPTS_DIR))
-except ValueError:  # Already removed
-    pass
-
-# pylint: disable=wrong-import-position
 from machine.roles import get_updated_role  # noqa: E402
 from machine.roles import list_required_roles  # noqa: E402
 from machine.roles import update_required_roles  # noqa: E402
@@ -23,7 +10,6 @@ from machine.roles import update_required_roles  # noqa: E402
 import machine.config  # noqa: E402,F401
 
 # pylint: enable=unused-import
-# pylint: enable=wrong-import-position
 
 
 def update_roles():
@@ -38,11 +24,7 @@ def update_roles():
         updated_role = get_updated_role(role)
         if updated_role and updated_role["version"] != role["version"]:
             print(
-                "update {role}: {version} -> {latest_version}".format(
-                    role=role["name"],
-                    version=role["version"],
-                    latest_version=updated_role["version"],
-                )
+                f'update {role["name"]}: {role["version"]} -> {updated_role["version"]}'
             )
             roles_updated += 1
             updated_roles.append(updated_role)
