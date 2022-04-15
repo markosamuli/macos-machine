@@ -1,14 +1,25 @@
+---
 exclude_paths:
-- .travis.yml
-- playbooks/roles/markosamuli.asdf
-- playbooks/roles/markosamuli.aws_tools
-- playbooks/roles/markosamuli.gcloud
-- playbooks/roles/markosamuli.golang
-- playbooks/roles/markosamuli.hyper
-- playbooks/roles/markosamuli.nvm
-- playbooks/roles/markosamuli.rust
-- playbooks/roles/markosamuli.packer
-- playbooks/roles/markosamuli.pyenv
-- playbooks/roles/markosamuli.terraform
-- playbooks/roles/markosamuli.vagrant
-- playbooks/roles/zzet.rbenv
+  - ansible-lint
+  - .travis.yml
+  - playbooks/roles/markosamuli.asdf
+  - playbooks/roles/markosamuli.aws_tools
+  - playbooks/roles/markosamuli.gcloud
+  - playbooks/roles/markosamuli.golang
+  - playbooks/roles/markosamuli.hyper
+  - playbooks/roles/markosamuli.nvm
+  - playbooks/roles/markosamuli.rust
+  - playbooks/roles/markosamuli.packer
+  - playbooks/roles/markosamuli.pyenv
+  - playbooks/roles/markosamuli.terraform
+  - playbooks/roles/markosamuli.vagrant
+  - playbooks/roles/zzet.rbenv
+  - ~/.ansible/roles
+
+warn_list:
+  - experimental # all rules tagged as experimental
+  - fqcn-builtins # Use FQCN for builtin actions.
+  - no-changed-when # Commands should not change things if nothing needs doing.
+  - package-latest # Package installs should not use latest.
+  - risky-shell-pipe # Shells that use pipes should set the pipefail option.
+  - yaml # Violations reported by yamllint.
