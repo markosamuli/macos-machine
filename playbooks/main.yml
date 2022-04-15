@@ -1,8 +1,9 @@
 ---
-- import_playbook: setup.yml
+# Check requirements
+- ansible.builtin.import_playbook: check_requirements.yml
 
-- import_playbook: zsh.yml
-  when: install_zsh | bool
+# Homebrew
+- ansible.builtin.import_playbook: homebrew.yml
 
 - import_playbook: iterm.yml
   when: install_iterm | bool

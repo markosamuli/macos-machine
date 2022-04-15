@@ -891,7 +891,6 @@ install_ansible_roles() {
     # shellcheck disable=SC2086
     ansible_exec ansible-galaxy install \
         -r requirements.yml \
-        -p ${ansible_roles} \
         ${ansible_roles_opts} ||
         {
             error "Failed to install Ansible roles"
@@ -1423,6 +1422,15 @@ check_user() {
     fi
 }
 
+check_sudo() {
+    if [[ $(uname -s) == 'Darwin' ]] && [[ $(uname -m) == 'arm64' ]]; then
+        sudo true || {
+            error "sudo failed"
+            exit 1
+        }
+    fi
+}
+
 print_installed_versions() {
     if is_true "${print_versions}"; then
         python --version
@@ -1584,6 +1592,9 @@ check_upgrades
 
 # Check current user is not root
 check_user
+
+# Check if sudo is required and ask for password
+check_sudo
 
 # Display installed versions
 print_installed_versions

@@ -86,6 +86,7 @@ ifeq ($(UNAME_S),Darwin)
 	./setup --no-install-ansible --no-run-playbook --no-install-roles
 endif
 endif
+	./setup -t homebrew
 
 ###
 # Setup: pre-commit and Git hooks

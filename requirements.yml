@@ -1,26 +1,32 @@
 ---
-- name: markosamuli.asdf
-  version: v1.1.0
-- name: markosamuli.aws_tools
-  version: v2.1.0
-- name: markosamuli.gcloud
-  version: v2.1.2
-- name: markosamuli.golang
-  src: https://github.com/markosamuli/ansible-golang
-  version: v3.0.1
-- name: markosamuli.nvm
-  version: v1.4.2
-- name: markosamuli.packer
-  src: https://github.com/markosamuli/ansible-packer
-  version: v1.0.0
-- name: markosamuli.pyenv
-  src: https://github.com/markosamuli/ansible-pyenv
-  version: v6.0.0
-- name: markosamuli.rust
-  src: https://github.com/markosamuli/ansible-rust
-  version: master
-- name: markosamuli.vagrant
-  src: https://github.com/markosamuli/ansible-vagrant
-  version: v1.0.0
-- name: zzet.rbenv
-  version: 3.4.7
+roles:
+  - name: markosamuli.asdf
+    version: v1.1.0
+  - name: markosamuli.aws_tools
+    version: v2.1.0
+  - name: markosamuli.gcloud
+    version: v2.1.2
+  - name: markosamuli.golang
+    src: https://github.com/markosamuli/ansible-golang
+    version: v3.0.1
+  - name: markosamuli.nvm
+    version: v1.4.2
+  - name: markosamuli.packer
+    src: https://github.com/markosamuli/ansible-packer
+    version: v1.0.0
+  - name: markosamuli.pyenv
+    src: https://github.com/markosamuli/ansible-pyenv
+    version: v6.0.0
+  - name: markosamuli.rust
+    src: https://github.com/markosamuli/ansible-rust
+    version: master
+  - name: markosamuli.vagrant
+    src: https://github.com/markosamuli/ansible-vagrant
+    version: v1.0.0
+  - name: zzet.rbenv
+    version: 3.4.7
+  - name: elliotweiser.osx-command-line-tools
+    version: 2.3.0
+
+collections:
+  - name: geerlingguy.mac

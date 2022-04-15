@@ -1,14 +1,20 @@
 ---
-- name: Check Ansible version
+- name: Check requirements
   hosts: all
-  tags:
-    - always
+  tags: always
   tasks:
+    - name: Check that we're running macOS
+      assert:
+        that:
+          - "ansible_os_family == 'Darwin'"
+        msg: "This playbook only supports macOS systems"
+
     - name: Require minimum Ansible version 2.8
       assert:
         that:
           - "ansible_version.full is version('2.8', '>=')"
         msg: "Ansible version 2.8 is required"
+
     - name: Ansible version 2.8.6 is broken
       assert:
         that:

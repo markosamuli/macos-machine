@@ -1,0 +1,15 @@
+---
+- name: Configure Homebrew
+  hosts: all
+  tags: homebrew
+  tasks:
+    - name: Set homebrew_brew_bin_path (M1)
+      set_fact:
+        homebrew_brew_bin_path: "/opt/homebrew/bin"
+        when: ansible_machine == 'arm64'
+
+- name: Install and configure Homebrew
+  hosts: all
+  tags: homebrew
+  roles:
+    - role: geerlingguy.mac.homebrew

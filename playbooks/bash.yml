@@ -1,0 +1,9 @@
+---
+- name: Initialize bash on macOS
+  hosts: all
+  roles:
+    - role: bash
+      tags:
+        - bash
+        - nvm
+        - pyenv
