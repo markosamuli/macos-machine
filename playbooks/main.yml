@@ -2,6 +2,9 @@
 # Check requirements
 - ansible.builtin.import_playbook: check_requirements.yml
 
+# Configure bash
+- ansible.builtin.import_playbook: bash.yml
+
 # Homebrew
 - ansible.builtin.import_playbook: homebrew.yml
 
