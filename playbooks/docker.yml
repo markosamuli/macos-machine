@@ -4,6 +4,6 @@
   tags: docker
   tasks:
     - name: Install Docker for Mac
-      homebrew_cask:
+      community.general.homebrew_cask:
         name: docker
       when: install_docker | bool

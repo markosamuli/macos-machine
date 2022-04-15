@@ -4,6 +4,6 @@
   tags: nmap
   tasks:
     - name: Install nmap with Homebrew
-      package:
+      community.general.homebrew:
         name: nmap
       when: install_nmap | bool

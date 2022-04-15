@@ -13,6 +13,6 @@
           changed_when: false
 
         - name: Install Slack
-          homebrew_cask:
+          community.general.homebrew_cask:
             name: slack
           when: not slack_st.stat.exists

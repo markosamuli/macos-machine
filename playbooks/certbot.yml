@@ -4,6 +4,6 @@
   tags: certbot
   tasks:
     - name: Install certbot with Homebrew
-      package:
+      community.general.homebrew:
         name: certbot
       when: install_certbot | bool

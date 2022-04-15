@@ -13,6 +13,6 @@
           changed_when: false
 
         - name: Install Google Drive File Stream
-          homebrew_cask:
+          community.general.homebrew_cask:
             name: google-drive-file-stream
           when: not gdfs_st.stat.exists

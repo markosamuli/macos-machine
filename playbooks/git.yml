@@ -6,5 +6,5 @@
     - frontend
   tasks:
     - name: Installing Git
-      package:
+      community.general.homebrew:
         name: git

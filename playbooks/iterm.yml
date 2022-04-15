@@ -12,6 +12,6 @@
           register: iterm_st
           changed_when: false
         - name: Install iTerm2
-          homebrew_cask:
+          community.general.homebrew_cask:
             name: iterm2
           when: not iterm_st.stat.exists

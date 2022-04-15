@@ -10,6 +10,6 @@
       changed_when: false
 
     - name: Install Tabby
-      homebrew_cask:
+      community.general.homebrew_cask:
         name: Tabby
       when: not tabby_st.stat.exists

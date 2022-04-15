@@ -13,7 +13,7 @@
           changed_when: false
 
         - name: Install Hammerspoon
-          homebrew_cask:
+          community.general.homebrew_cask:
             name: hammerspoon
           when: not hammerspoon_st.stat.exists
 

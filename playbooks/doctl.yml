@@ -22,5 +22,5 @@
             state: absent
 
         - name: Install doctl
-          package:
+          community.general.homebrew:
             name: doctl

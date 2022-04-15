@@ -13,6 +13,6 @@
           changed_when: false
 
         - name: Install Hazel
-          homebrew_cask:
+          community.general.homebrew_cask:
             name: hazel
           when: not hazel_st.stat.exists

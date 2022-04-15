@@ -5,58 +5,58 @@
     - tools
   tasks:
     - name: Install wget
-      package:
+      community.general.homebrew:
         name: wget
 
     - name: Install jq command-line JSON processor
-      package:
+      community.general.homebrew:
         name: jq
 
     - name: Install The Silver Searcher code searching utility
-      package:
+      community.general.homebrew:
         name: ag
 
     - name: Install GNU sed
-      package:
+      community.general.homebrew:
         name: gnu-sed
 
     - name: Install GNU tar
-      package:
+      community.general.homebrew:
         name: gnu-tar
 
     - name: Install less
-      package:
+      community.general.homebrew:
         name: less
 
     - name: Install shellcheck
-      package:
+      community.general.homebrew:
         name: shellcheck
       tags: shellcheck
 
     - name: Install asciinema
-      package:
+      community.general.homebrew:
         name: asciinema
 
     - name: Install htop
-      package:
+      community.general.homebrew:
         name: htop
 
     - name: Install 7zip
-      package:
+      community.general.homebrew:
         name: p7zip
 
     - name: Install ncdu (disk usage analyzer)
-      package:
+      community.general.homebrew:
         name: ncdu
 
     - name: Install fd (alternative to find)
-      package:
+      community.general.homebrew:
         name: fd
 
     - name: Install fzf (command-line fuzzy finder)
-      package:
+      community.general.homebrew:
         name: fzf
 
     - name: Install ripgrep (search tool)
-      package:
+      community.general.homebrew:
         name: ripgrep

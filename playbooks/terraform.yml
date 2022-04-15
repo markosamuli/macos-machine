@@ -32,7 +32,7 @@
             state: absent
 
         - name: Install Terraform version manager
-          package:
+          community.general.homebrew:
             name: tfenv
 
         - name: Install latest Terraform version

@@ -4,6 +4,6 @@
   tags: zsh
   tasks:
     - name: Install zsh
-      package:
+      community.general.homebrew:
         name: zsh
       when: install_zsh | bool
