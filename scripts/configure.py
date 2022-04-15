@@ -28,14 +28,14 @@ import machine.config  # noqa: E402,F401
 
 def display_usage(command):
     """Display usage help"""
-    print("Usage: %s [option] [value]" % command)
+    print(f"Usage: {command} [option] [value]")
     sys.exit(1)
 
 
 def display_option(name):
     """Display current option value"""
     value = settings.get_option(name)
-    print("%s: %s" % (name, value))
+    print(f"{name}: {value}")
 
 
 def update_option(name, new_value):
@@ -44,15 +44,15 @@ def update_option(name, new_value):
     if new_value in settings.TRUTHY:
         if not value:
             settings.enable_option(name)
-            print("%s is now enabled" % name)
+            print(f"{name} is now enabled")
     elif new_value in settings.FALSY:
         if value:
             settings.disable_option(name)
-            print("%s is now disabled" % name)
+            print(f"{name} is now disabled")
     else:
         if value != new_value:
             value = settings.set_option(name, new_value)
-            print("%s: %s" % (name, value))
+            print(f"{name}: {value}")
 
 
 if __name__ == "__main__":

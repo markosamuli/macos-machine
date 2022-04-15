@@ -164,9 +164,7 @@ def get_updated_role(role):
     else:
         (galaxy_user, galaxy_role) = role["name"].split(".")
         if galaxy_user == "markosamuli":
-            repository = "{github_user}/{github_repo}".format(
-                github_user=galaxy_user, github_repo="ansible-%s" % galaxy_role
-            )
+            repository = f"{galaxy_user}/ansible-{galaxy_role}"
 
     if not repository:
         logging.warning("Could not find repository for role %s", role["name"])

@@ -32,6 +32,6 @@ def get_tags_from_playbook(playbook_file):
         tags.remove("always")
 
     if len(tags) == 0:
-        sys.stderr.write("%s has no tags\n" % playbook_file)
+        sys.stderr.write(f"{playbook_file} has no tags\n")
 
     return tags
