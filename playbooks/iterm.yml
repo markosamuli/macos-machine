@@ -3,13 +3,15 @@
   hosts: all
   tags: iterm
   tasks:
-    - name: Check if iTerm has been installed
-      stat:
-        path: /Applications/iTerm.app
-      register: iterm_st
-      changed_when: false
-
-    - name: Install iTerm2
-      homebrew_cask:
-        name: iterm2
-      when: not iterm_st.stat.exists
+    - name: Install iTerm
+      when: install_iterm | bool
+      block:
+        - name: Check if iTerm has been installed
+          stat:
+            path: /Applications/iTerm.app
+          register: iterm_st
+          changed_when: false
+        - name: Install iTerm2
+          homebrew_cask:
+            name: iterm2
+          when: not iterm_st.stat.exists

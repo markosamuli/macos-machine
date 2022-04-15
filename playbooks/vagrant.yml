@@ -4,3 +4,4 @@
   tags: vagrant
   roles:
     - role: markosamuli.vagrant
+      when: install_vagrant | bool

@@ -6,3 +6,4 @@
     - go
   roles:
     - role: markosamuli.golang
+      when: install_golang | bool

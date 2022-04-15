@@ -5,3 +5,4 @@
   roles:
     - role: markosamuli.pyenv
       tags: pyenv
+      when: install_python | bool

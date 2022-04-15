@@ -6,3 +6,4 @@
     - frontend
   roles:
     - role: markosamuli.nvm
+      when: install_nodejs | bool

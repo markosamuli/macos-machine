@@ -5,22 +5,25 @@
     - ruby
     - rbenv
   tasks:
-    - name: Create ~/.profile
-      file:
-        path: ~/.profile
-        state: touch
-        mode: "0644"
-    - name: Add rbenv initialization to ~/.profile
-      blockinfile:
-        block: |
-          if [ -z "${RBENV_ROOT}" ]; then
-            if [ -d "$HOME/.rbenv" ]; then
-              export PATH=$HOME/.rbenv/bin:$PATH;
-              export RBENV_ROOT=$HOME/.rbenv;
-              eval "$(rbenv init -)";
-            fi
-          fi
-        dest: "~/.profile"
+    - name: Install Ruby
+      when: install_ruby | bool
+      block:
+        - name: Create ~/.profile
+          file:
+            path: ~/.profile
+            state: touch
+            mode: "0644"
+        - name: Add rbenv initialization to ~/.profile
+          ansible.builtin.blockinfile:
+            block: |
+              if [ -z "${RBENV_ROOT}" ]; then
+                if [ -d "$HOME/.rbenv" ]; then
+                  export PATH=$HOME/.rbenv/bin:$PATH;
+                  export RBENV_ROOT=$HOME/.rbenv;
+                  eval "$(rbenv init -)";
+                fi
+              fi
+            dest: "~/.profile"
 
 - name: Ruby with rbenv
   hosts: all
@@ -32,3 +35,4 @@
       rbenv_users:
         - "{{ user_name }}"
       rbenv_user_profile: false
+      when: install_ruby | bool

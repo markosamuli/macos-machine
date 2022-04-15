@@ -1,16 +1,18 @@
 ---
 - name: Hazel
   hosts: all
-  tags:
-    - hazel
+  tags: hazel
   tasks:
-    - name: Check if Hazel has been installed
-      stat:
-        path: ~/Library/PreferencePanes/Hazel.prefPane
-      register: hazel_st
-      changed_when: false
-
     - name: Install Hazel
-      homebrew_cask:
-        name: hazel
-      when: not hazel_st.stat.exists
+      when: install_hazel | bool
+      block:
+        - name: Check if Hazel has been installed
+          stat:
+            path: ~/Library/PreferencePanes/Hazel.prefPane
+          register: hazel_st
+          changed_when: false
+
+        - name: Install Hazel
+          homebrew_cask:
+            name: hazel
+          when: not hazel_st.stat.exists

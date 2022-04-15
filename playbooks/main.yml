@@ -5,75 +5,37 @@
 # Homebrew
 - ansible.builtin.import_playbook: homebrew.yml
 
-- import_playbook: iterm.yml
-  when: install_iterm | bool
+# Tools and applications
+- ansible.builtin.import_playbook: zsh.yml
+- ansible.builtin.import_playbook: iterm.yml
+- ansible.builtin.import_playbook: tabby.yml
+- ansible.builtin.import_playbook: slack.yml
+- ansible.builtin.import_playbook: gdfs.yml
+- ansible.builtin.import_playbook: tools.yml
+- ansible.builtin.import_playbook: editors.yml
+- ansible.builtin.import_playbook: git.yml
+- ansible.builtin.import_playbook: asdf.yml
+- ansible.builtin.import_playbook: hazel.yml
+- ansible.builtin.import_playbook: hammerspoon.yml
 
-- import_playbook: tabby.yml
+# Programming languages
+- ansible.builtin.import_playbook: lua.yml
+- ansible.builtin.import_playbook: nodejs.yml
+- ansible.builtin.import_playbook: python.yml
+- ansible.builtin.import_playbook: golang.yml
+- ansible.builtin.import_playbook: ruby.yml
+- ansible.builtin.import_playbook: rust.yml
 
-- import_playbook: slack.yml
-  when: install_slack | bool
+# Cloud, infra and networking
+- ansible.builtin.import_playbook: vagrant.yml
+- ansible.builtin.import_playbook: docker.yml
+- ansible.builtin.import_playbook: gcloud.yml
+- ansible.builtin.import_playbook: aws.yml
+- ansible.builtin.import_playbook: terraform.yml
+- ansible.builtin.import_playbook: packer.yml
+- ansible.builtin.import_playbook: certbot.yml
+- ansible.builtin.import_playbook: nmap.yml
+- ansible.builtin.import_playbook: doctl.yml
 
-- import_playbook: gdfs.yml
-  when: install_gdfs | bool
-
-- import_playbook: tools.yml
-
-- import_playbook: editors.yml
-
-- import_playbook: git.yml
-
-- import_playbook: asdf.yml
-  when: install_asdf | bool
-
-- import_playbook: hazel.yml
-  when: install_hazel | bool
-
-- import_playbook: hammerspoon.yml
-  when: install_hammerspoon | bool
-
-- import_playbook: lua.yml
-  when: install_lua | bool
-
-- import_playbook: nodejs.yml
-  when: install_nodejs | bool
-
-- import_playbook: python.yml
-  when: install_python | bool
-
-- import_playbook: golang.yml
-  when: install_golang | bool
-
-- import_playbook: ruby.yml
-  when: install_ruby | bool
-
-- import_playbook: rust.yml
-  when: install_rust | bool
-
-- import_playbook: vagrant.yml
-  when: install_vagrant | bool
-
-- import_playbook: docker.yml
-  when: install_docker | bool
-
-- import_playbook: gcloud.yml
-  when: install_gcloud | bool
-
-- import_playbook: aws.yml
-  when: install_aws | bool
-
-- import_playbook: terraform.yml
-  when: install_terraform | bool
-
-- import_playbook: packer.yml
-  when: install_packer | bool
-
-- import_playbook: certbot.yml
-  when: install_certbot | bool
-
-- import_playbook: nmap.yml
-  when: install_nmap | bool
-
-- import_playbook: doctl.yml
-  when: install_doctl | bool
-
-- import_playbook: permissions.yml
+# Fix permissions
+- ansible.builtin.import_playbook: permissions.yml

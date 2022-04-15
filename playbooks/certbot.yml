@@ -6,3 +6,4 @@
     - name: Install certbot with Homebrew
       package:
         name: certbot
+      when: install_certbot | bool

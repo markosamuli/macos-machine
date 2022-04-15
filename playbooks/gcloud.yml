@@ -4,3 +4,4 @@
   roles:
     - role: markosamuli.gcloud
       tags: gcloud
+      when: install_gcloud | bool

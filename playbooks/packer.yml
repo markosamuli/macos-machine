@@ -3,27 +3,30 @@
   hosts: all
   tags: packer
   tasks:
-    - name: Check if Packer is installed with asdf
-      stat:
-        path: "{{ ansible_env.HOME }}/.asdf/installs/packer"
-      register: asdf_packer_install
+    - name: Install Packer
+      when: install_packer | bool
+      block:
+        - name: Check if Packer is installed with asdf
+          stat:
+            path: "{{ ansible_env.HOME }}/.asdf/installs/packer"
+          register: asdf_packer_install
 
-    - name: Remove /usr/bin/packer binary
-      file:
-        path: /usr/bin/packer
-        state: absent
+        - name: Remove /usr/bin/packer binary
+          file:
+            path: /usr/bin/packer
+            state: absent
 
-    - name: Remove /usr/local/bin/packer binary
-      file:
-        path: /usr/local/bin/packer
-        state: absent
-      when: asdf_packer_install.stat.exists
+        - name: Remove /usr/local/bin/packer binary
+          file:
+            path: /usr/local/bin/packer
+            state: absent
+          when: asdf_packer_install.stat.exists
 
-    - name: Remove /opt/packer directory
-      file:
-        path: /opt/packer
-        state: absent
-      when: asdf_packer_install.stat.exists
+        - name: Remove /opt/packer directory
+          file:
+            path: /opt/packer
+            state: absent
+          when: asdf_packer_install.stat.exists
 
 - name: Install Packer if not installed with asdf
   hosts: all
@@ -31,4 +34,6 @@
   roles:
     - role: markosamuli.packer
       tags: packer
-      when: not asdf_packer_install.stat.exists
+      when:
+        - install_packer | bool
+        - not asdf_packer_install.stat.exists

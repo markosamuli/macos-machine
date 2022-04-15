@@ -3,13 +3,16 @@
   hosts: all
   tags: slack
   tasks:
-    - name: Check if Slack has been installed
-      stat:
-        path: /Applications/Slack.app
-      register: slack_st
-      changed_when: false
-
     - name: Install Slack
-      homebrew_cask:
-        name: slack
-      when: not slack_st.stat.exists
+      when: install_slack | bool
+      block:
+        - name: Check if Slack has been installed
+          stat:
+            path: /Applications/Slack.app
+          register: slack_st
+          changed_when: false
+
+        - name: Install Slack
+          homebrew_cask:
+            name: slack
+          when: not slack_st.stat.exists

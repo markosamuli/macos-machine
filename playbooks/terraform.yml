@@ -1,38 +1,41 @@
 ---
-- name: Remove conflicting Terraform installations
+- name: Install Terraform
   hosts: all
   tags: terraform
   tasks:
-    - name: Remove /usr/bin/terraform binary
-      file:
-        path: /usr/bin/terraform
-        state: absent
+    - name: Install Terraform
+      when: install_terraform | bool
+      block:
+        - name: Remove /usr/bin/terraform binary
+          file:
+            path: /usr/bin/terraform
+            state: absent
 
-    - name: Remove /opt/terraform directory
-      file:
-        path: /opt/terraform
-        state: absent
+        - name: Remove /opt/terraform directory
+          file:
+            path: /opt/terraform
+            state: absent
 
-    - name: Remove Terraform asdf plugin
-      file:
-        path: "{{ ansible_env.HOME }}/.asdf/plugins/terraform"
-        state: absent
+        - name: Remove Terraform asdf plugin
+          file:
+            path: "{{ ansible_env.HOME }}/.asdf/plugins/terraform"
+            state: absent
 
-    - name: Remove Terraform asdf installation
-      file:
-        path: "{{ ansible_env.HOME }}/.asdf/installs/terraform"
-        state: absent
+        - name: Remove Terraform asdf installation
+          file:
+            path: "{{ ansible_env.HOME }}/.asdf/installs/terraform"
+            state: absent
 
-    - name: Remove Terraform asdf shim
-      file:
-        path: "{{ ansible_env.HOME }}/.asdf/shims/terraform"
-        state: absent
+        - name: Remove Terraform asdf shim
+          file:
+            path: "{{ ansible_env.HOME }}/.asdf/shims/terraform"
+            state: absent
 
-    - name: Install Terraform version manager
-      package:
-        name: tfenv
+        - name: Install Terraform version manager
+          package:
+            name: tfenv
 
-    - name: Install latest Terraform version
-      command: tfenv install latest
-      register: tfenv_install_latest
-      changed_when: "'Installing' in tfenv_install_latest.stdout"
+        - name: Install latest Terraform version
+          command: tfenv install latest
+          register: tfenv_install_latest
+          changed_when: "'Installing' in tfenv_install_latest.stdout"

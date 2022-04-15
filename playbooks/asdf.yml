@@ -4,3 +4,4 @@
   tags: asdf
   roles:
     - role: markosamuli.asdf
+      when: install_asdf | bool

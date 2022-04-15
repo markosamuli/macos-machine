@@ -6,3 +6,4 @@
     - name: Install Docker for Mac
       homebrew_cask:
         name: docker
+      when: install_docker | bool

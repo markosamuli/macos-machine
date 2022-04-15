@@ -4,3 +4,4 @@
   tags: rust
   roles:
     - role: markosamuli.rust
+      when: install_rust | bool

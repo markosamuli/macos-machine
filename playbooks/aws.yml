@@ -4,3 +4,4 @@
   tags: aws
   roles:
     - role: markosamuli.aws_tools
+      when: install_aws | bool
