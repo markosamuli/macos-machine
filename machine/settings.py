@@ -14,7 +14,7 @@ def load_settings() -> Dict:
     yml.explicit_start = True
     yml.indent(sequence=4, offset=2)
     settings_file = SETTINGS_FILE
-    with open(settings_file, "r") as settings_fp:
+    with open(settings_file, "r", encoding="UTF-8") as settings_fp:
         data = yml.load(settings_fp)
     return data
 
@@ -25,9 +25,9 @@ def update_settings(settings: Dict) -> Dict:
     yml.explicit_start = True
     yml.indent(sequence=4, offset=2)
     settings_file = SETTINGS_FILE
-    with open(settings_file, "r") as settings_fp:
+    with open(settings_file, "r", encoding="UTF-8") as settings_fp:
         yml.load(settings_fp)
-    with open(settings_file, "w") as settings_fp:
+    with open(settings_file, "w", encoding="UTF-8") as settings_fp:
         yml.dump(settings, settings_fp)
 
 

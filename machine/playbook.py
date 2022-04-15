@@ -10,7 +10,7 @@ def get_tags_from_playbook(playbook_file):
     """Get available tags from Ansible playbook"""
     tags = []
     playbook_path = os.path.dirname(playbook_file)
-    with open(playbook_file) as playbook_fp:
+    with open(playbook_file, encoding="UTF-8") as playbook_fp:
         playbook = yaml.safe_load(playbook_fp)
         for item in playbook:
             if "import_playbook" in item:

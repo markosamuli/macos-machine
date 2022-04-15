@@ -91,7 +91,7 @@ def update_required_roles(updated_roles):
     yaml.safe_dump(updated_roles, output, default_flow_style=False)
 
     role_file = REQUIREMENTS_FILE
-    with open(role_file, "w+") as role_fp:
+    with open(role_file, "w+", encoding="UTF-8") as role_fp:
         role_fp.write("---\n")
         role_fp.write(output.getvalue())
 
@@ -102,7 +102,7 @@ def list_required_roles():
     """Return Ansible roles from the requirements.yml file"""
     roles = []
     role_file = REQUIREMENTS_FILE
-    with open(role_file, "r") as role_fp:
+    with open(role_file, "r", encoding="UTF-8") as role_fp:
         required_roles = yaml.safe_load(role_fp.read())
         for role in required_roles:
             roles.append(role)
@@ -121,7 +121,7 @@ def list_installed_roles(roles_path):
         install_info = None
         info_path = os.path.join(path, META_INSTALL)
         if os.path.isfile(info_path):
-            with open(info_path, "r") as info_fp:
+            with open(info_path, "r", encoding="UTF-8") as info_fp:
                 install_info = yaml.safe_load(info_fp)
 
         version = None
