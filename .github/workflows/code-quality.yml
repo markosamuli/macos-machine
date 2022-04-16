@@ -47,7 +47,7 @@ jobs:
       - name: Install Go packages
         run: |
           export PATH="$PATH:$GOPATH/bin"
-          go install mvdan.cc/sh/v3/cmd/shfmt
+          go install mvdan.cc/sh/v3/cmd/shfmt@latest
           shfmt -version
         env:
           GOPATH: /home/runner/go
