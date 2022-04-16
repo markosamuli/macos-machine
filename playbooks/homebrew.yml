@@ -48,14 +48,14 @@
         cask_apps:
           - { name: Firefox }
 
-    - name: Install Plex Media Player
-      when: install_plex_media_player | bool
+    - name: Install Plex
+      when: install_plex | bool
       tags: plex
       import_role:
         name: install_cask_apps
       vars:
         cask_apps:
-          - { name: Plex Media Player }
+          - { name: Plex }
 
     - name: Install Tuple
       when: install_tuple | bool

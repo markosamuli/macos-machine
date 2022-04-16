@@ -30,7 +30,7 @@ install_raycast: true
 install_firefox: true
 
 # Disabled features
-install_plex_media_player: false
+install_plex: false
 install_asdf: false # asdf-vm
 install_lua: false
 install_gdfs: false # Google Drive File Stream
