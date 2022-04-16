@@ -3,6 +3,7 @@
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 MACHINE_REPO=${MACHINE_REPO:-https://github.com/markosamuli/macos-machine.git}
+MACHINE_BRANCH=${MACHINE_BRANCH:-master}
 MACHINE=${MACHINE:-$HOME/.machine}
 
 error() {
@@ -20,7 +21,14 @@ download_machine() {
     # Do we need to download the machine repository?
     if [ ! -d "${MACHINE}" ]; then
         echo "*** Cloning macos-machine from GitHub..."
-        git clone "${MACHINE_REPO}" "${MACHINE}"
+        git clone "${MACHINE_REPO}" "${MACHINE}" || {
+            error "couldn't clone ${MACHINE_REPO}"
+            exit 1
+        }
+        (cd "${MACHINE}" && git checkout "${MACHINE_BRANCH}") || {
+            error "couldn't checkout ${MACHINE_BRANCH}"
+            exit 1
+        }
     fi
 }
 
