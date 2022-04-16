@@ -46,7 +46,7 @@ setup_machine() {
         error "${MACHINE} not found"
         exit 1
     }
-    ./setup
+    ./setup --sudo
 }
 
 setup_xcode

@@ -94,6 +94,9 @@ deploy_env="local"
 # Local variables
 local_vars_file="machine.yaml"
 
+# Require sudo
+require_sudo=0
+
 # Ansible playbook options
 ansible_playbook="playbooks/main.yml"
 ansible_tags=""
@@ -1129,10 +1132,6 @@ run_ansible_playbook_opts() {
     fi
 
     if is_true "${ansible_become}"; then
-        sudo true || {
-            error "sudo failed"
-            exit 1
-        }
         ansible_opts+=("--become")
     fi
 
@@ -1422,7 +1421,10 @@ check_user() {
 }
 
 check_sudo() {
-    if [[ $(uname -s) == 'Darwin' ]] && [[ $(uname -m) == 'arm64' ]]; then
+    if is_true "${ansible_become}"; then
+        require_sudo=1
+    fi
+    if is_true "${require_sudo}"; then
         sudo true || {
             error "sudo failed"
             exit 1
@@ -1505,6 +1507,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --verbose)
             ansible_verbose=1
+            shift
+            ;;
+        --sudo)
+            require_sudo=1
             shift
             ;;
         --print-versions)
