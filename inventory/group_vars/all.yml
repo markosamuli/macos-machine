@@ -1,63 +1,57 @@
 ---
-# User home
-user_home: "{{ ansible_env.HOME }}"
+# Features needed for installing packages and applications
+install_homebrew: true
+install_mas: true
 
-# User name
-user_name: "{{ ansible_env.USER }}"
-
-# Path to brew binary
-homebrew_brew_bin_path: /usr/local/bin
-
-# Install zsh
+# Enabled features
 install_zsh: true
-
-# Install asdf-vm
-install_asdf: false
-
-# Install Lua programming language
-install_lua: false
-
-# Install Node.js programming language
 install_nodejs: true
-
-# Install Python programming language
 install_python: true
-
-# Install Go programming language
 install_golang: true
-
-# Install Hazel automation tool
-install_hazel: false
-
-# Install Hammerspoon automation tool
-install_hammerspoon: false
-
-# Install Google Drive File Stream
-install_gdfs: false
-
-# Install Slack
-install_slack: false
-
-# Install Vagrant and VirtualBox
-install_vagrant: false
-
-# Install Docker
+install_slack: true
 install_docker: true
-
-# Install Google Cloud SDK
-install_gcloud: true
-
-# Install AWS tools
-install_aws: true
-
-# Install Terraform
+install_gcloud: true # Google Cloud SDK
+install_aws: true # AWS tools
 install_terraform: true
+install_jetbrains_toolbox: true
+install_tabby: true
+install_tuple: true
+install_rectangle: true
+install_chrome: true
+install_git: true
+install_tools: true
+install_logitech_drivers: true
+install_1password: true
+install_nmap: true
+install_lens: true # Lens Kubernetes IDE
+install_discord: true
+install_insomnia: true
+install_raycast: true
+install_firefox: true
 
-# Install Packer
+# Disabled features
+install_plex_media_player: false
+install_asdf: false # asdf-vm
+install_lua: false
+install_gdfs: false # Google Drive File Stream
+install_hazel: false
+install_hammerspoon: false # Hammerspoon automation tool
+install_vagrant: false # Vagrant and VirtualBox
+install_macvim: false # Install MacVim instead of Vim
+install_xcode: false # Xcode takes a long time to download and install
+install_doctl: false # Digital Ocean CLI
+install_iterm: false # iterm2
+install_certbot: false
 install_packer: false
+install_ruby: false # Ruby and rbenv
+install_rust: false # Rust programming language
+install_roon: false
+install_elgato_stream_deck: false
+install_cleanshot: false
 
-# Install Ruby and rbenv
-install_ruby: false
+# User home and name
+user_home: "{{ ansible_env.HOME }}"
+user_name: "{{ ansible_env.USER }}"
 
 # Install rbenv for the current user
 rbenv:
@@ -67,23 +61,56 @@ rbenv:
   rubies:
     - version: 2.7.1
 
-# Install Rust programming language
-install_rust: false
+# Homebrew
+homebrew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
+homebrew_install_path: "{{ homebrew_prefix }}/Homebrew"
+homebrew_brew_bin_path: "{{ homebrew_prefix }}/bin"
 
-# Install Certbot
-install_certbot: false
+homebrew_taps:
+  - homebrew/core
+homebrew_installed_packages: []
+homebrew_uninstalled_packages: []
+homebrew_cask_apps: []
 
-# Install nmap
-install_nmap: false
+tools_homebrew_packages:
+  - wget
+  - jq # command-line JSON processor
+  - ag # The Silver Searcher code searching utility
+  - gnu-sed # GNU sed
+  - gnu-tar # GNU tar
+  - less
+  - shellcheck
+  - asciinema
+  - htop
+  - 7zip
+  - ncdu # disk usage analyzer
+  - fd # alternative to find
+  - fzf # command-line fuzzy finder)
+  - ripgrep # search tool
+  - git
 
-# Install MacVim instead of Vim
-install_macvim: false
+logitech_cask_drivers:
+  - logitech-options
+  - logitech-g-hub
 
-# Install JetBrains Toolbox
-install_jetbrains_toolbox: false
+# Mac App Store
+mas_slack:
+  - { id: 803453959, name: "Slack (4.23.0)" }
 
-# Install Digital Ocean CLI
-install_doctl: false
+mas_1password:
+  - { id: 1333542190, name: "1Password 7 (7.9.4)" }
 
-# Install iTerm
-install_iterm: false
+mas_xcode:
+  - { id: 497799835, name: "Xcode (13.3.1)" }
+
+mas_installed_apps:
+  - { id: 1295203466, name: "Microsoft Remote Desktop (10.7.6)" }
+  - { id: 585829637, name: "Todoist (8.0.6)" }
+  - { id: 1153157709, name: "Speedtest (1.24)" }
+  - { id: 1475387142, name: "Tailscale (1.22.1)" }
+  - { id: 587512244, name: "Kaleidoscope (2.4.5)" }
+  - { id: 1438772273, name: "Cinebench (23.2)" }
+  - { id: 411643860, name: "DaisyDisk (4.21.4)" }
+  - { id: 1510445899, name: "Meeter (1.9.6)" }
+  - { id: 1474276998, name: "HP Smart (13.3.0)" }
+  - { id: 1147396723, name: "WhatsApp (2.2147.16)" }

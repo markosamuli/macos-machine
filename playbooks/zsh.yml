@@ -1,9 +1,0 @@
----
-- name: Install zsh
-  hosts: all
-  tags: zsh
-  tasks:
-    - name: Install zsh
-      community.general.homebrew:
-        name: zsh
-      when: install_zsh | bool

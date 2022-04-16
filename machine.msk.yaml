@@ -9,44 +9,12 @@ aws_tools_init_shell: false
 asdf_init_shell: false
 rust_modify_path: false
 
-# Do not install asdf-vm
-install_asdf: false
-
-# Install Certbot
-install_certbot: false
-
-# Install Docker
-install_docker: true
-
-# Install Digital Ocean CLI
-install_doctl: false
-
-# Install Go programming language
-install_golang: true
-
-# Install Hammerspoon automation tool
-install_hammerspoon: false
-
-# Install JetBrains Toolbox
-install_jetbrains_toolbox: true
-
-# Install Lua programming language
-install_lua: false
-
-# Install nmap
-install_nmap: true
-
-# Install Packer
-install_packer: false
-
-# Install Python
-install_python: true
-
-# Do not install Ruby and rbenv
-install_ruby: false
-
-# Install Rust programming language
-install_rust: false
+# Features not enabled by default
+install_hazel: true
+install_elgato_stream_deck: true
+install_roon: true
+install_cleanshot: true
+install_plex_media_player: true
 
 # Default Python version
 pyenv_global: "{{ pyenv_python310_version }}"

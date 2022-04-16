@@ -31,10 +31,6 @@
             path: "{{ ansible_env.HOME }}/.asdf/shims/terraform"
             state: absent
 
-        - name: Install Terraform version manager
-          community.general.homebrew:
-            name: tfenv
-
         - name: Install latest Terraform version
           command: tfenv install latest
           register: tfenv_install_latest

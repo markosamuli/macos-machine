@@ -3,20 +3,9 @@
   hosts: all
   tags: hammerspoon
   tasks:
-    - name: Install Hammerspoon
+    - name: Configure Hammerspoon
       when: install_hammerspoon | bool
       block:
-        - name: Check if Hammerspoon has been installed
-          stat:
-            path: /Applications/Hammerspoon.app
-          register: hammerspoon_st
-          changed_when: false
-
-        - name: Install Hammerspoon
-          community.general.homebrew_cask:
-            name: hammerspoon
-          when: not hammerspoon_st.stat.exists
-
         - name: Create ~/.hammerspoon/Spoons directory if it doesn't exist
           file:
             path: ~/.hammerspoon/Spoons

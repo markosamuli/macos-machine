@@ -1,9 +1,0 @@
----
-- name: Install nmap
-  hosts: all
-  tags: nmap
-  tasks:
-    - name: Install nmap with Homebrew
-      community.general.homebrew:
-        name: nmap
-      when: install_nmap | bool

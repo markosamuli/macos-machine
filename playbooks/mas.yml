@@ -1,0 +1,36 @@
+---
+- name: App Store applications
+  hosts: all
+  tags: mas
+  tasks:
+    - name: Install 1Password from App Store
+      when: install_1password | bool
+      tags: 1password
+      set_fact:
+        mas_installed_apps: "{{ mas_installed_apps + mas_1password }}"
+        install_mas: true
+
+    - name: Install Slack from App Store
+      when: install_slack | bool
+      tags: slack
+      set_fact:
+        mas_installed_apps: "{{ mas_installed_apps + mas_slack }}"
+        install_mas: true
+
+    - name: Install Xcode from App Store
+      when: install_xcode | bool
+      tags: xcode
+      set_fact:
+        mas_installed_apps: "{{ mas_installed_apps + mas_xcode }}"
+        install_mas: true
+
+- name: Install Mac App Store CLI and apps from App Store
+  hosts: all
+  tags:
+    - mas
+    - 1password
+    - slack
+    - xcode
+  roles:
+    - role: geerlingguy.mac.mas
+      when: install_mas | bool

@@ -3,17 +3,9 @@
   hosts: all
   tags: lua
   tasks:
-    - name: Install Lua
+    - name: Install Packages for Lua
       when: install_lua | bool
       block:
-        - name: Install Lua
-          community.general.homebrew:
-            name: lua
-
-        - name: Install LuaRocks package manager
-          community.general.homebrew:
-            name: luarocks
-
         - name: Install the "luacheck" rock
           luarocks:
             name: luacheck

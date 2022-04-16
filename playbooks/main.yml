@@ -5,20 +5,12 @@
 # Configure bash
 - ansible.builtin.import_playbook: bash.yml
 
-# Homebrew
+# Install apps from Homebrew and Mac App Store
 - ansible.builtin.import_playbook: homebrew.yml
+- ansible.builtin.import_playbook: mas.yml
 
 # Tools and applications
-- ansible.builtin.import_playbook: zsh.yml
-- ansible.builtin.import_playbook: iterm.yml
-- ansible.builtin.import_playbook: tabby.yml
-- ansible.builtin.import_playbook: slack.yml
-- ansible.builtin.import_playbook: gdfs.yml
-- ansible.builtin.import_playbook: tools.yml
-- ansible.builtin.import_playbook: editors.yml
-- ansible.builtin.import_playbook: git.yml
 - ansible.builtin.import_playbook: asdf.yml
-- ansible.builtin.import_playbook: hazel.yml
 - ansible.builtin.import_playbook: hammerspoon.yml
 
 # Programming languages
@@ -31,14 +23,10 @@
 
 # Cloud, infra and networking
 - ansible.builtin.import_playbook: vagrant.yml
-- ansible.builtin.import_playbook: docker.yml
 - ansible.builtin.import_playbook: gcloud.yml
 - ansible.builtin.import_playbook: aws.yml
 - ansible.builtin.import_playbook: terraform.yml
 - ansible.builtin.import_playbook: packer.yml
-- ansible.builtin.import_playbook: certbot.yml
-- ansible.builtin.import_playbook: nmap.yml
-- ansible.builtin.import_playbook: doctl.yml
 
 # Fix permissions
 - ansible.builtin.import_playbook: permissions.yml

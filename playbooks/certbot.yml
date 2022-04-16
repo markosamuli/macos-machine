@@ -1,9 +1,0 @@
----
-- name: Install certbot
-  hosts: all
-  tags: certbot
-  tasks:
-    - name: Install certbot with Homebrew
-      community.general.homebrew:
-        name: certbot
-      when: install_certbot | bool

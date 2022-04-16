@@ -1,9 +1,0 @@
----
-- name: Docker
-  hosts: all
-  tags: docker
-  tasks:
-    - name: Install Docker for Mac
-      community.general.homebrew_cask:
-        name: docker
-      when: install_docker | bool

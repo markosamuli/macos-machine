@@ -1,15 +1,304 @@
 ---
-- name: Configure Homebrew
+- name: Homebrew Cask applications
   hosts: all
   tags: homebrew
   tasks:
-    - name: Set homebrew_brew_bin_path (M1)
+    - name: Install Google Chrome
+      when: install_chrome | bool
+      tags: chrome
+      block:
+        - name: Check if Google Chrome has been installed
+          stat:
+            path: /Applications/Google Chrome.app
+          register: google_chrome_st
+          changed_when: false
+
+        - name: Install Google Chrome
+          when: not google_chrome_st.stat.exists
+          set_fact:
+            homebrew_cask_apps: "{{ homebrew_cask_apps + ['google-chrome'] }}"
+
+    - name: Install Lens (Kubernetes IDE)
+      when: install_lens | bool
+      tags: lens
       set_fact:
-        homebrew_brew_bin_path: "/opt/homebrew/bin"
-        when: ansible_machine == 'arm64'
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['lens'] }}"
+
+    - name: Install Tabby
+      when: install_tabby | bool
+      tags: tabby
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['tabby'] }}"
+
+    - name: Install Rectangle
+      when: install_rectangle | bool
+      tags: rectangle
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['rectangle'] }}"
+
+    - name: Install Firefox
+      when: install_firefox | bool
+      tags: firefox
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['firefox'] }}"
+
+    - name: Install Plex Media Player
+      when: install_plex_media_player | bool
+      tags: plex
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['plex-media-player'] }}"
+
+    - name: Install Tuple
+      when: install_tuple | bool
+      tags: tuple
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['tuple'] }}"
+
+    - name: Install Discord
+      when: install_discord | bool
+      tags: discord
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['discord'] }}"
+
+    - name: Install Insomnia
+      when: install_insomnia | bool
+      tags: insomnia
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['insomnia'] }}"
+
+    - name: Install Raycast
+      when: install_raycast | bool
+      tags: raycast
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['raycast'] }}"
+
+    - name: Install CleanShot X
+      when: install_cleanshot | bool
+      tags: cleanshot
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['cleanshot'] }}"
+
+    - name: Install Elgato Stream Deck
+      when: install_elgato_stream_deck | bool
+      tags: elgato-stream-deck
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['elgato-stream-deck'] }}"
+
+    - name: Install Roon
+      when: install_roon | bool
+      tags: roon
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['roon'] }}"
+
+    - name: Install Google Drive File Stream
+      when: install_gdfs | bool
+      tags: gdfs
+      block:
+        - name: Check if Google Drive File Stream has been installed
+          stat:
+            path: /Applications/Google Drive File Stream.app
+          register: gdfs_st
+          changed_when: false
+
+        - name: Install Google Drive File Stream
+          when: not gdfs_st.stat.exists
+          set_fact:
+            homebrew_cask_apps: "{{ homebrew_cask_apps + ['google-drive-file-stream'] }}"
+
+    - name: Install iTerm
+      when: install_iterm | bool
+      tags: iterm
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['iterm2'] }}"
+
+    - name: Install Hazel
+      when: install_hazel | bool
+      tags: hazel
+      block:
+        - name: Check if Hazel has been installed
+          stat:
+            path: ~/Library/PreferencePanes/Hazel.prefPane
+          register: hazel_st
+          changed_when: false
+        - name: Install Hazel
+          when: not hazel_st.stat.exists
+          set_fact:
+            homebrew_cask_apps: "{{ homebrew_cask_apps + ['hazel'] }}"
+
+    - name: Install Docker for Mac
+      when: install_docker | bool
+      tags: docker
+      set_fact:
+        homebrew_cask_apps: "{{ homebrew_cask_apps + ['docker'] }}"
+
+    - name: Visual Studio Code
+      tags:
+        - editors
+        - vscode
+      block:
+        - name: Check if Visual Studio Code has been installed
+          stat:
+            path: "/Applications/Visual Studio Code.app"
+          register: vscode_st
+          changed_when: false
+          tags: vscode
+        - name: Install Visual Studio Code
+          when: not vscode_st.stat.exists
+          set_fact:
+            homebrew_cask_apps: "{{ homebrew_cask_apps + ['visual-studio-code'] }}"
+
+    - name: JetBrains Toolbox
+      when: install_jetbrains_toolbox | bool
+      tags: editors
+      block:
+        - name: Check if JetBrains Toolbox has been installed
+          stat:
+            path: "/Applications/JetBrains Toolbox.app"
+          register: jetbrains_toolbox_st
+          changed_when: false
+        - name: Install JetBrains Toolbox
+          when: not jetbrains_toolbox_st.stat.exists
+          set_fact:
+            homebrew_cask_apps: "{{ homebrew_cask_apps + ['jetbrains-toolbox'] }}"
+
+    - name: Install Hammerspoon
+      when: install_hammerspoon | bool
+      tags: hammerspoon
+      block:
+        - name: Check if Hammerspoon has been installed
+          stat:
+            path: /Applications/Hammerspoon.app
+          register: hammerspoon_st
+          changed_when: false
+        - name: Install Hammerspoon
+          when: not hammerspoon_st.stat.exists
+          set_fact:
+            homebrew_cask_apps: "{{ homebrew_cask_apps + ['hammerspoon'] }}"
+
+- name: Homebrew packages
+  hosts: all
+  tasks:
+    - name: Install tools
+      when: install_tools | bool
+      tags: tools
+      set_fact:
+        homebrew_installed_packages: "{{ homebrew_installed_packages + tools_homebrew_packages }}"
+
+    - name: Install Git
+      when: install_git | bool
+      tags: git
+      set_fact:
+        homebrew_installed_packages: "{{ homebrew_installed_packages + ['git'] }}"
+
+    - name: Install Vim and uninstall MacVim
+      when: not install_macvim | bool
+      tags: vim
+      set_fact:
+        homebrew_installed_packages: "{{ homebrew_installed_packages + ['vim'] }}"
+        homebrew_uninstalled_packages: "{{ homebrew_uninstalled_packages + ['macvim'] }}"
+
+    - name: Install MacVim and uninstall Vim
+      when: install_macvim | bool
+      tags: vim
+      set_fact:
+        homebrew_installed_packages: "{{ homebrew_installed_packages + ['macvim'] }}"
+        homebrew_uninstalled_packages: "{{ homebrew_uninstalled_packages + ['vim'] }}"
+
+    - name: Install zsh
+      when: install_zsh | bool
+      tags: zsh
+      set_fact:
+        homebrew_installed_packages: "{{ homebrew_installed_packages + ['zsh'] }}"
+
+    - name: Install certbot
+      when: install_certbot | bool
+      tags: certbot
+      set_fact:
+        homebrew_installed_packages: "{{ homebrew_installed_packages + ['certbot'] }}"
+
+    - name: Install nmap
+      when: install_nmap | bool
+      tags: nmap
+      set_fact:
+        homebrew_installed_packages: "{{ homebrew_installed_packages + ['nmap'] }}"
+
+    - name: Install Lua
+      when: install_lua | bool
+      tags: lua
+      block:
+        - name: Install Lua
+          set_fact:
+            homebrew_installed_packages: "{{ homebrew_installed_packages + ['lua'] }}"
+
+        - name: Install LuaRocks package manager
+          set_fact:
+            homebrew_installed_packages: "{{ homebrew_installed_packages + ['luarocks'] }}"
+
+    - name: Install doctl
+      when: install_doctl | bool
+      tags: doctl
+      block:
+        - name: Remove doctl asdf plugin
+          file:
+            path: "{{ ansible_env.HOME }}/.asdf/plugins/doctl"
+            state: absent
+
+        - name: Remove doctl asdf installation
+          file:
+            path: "{{ ansible_env.HOME }}/.asdf/installs/doctl"
+            state: absent
+
+        - name: Remove doctl asdf shim
+          file:
+            path: "{{ ansible_env.HOME }}/.asdf/shims/doctl"
+            state: absent
+
+        - name: Install doctl
+          set_fact:
+            homebrew_installed_packages: "{{ homebrew_installed_packages + ['doctl'] }}"
+
+    - name: Install Terraform
+      when: install_terraform | bool
+      tags: terraform
+      block:
+        - name: Install Terraform version manager
+          set_fact:
+            homebrew_installed_packages: "{{ homebrew_installed_packages + ['tfenv'] }}"
 
 - name: Install and configure Homebrew
   hosts: all
-  tags: homebrew
+  tags:
+    - homebrew
+    - drivers
+    - lens
+    - gdfs
+    - iterm
+    - tabby
+    - rectangle
+    - tuple
+    - tools
+    - shellcheck
+    - editors
+    - vscode
+    - docker
+    - hazel
+    - git
+    - zsh
+    - certbot
+    - doctl
+    - nmap
+    - hammerspoon
+    - terraform
+    - lua
+    - chrome
+    - elgato-stream-deck
+    - roon
+    - discord
+    - raycast
+    - cleanshot
+    - insomnia
+    - firefox
+    - plex
   roles:
     - role: geerlingguy.mac.homebrew
+      when: install_homebrew | bool
