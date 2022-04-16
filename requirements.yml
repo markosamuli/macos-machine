@@ -5,7 +5,8 @@ roles:
   - name: markosamuli.aws_tools
     version: v2.1.0
   - name: markosamuli.gcloud
-    version: v2.1.2
+    src: https://github.com/markosamuli/ansible-gcloud
+    version: v2.2.0
   - name: markosamuli.golang
     src: https://github.com/markosamuli/ansible-golang
     version: v3.0.1
