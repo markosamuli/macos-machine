@@ -54,6 +54,12 @@ setup-development: setup setup-git-hooks ## setup requirements for local develop
 # Setup: Python, pyenv and virtualenv
 ###
 
+requirements.txt: requirements.in
+	pip-compile requirements.in
+
+requirements.dev.txt: requirements.txt requirements.dev.in
+	pip-compile requirements.dev.in
+
 .PHONY: setup-pyenv
 setup-pyenv:
 ifeq ($(PYENV_BIN),)
@@ -61,16 +67,16 @@ ifeq ($(PYENV_BIN),)
 endif
 
 .PHONY: setup-pyenv-virtualenv
-setup-pyenv-virtualenv: setup-pyenv
+setup-pyenv-virtualenv: | setup-pyenv
 	./scripts/create_virtualenv.sh
 
 .PHONY: setup-requirements
-setup-requirements: setup-pyenv-virtualenv
-	pip install -q -r requirements.txt
+setup-requirements: requirements.txt | setup-pyenv-virtualenv
+	pip-sync requirements.txt
 
 .PHONY: setup-dev-requirements
-setup-dev-requirements: setup-pyenv-virtualenv
-	pip install -q -r requirements.dev.txt
+setup-dev-requirements: requirements.dev.txt | setup-pyenv-virtualenv
+	pip-sync requirements.dev.txt
 
 ###
 # Setup: Homebrew
