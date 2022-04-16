@@ -145,7 +145,7 @@
         name: install_cask_apps
       vars:
         cask_apps:
-          - { name: Hazel, path: ~/Library/PreferencePanes/Hazel.prefPane }
+          - { name: Hazel }
 
     - name: Install Docker for Mac
       when: install_docker | bool
