@@ -6,174 +6,183 @@
     - name: Install Google Chrome
       when: install_chrome | bool
       tags: chrome
-      block:
-        - name: Check if Google Chrome has been installed
-          stat:
-            path: /Applications/Google Chrome.app
-          register: google_chrome_st
-          changed_when: false
-
-        - name: Install Google Chrome
-          when: not google_chrome_st.stat.exists
-          set_fact:
-            homebrew_cask_apps: "{{ homebrew_cask_apps + ['google-chrome'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Google Chrome }
 
     - name: Install Lens (Kubernetes IDE)
       when: install_lens | bool
       tags: lens
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['lens'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Lens }
 
     - name: Install Tabby
       when: install_tabby | bool
       tags: tabby
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['tabby'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Tabby }
 
     - name: Install Rectangle
       when: install_rectangle | bool
       tags: rectangle
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['rectangle'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Rectangle }
 
     - name: Install Firefox
       when: install_firefox | bool
       tags: firefox
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['firefox'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Firefox }
 
     - name: Install Plex Media Player
       when: install_plex_media_player | bool
       tags: plex
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['plex-media-player'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Plex Media Player }
 
     - name: Install Tuple
       when: install_tuple | bool
       tags: tuple
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['tuple'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Tuple }
 
     - name: Install Discord
       when: install_discord | bool
       tags: discord
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['discord'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Discord }
 
     - name: Install Insomnia
       when: install_insomnia | bool
       tags: insomnia
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['insomnia'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Insomnia }
 
     - name: Install Raycast
       when: install_raycast | bool
       tags: raycast
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['raycast'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Raycast }
 
     - name: Install CleanShot X
       when: install_cleanshot | bool
       tags: cleanshot
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['cleanshot'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: CleanShot X, app: cleanshot }
 
     - name: Install Elgato Stream Deck
       when: install_elgato_stream_deck | bool
       tags: elgato-stream-deck
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['elgato-stream-deck'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Stream Deck, app: elgato-stream-deck }
 
     - name: Install Roon
       when: install_roon | bool
       tags: roon
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['roon'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Roon }
 
     - name: Install Google Drive File Stream
       when: install_gdfs | bool
       tags: gdfs
-      block:
-        - name: Check if Google Drive File Stream has been installed
-          stat:
-            path: /Applications/Google Drive File Stream.app
-          register: gdfs_st
-          changed_when: false
-
-        - name: Install Google Drive File Stream
-          when: not gdfs_st.stat.exists
-          set_fact:
-            homebrew_cask_apps: "{{ homebrew_cask_apps + ['google-drive-file-stream'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Google Drive File Stream }
 
     - name: Install iTerm
       when: install_iterm | bool
       tags: iterm
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['iterm2'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: iTerm, app: iterm2 }
 
     - name: Install Hazel
       when: install_hazel | bool
       tags: hazel
-      block:
-        - name: Check if Hazel has been installed
-          stat:
-            path: ~/Library/PreferencePanes/Hazel.prefPane
-          register: hazel_st
-          changed_when: false
-        - name: Install Hazel
-          when: not hazel_st.stat.exists
-          set_fact:
-            homebrew_cask_apps: "{{ homebrew_cask_apps + ['hazel'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Hazel, path: ~/Library/PreferencePanes/Hazel.prefPane }
 
     - name: Install Docker for Mac
       when: install_docker | bool
       tags: docker
-      set_fact:
-        homebrew_cask_apps: "{{ homebrew_cask_apps + ['docker'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Docker }
 
     - name: Visual Studio Code
       tags:
         - editors
         - vscode
-      block:
-        - name: Check if Visual Studio Code has been installed
-          stat:
-            path: "/Applications/Visual Studio Code.app"
-          register: vscode_st
-          changed_when: false
-          tags: vscode
-        - name: Install Visual Studio Code
-          when: not vscode_st.stat.exists
-          set_fact:
-            homebrew_cask_apps: "{{ homebrew_cask_apps + ['visual-studio-code'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: "Visual Studio Code", app: visual-studio-code }
 
     - name: JetBrains Toolbox
       when: install_jetbrains_toolbox | bool
       tags: editors
-      block:
-        - name: Check if JetBrains Toolbox has been installed
-          stat:
-            path: "/Applications/JetBrains Toolbox.app"
-          register: jetbrains_toolbox_st
-          changed_when: false
-        - name: Install JetBrains Toolbox
-          when: not jetbrains_toolbox_st.stat.exists
-          set_fact:
-            homebrew_cask_apps: "{{ homebrew_cask_apps + ['jetbrains-toolbox'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: JetBrains Toolbox }
 
     - name: Install Hammerspoon
       when: install_hammerspoon | bool
       tags: hammerspoon
-      block:
-        - name: Check if Hammerspoon has been installed
-          stat:
-            path: /Applications/Hammerspoon.app
-          register: hammerspoon_st
-          changed_when: false
-        - name: Install Hammerspoon
-          when: not hammerspoon_st.stat.exists
-          set_fact:
-            homebrew_cask_apps: "{{ homebrew_cask_apps + ['hammerspoon'] }}"
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Hammerspoon }
 
 - name: Homebrew packages
   hosts: all
