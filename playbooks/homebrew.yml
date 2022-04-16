@@ -102,15 +102,6 @@
         cask_apps:
           - { name: CleanShot X, app: cleanshot }
 
-    - name: Install Elgato Stream Deck
-      when: install_elgato_stream_deck | bool
-      tags: elgato-stream-deck
-      import_role:
-        name: install_cask_apps
-      vars:
-        cask_apps:
-          - { name: Stream Deck, app: elgato-stream-deck }
-
     - name: Install Roon
       when: install_roon | bool
       tags: roon
@@ -183,6 +174,29 @@
       vars:
         cask_apps:
           - { name: Hammerspoon }
+
+- name: Homebrew Cask drivers
+  hosts: all
+  tags: drivers
+  tasks:
+    - name: Install Logitech drivers
+      when: install_logitech_drivers | bool
+      tags: logitech
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Logi Options, app: logitech-options }
+          - { name: Logitech G HUB, app: logitech-g-hub }
+
+    - name: Install Elgato Stream Deck
+      when: install_elgato_stream_deck | bool
+      tags: elgato-stream-deck
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Stream Deck, app: elgato-stream-deck }
 
 - name: Homebrew packages
   hosts: all

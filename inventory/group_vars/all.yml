@@ -66,8 +66,11 @@ homebrew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/u
 homebrew_install_path: "{{ homebrew_prefix }}/Homebrew"
 homebrew_brew_bin_path: "{{ homebrew_prefix }}/bin"
 
+# Homebrew taps
 homebrew_taps:
   - homebrew/core
+  - homebrew/cask-drivers # Logitech and Elgato drivers
+
 homebrew_installed_packages: []
 homebrew_uninstalled_packages: []
 homebrew_cask_apps: []
@@ -88,10 +91,6 @@ tools_homebrew_packages:
   - fzf # command-line fuzzy finder)
   - ripgrep # search tool
   - git
-
-logitech_cask_drivers:
-  - logitech-options
-  - logitech-g-hub
 
 # Mac App Store
 mas_slack:
