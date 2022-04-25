@@ -21,7 +21,7 @@ roles:
     version: v1.0.0
   - name: markosamuli.pyenv
     src: https://github.com/markosamuli/ansible-pyenv
-    version: v6.1.0
+    version: v6.2.0
   - name: markosamuli.rust
     src: https://github.com/markosamuli/ansible-rust
     version: master
