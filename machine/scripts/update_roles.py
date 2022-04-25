@@ -2,9 +2,9 @@
 """Update Ansible roles in requirements.yml to their latest released version"""
 
 import sys
-from machine.roles import get_updated_role  # noqa: E402
-from machine.roles import list_required_roles  # noqa: E402
-from machine.roles import update_required_roles  # noqa: E402
+from machine.roles import get_updated_role
+from machine.roles import list_required_roles
+from machine.roles import update_required_roles
 
 # pylint: disable=unused-import
 import machine.config  # noqa: E402,F401

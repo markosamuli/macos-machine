@@ -4,6 +4,8 @@ import copy
 import logging
 import os
 import shutil
+from typing import Any
+
 import yaml  # pylint: disable=import-error
 
 from machine.github import get_latest_version
@@ -85,15 +87,25 @@ def remove_outdated_roles(roles_path):
     return removed_roles
 
 
-def update_required_roles(updated_roles):
+def update_required_roles(roles: list[dict[str, Any]]):
     """Update roles in the requirements.yml file"""
-    output = StringIO()
-    yaml.safe_dump(updated_roles, output, default_flow_style=False)
 
-    role_file = REQUIREMENTS_FILE
-    with open(role_file, "w+", encoding="UTF-8") as role_fp:
-        role_fp.write("---\n")
-        role_fp.write(output.getvalue())
+    collections: list[dict[str, Any]] = []
+
+    with open(REQUIREMENTS_FILE, "r", encoding="UTF-8") as req_fp:
+        requirements = yaml.safe_load(req_fp.read())
+        if "collections" in requirements:
+            # pylint: disable=invalid-name
+            for c in requirements["collections"]:
+                collections.append(c)
+
+    output = StringIO()
+    requirements = dict(roles=roles, collections=collections)
+    yaml.safe_dump(requirements, output, default_flow_style=False, indent=2)
+
+    with open(REQUIREMENTS_FILE, "w+", encoding="UTF-8") as req_fp:
+        req_fp.write("---\n")
+        req_fp.write(output.getvalue())
 
     output.close()
 
@@ -102,10 +114,15 @@ def list_required_roles():
     """Return Ansible roles from the requirements.yml file"""
     roles = []
     role_file = REQUIREMENTS_FILE
-    with open(role_file, "r", encoding="UTF-8") as role_fp:
-        required_roles = yaml.safe_load(role_fp.read())
-        for role in required_roles:
-            roles.append(role)
+    with open(role_file, "r", encoding="UTF-8") as req_fp:
+        requirements = yaml.safe_load(req_fp.read())
+        # pylint: disable=invalid-name
+        if "roles" in requirements:
+            for r in requirements["roles"]:
+                roles.append(r)
+        else:
+            for r in requirements:
+                roles.append(r)
     return sorted(roles, key=lambda role: role["name"])
 
 
@@ -163,7 +180,7 @@ def get_updated_role(role):
         repository = role["src"].replace("https://github.com/", "")
     else:
         (galaxy_user, galaxy_role) = role["name"].split(".")
-        if galaxy_user == "markosamuli":
+        if galaxy_user in ["markosamuli", "elliotweiser"]:
             repository = f"{galaxy_user}/ansible-{galaxy_role}"
 
     if not repository:
