@@ -15,6 +15,7 @@ exclude_paths:
   - playbooks/roles/markosamuli.vagrant
   - playbooks/roles/zzet.rbenv
   - ~/.ansible/roles
+  - requirements.yml
 
 warn_list:
   - experimental # all rules tagged as experimental

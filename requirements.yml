@@ -1,5 +1,9 @@
 ---
+collections:
+  - name: geerlingguy.mac
 roles:
+  - name: elliotweiser.osx-command-line-tools
+    version: 2.3.0
   - name: markosamuli.asdf
     version: v1.1.0
   - name: markosamuli.aws_tools
@@ -26,8 +30,3 @@ roles:
     version: v1.0.0
   - name: zzet.rbenv
     version: 3.4.7
-  - name: elliotweiser.osx-command-line-tools
-    version: 2.3.0
-
-collections:
-  - name: geerlingguy.mac
