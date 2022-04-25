@@ -13,7 +13,7 @@ roles:
     version: v2.2.0
   - name: markosamuli.golang
     src: https://github.com/markosamuli/ansible-golang
-    version: v3.0.1
+    version: v3.1.0
   - name: markosamuli.nvm
     version: v1.4.2
   - name: markosamuli.packer
