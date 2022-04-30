@@ -93,6 +93,7 @@ tools_homebrew_packages:
   - git
   - gnupg
   - qrencode
+  - pinentry-mac
 
 # Mac App Store
 mas_slack:
