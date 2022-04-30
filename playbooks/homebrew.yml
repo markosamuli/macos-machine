@@ -30,6 +30,15 @@
         cask_apps:
           - { name: Tabby }
 
+    - name: Install Keybase
+      when: install_keybase | bool
+      tags: keybase
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Keybase }
+
     - name: Install Rectangle
       when: install_rectangle | bool
       tags: rectangle
@@ -322,6 +331,7 @@
     - insomnia
     - firefox
     - plex
+    - keybase
   roles:
     - role: geerlingguy.mac.homebrew
       when: install_homebrew | bool

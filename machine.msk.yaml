@@ -15,6 +15,7 @@ install_elgato_stream_deck: true
 install_roon: true
 install_cleanshot: true
 install_plex: true
+install_keybase: true
 
 # Default Python version
 pyenv_global: "{{ pyenv_python310_version }}"

@@ -30,6 +30,7 @@ install_raycast: true
 install_firefox: true
 
 # Disabled features
+install_keybase: true
 install_plex: false
 install_asdf: false # asdf-vm
 install_lua: false
