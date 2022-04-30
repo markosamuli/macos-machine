@@ -92,6 +92,7 @@ tools_homebrew_packages:
   - ripgrep # search tool
   - git
   - gnupg
+  - qrencode
 
 # Mac App Store
 mas_slack:
