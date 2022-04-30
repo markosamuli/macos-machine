@@ -91,6 +91,7 @@ tools_homebrew_packages:
   - fzf # command-line fuzzy finder)
   - ripgrep # search tool
   - git
+  - gnupg
 
 # Mac App Store
 mas_slack:
