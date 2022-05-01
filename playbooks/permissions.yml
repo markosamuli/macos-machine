@@ -1,4 +1,22 @@
 ---
+- name: Configure user_home_permissions role
+  hosts: all
+  become: false
+  tags:
+    - permissions
+    - asdf
+    - nvm
+    - pyenv
+    - rbenv
+    - terraform
+  tasks:
+    - name: Enable if USER_HOME_FIX_PERMISSIONS is defined
+      ansible.builtin.set_fact:
+        user_home_fix_permissions: true
+      when: >-
+        ansible_env.USER_HOME_FIX_PERMISSIONS is defined and
+        ansible_env.USER_HOME_FIX_PERMISSIONS
+
 - name: Fix insecure permissions in user home directory
   hosts: all
   become: false
@@ -10,4 +28,5 @@
     - rbenv
     - terraform
   roles:
-    - role: user_home_permissions
+    - role: markosamuli.machine.user_home_permissions
+      when: user_home_fix_permissions | bool
