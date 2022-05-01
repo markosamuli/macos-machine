@@ -30,6 +30,15 @@
         cask_apps:
           - { name: Tabby }
 
+    - name: Install Notion
+      when: install_notion | bool
+      tags: notion
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Notion }
+
     - name: Install Viscosity
       when: install_viscosity | bool
       tags: viscosity
@@ -342,6 +351,7 @@
     - plex
     - keybase
     - viscosity
+    - notion
   roles:
     - role: geerlingguy.mac.homebrew
       when: install_homebrew | bool

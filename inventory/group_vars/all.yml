@@ -28,6 +28,7 @@ install_discord: true
 install_insomnia: true
 install_raycast: true
 install_firefox: true
+install_notion: true
 
 # Disabled features
 install_viscosity: false
