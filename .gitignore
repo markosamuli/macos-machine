@@ -11,6 +11,7 @@ playbooks/roles/*
 .vscode/*
 !.vscode/cSpell.json
 !.vscode/extensions.json
+.idea/*
 
 # Local configuration
 machine.yaml
