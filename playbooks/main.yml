@@ -10,6 +10,7 @@
 - ansible.builtin.import_playbook: mas.yml
 
 # Tools and applications
+- ansible.builtin.import_playbook: gnupg.yml
 - ansible.builtin.import_playbook: asdf.yml
 - ansible.builtin.import_playbook: hammerspoon.yml
 

@@ -1,6 +1,10 @@
 ---
 collections:
   - name: geerlingguy.mac
+  - name: markosamuli.machine
+    source: https://github.com/markosamuli/ansible-collection-machine.git
+    type: git
+    version: 0.1.0
 roles:
   - name: elliotweiser.osx-command-line-tools
     version: 2.3.0

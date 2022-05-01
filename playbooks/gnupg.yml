@@ -1,0 +1,8 @@
+---
+- name: Install and configure GnuPG
+  hosts: all
+  tags: gnupg
+  roles:
+    - role: markosamuli.machine.gnupg
+      tags:
+        - gnupg
