@@ -30,6 +30,15 @@
         cask_apps:
           - { name: Tabby }
 
+    - name: Install Viscosity
+      when: install_viscosity | bool
+      tags: viscosity
+      import_role:
+        name: install_cask_apps
+      vars:
+        cask_apps:
+          - { name: Viscosity }
+
     - name: Install Keybase
       when: install_keybase | bool
       tags: keybase
@@ -332,6 +341,7 @@
     - firefox
     - plex
     - keybase
+    - viscosity
   roles:
     - role: geerlingguy.mac.homebrew
       when: install_homebrew | bool

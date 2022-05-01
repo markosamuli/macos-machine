@@ -10,6 +10,7 @@ asdf_init_shell: false
 rust_modify_path: false
 
 # Features not enabled by default
+install_viscosity: true
 install_hazel: true
 install_elgato_stream_deck: true
 install_roon: true
