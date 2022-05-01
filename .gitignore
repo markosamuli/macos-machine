@@ -3,7 +3,6 @@
 
 # Ansible roles
 playbooks/roles/*
-!playbooks/roles/install_cask_apps
 
 # IDEs
 .vscode/*

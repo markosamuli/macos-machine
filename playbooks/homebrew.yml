@@ -7,7 +7,7 @@
       when: install_chrome | bool
       tags: chrome
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Google Chrome }
@@ -16,7 +16,7 @@
       when: install_lens | bool
       tags: lens
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Lens }
@@ -25,7 +25,7 @@
       when: install_tabby | bool
       tags: tabby
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Tabby }
@@ -34,7 +34,7 @@
       when: install_notion | bool
       tags: notion
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Notion }
@@ -43,7 +43,7 @@
       when: install_viscosity | bool
       tags: viscosity
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Viscosity }
@@ -52,7 +52,7 @@
       when: install_keybase | bool
       tags: keybase
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Keybase }
@@ -61,7 +61,7 @@
       when: install_rectangle | bool
       tags: rectangle
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Rectangle }
@@ -70,7 +70,7 @@
       when: install_firefox | bool
       tags: firefox
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Firefox }
@@ -79,7 +79,7 @@
       when: install_plex | bool
       tags: plex
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Plex }
@@ -88,7 +88,7 @@
       when: install_tuple | bool
       tags: tuple
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Tuple }
@@ -97,7 +97,7 @@
       when: install_discord | bool
       tags: discord
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Discord }
@@ -106,7 +106,7 @@
       when: install_insomnia | bool
       tags: insomnia
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Insomnia }
@@ -115,7 +115,7 @@
       when: install_raycast | bool
       tags: raycast
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Raycast }
@@ -124,7 +124,7 @@
       when: install_cleanshot | bool
       tags: cleanshot
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: CleanShot X, app: cleanshot }
@@ -133,7 +133,7 @@
       when: install_roon | bool
       tags: roon
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Roon }
@@ -142,7 +142,7 @@
       when: install_gdfs | bool
       tags: gdfs
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Google Drive File Stream }
@@ -151,7 +151,7 @@
       when: install_iterm | bool
       tags: iterm
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: iTerm, app: iterm2 }
@@ -160,7 +160,7 @@
       when: install_hazel | bool
       tags: hazel
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Hazel }
@@ -169,7 +169,7 @@
       when: install_docker | bool
       tags: docker
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Docker }
@@ -179,7 +179,7 @@
         - editors
         - vscode
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: "Visual Studio Code", app: visual-studio-code }
@@ -188,7 +188,7 @@
       when: install_jetbrains_toolbox | bool
       tags: editors
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: JetBrains Toolbox }
@@ -197,7 +197,7 @@
       when: install_hammerspoon | bool
       tags: hammerspoon
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Hammerspoon }
@@ -210,7 +210,7 @@
       when: install_logitech_drivers | bool
       tags: logitech
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Logi Options, app: logitech-options }
@@ -220,7 +220,7 @@
       when: install_elgato_stream_deck | bool
       tags: elgato-stream-deck
       import_role:
-        name: install_cask_apps
+        name: markosamuli.machine.install_cask_apps
       vars:
         cask_apps:
           - { name: Stream Deck, app: elgato-stream-deck }
