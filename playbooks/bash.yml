@@ -2,7 +2,7 @@
 - name: Initialize bash on macOS
   hosts: all
   roles:
-    - role: bash
+    - role: markosamuli.machine.bash
       tags:
         - bash
         - nvm
