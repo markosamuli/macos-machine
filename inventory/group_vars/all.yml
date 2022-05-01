@@ -31,6 +31,7 @@ install_firefox: true
 install_notion: true
 
 # Disabled features
+install_tailscale: false
 install_viscosity: false
 install_keybase: false
 install_plex: false
@@ -106,11 +107,13 @@ mas_1password:
 mas_xcode:
   - { id: 497799835, name: "Xcode (13.3.1)" }
 
+mas_tailscale:
+  - { id: 1475387142, name: "Tailscale (1.22.1)" }
+
 mas_installed_apps:
   - { id: 1295203466, name: "Microsoft Remote Desktop (10.7.6)" }
   - { id: 585829637, name: "Todoist (8.0.6)" }
   - { id: 1153157709, name: "Speedtest (1.24)" }
-  - { id: 1475387142, name: "Tailscale (1.22.1)" }
   - { id: 587512244, name: "Kaleidoscope (2.4.5)" }
   - { id: 1438772273, name: "Cinebench (23.2)" }
   - { id: 411643860, name: "DaisyDisk (4.21.4)" }

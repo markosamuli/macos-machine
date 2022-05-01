@@ -24,6 +24,13 @@
         mas_installed_apps: "{{ mas_installed_apps + mas_xcode }}"
         install_mas: true
 
+    - name: Install Tailscale from App Store
+      when: install_tailscale | bool
+      tags: tailscale
+      set_fact:
+        mas_installed_apps: "{{ mas_installed_apps + mas_tailscale }}"
+        install_mas: true
+
 - name: Install Mac App Store CLI and apps from App Store
   hosts: all
   tags:
@@ -31,6 +38,7 @@
     - 1password
     - slack
     - xcode
+    - tailscale
   roles:
     - role: geerlingguy.mac.mas
       when: install_mas | bool
