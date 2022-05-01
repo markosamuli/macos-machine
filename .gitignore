@@ -3,8 +3,6 @@
 
 # Ansible roles
 playbooks/roles/*
-!playbooks/roles/bash
-!playbooks/roles/user_home_permissions
 !playbooks/roles/install_cask_apps
 
 # IDEs
