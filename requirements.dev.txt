@@ -18,7 +18,7 @@ cffi==1.15.0
     #   cryptography
 cfgv==3.3.1
     # via pre-commit
-cryptography==36.0.2
+cryptography==41.0.5
     # via
     #   -r requirements.txt
     #   ansible-core
