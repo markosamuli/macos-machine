@@ -34,7 +34,7 @@ identify==2.4.12
     # via pre-commit
 isort==5.10.1
     # via pylint
-jinja2==3.1.1
+jinja2==3.1.3
     # via
     #   -r requirements.txt
     #   ansible-core
