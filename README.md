@@ -1,13 +1,13 @@
 # Development macOS Setup
 
+> [!WARNING]
+> This repository is archived and no longer maintained or tested. Its operating
+> system assumptions, applications, and dependencies are outdated, and known
+> security vulnerabilities will not be fixed. Do not use this setup on a
+> current machine; it is retained for historical reference only.
+
 [![GitHub release](https://img.shields.io/github/release/markosamuli/macos-machine.svg)](https://github.com/markosamuli/macos-machine/releases)
 [![License](https://img.shields.io/github/license/markosamuli/macos-machine.svg)](https://github.com/markosamuli/macos-machine/blob/master/LICENSE)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![Known Vulnerabilities](https://snyk.io/test/github/markosamuli/macos-machine/badge.svg)](https://snyk.io/test/github/markosamuli/macos-machine)
-
-| Branch | Coding Style               |
-| ------ | -------------------------- |
-| master | ![Coding Style][cs-master] |
 
 This is a collection of Ansible roles and tasks to setup a new developer machine
 on macOS.
@@ -15,7 +15,6 @@ on macOS.
 Read my [Machine Setup Guide][machine-setup-guide] for instructions.
 
 [machine-setup-guide]: https://machine.msk.io/
-[cs-master]: https://github.com/markosamuli/macos-machine/workflows/Code%20Quality/badge.svg?branch=master
 
 ## Requirements
 
