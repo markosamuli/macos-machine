@@ -18,7 +18,7 @@ cffi==1.15.0
     #   cryptography
 cfgv==3.3.1
     # via pre-commit
-cryptography==36.0.2
+cryptography==39.0.1
     # via
     #   -r requirements.txt
     #   ansible-core
@@ -89,8 +89,6 @@ six==1.16.0
     # via virtualenv
 toml==0.10.2
     # via pre-commit
-tomli==2.0.1
-    # via pylint
 virtualenv==20.14.1
     # via pre-commit
 wrapt==1.14.0
