@@ -4,9 +4,9 @@
 #
 #    pip-compile requirements.dev.in
 #
-ansible==5.6.0
+ansible==7.0.0
     # via -r requirements.txt
-ansible-core==2.12.4
+ansible-core==2.14.1
     # via
     #   -r requirements.txt
     #   ansible
@@ -89,8 +89,6 @@ six==1.16.0
     # via virtualenv
 toml==0.10.2
     # via pre-commit
-tomli==2.0.1
-    # via pylint
 virtualenv==20.14.1
     # via pre-commit
 wrapt==1.14.0
